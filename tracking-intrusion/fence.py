@@ -63,3 +63,36 @@ class LineCrossingDetector:
         self.last_side[track_id] = current_side
 
         return crossed
+class RestrictedZone:
+    """
+    Represents a restricted area as a polygon (list of points forming a closed shape).
+    Used to detect whether a tracked object has entered the zone.
+    """
+
+    def __init__(self, polygon_points):
+        self.polygon_points = polygon_points  # e.g. [(150,300),(450,300),(450,550),(150,550)]
+
+    def is_inside(self, point):
+        """
+        Ray casting algorithm: checks if 'point' is inside the polygon.
+        Returns True if inside, False if outside.
+        """
+        x, y = point
+        n = len(self.polygon_points)
+        inside = False
+
+        j = n - 1
+        for i in range(n):
+            xi, yi = self.polygon_points[i]
+            xj, yj = self.polygon_points[j]
+
+            # Check if the horizontal ray from 'point' crosses this polygon edge
+            intersects = ((yi > y) != (yj > y)) and \
+                         (x < (xj - xi) * (y - yi) / (yj - yi) + xi)
+
+            if intersects:
+                inside = not inside
+
+            j = i
+
+        return inside
