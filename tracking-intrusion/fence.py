@@ -96,3 +96,31 @@ class RestrictedZone:
             j = i
 
         return inside
+class ZoneEntryDetector:
+    """
+    Tracks whether each object was inside or outside the restricted zone
+    last frame, so we can detect the exact moment it ENTERS.
+    """
+
+    def __init__(self, restricted_zone):
+        self.zone = restricted_zone
+        self.last_state = {}  # track_id -> "inside" or "outside"
+
+    def check_entry(self, track_id, point):
+        """
+        Call this once per object, per frame, with its current point.
+        Returns True only on the frame the object goes from outside -> inside.
+        """
+        currently_inside = self.zone.is_inside(point)
+        current_state = "inside" if currently_inside else "outside"
+
+        entered = False
+
+        if track_id in self.last_state:
+            previous_state = self.last_state[track_id]
+            if previous_state == "outside" and current_state == "inside":
+                entered = True
+
+        self.last_state[track_id] = current_state
+
+        return entered
