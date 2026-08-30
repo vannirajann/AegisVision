@@ -9,8 +9,8 @@ class VirtualLine:
     """
 
     def __init__(self, point_a, point_b):
-        self.point_a = point_a  # e.g. (100, 400)
-        self.point_b = point_b  # e.g. (500, 400)
+        self.point_a = point_a
+        self.point_b = point_b
 
     def side_of_line(self, point):
         """
@@ -35,11 +35,15 @@ class LineCrossingDetector:
     """
     Tracks which side of the line each object was on last frame,
     so we can detect the exact moment an object crosses over.
+    Also applies a cooldown so the same object can't re-trigger an
+    alert too rapidly (e.g. from tracking flicker near the line).
     """
 
-    def __init__(self, virtual_line):
+    def __init__(self, virtual_line, cooldown_seconds=5):
         self.line = virtual_line
-        self.last_side = {}  # track_id -> "left" or "right"
+        self.last_side = {}
+        self.last_alert_time = {}
+        self.cooldown_seconds = cooldown_seconds
 
     def check_crossing(self, track_id, point):
         current_side = self.line.side_of_line(point)
@@ -48,7 +52,11 @@ class LineCrossingDetector:
         if track_id in self.last_side:
             previous_side = self.last_side[track_id]
             if previous_side != current_side and previous_side != "on_line" and current_side != "on_line":
-                crossed = True
+                now = time.time()
+                last_time = self.last_alert_time.get(track_id, 0)
+                if now - last_time >= self.cooldown_seconds:
+                    crossed = True
+                    self.last_alert_time[track_id] = now
 
         self.last_side[track_id] = current_side
         return crossed
