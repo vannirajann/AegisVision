@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AegisVision Security Dashboard</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #0b0f14;
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+
+        header {
+            background: #111820;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #26313d;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #ff3b3b;
+        }
+
+        .status {
+            color: #00ff88;
+            font-weight: bold;
+        }
+
+        /* MAIN */
+
+        .container {
+            padding: 30px;
+        }
+
+        .title {
+            margin-bottom: 25px;
+        }
+
+        .title h1 {
+            font-size: 30px;
+        }
+
+        .title p {
+            color: #9ca3af;
+            margin-top: 8px;
+        }
+
+        /* STATS */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: #141b24;
+            border: 1px solid #26313d;
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .card h3 {
+            color: #9ca3af;
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+
+        .number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ff3b3b;
+        }
+
+        /* DASHBOARD GRID */
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+        }
+
+        .panel {
+            background: #141b24;
+            border: 1px solid #26313d;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .panel h2 {
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        /* LIVE VIDEO */
+
+        .video-box {
+            width: 100%;
+            height: 400px;
+            background: black;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .video-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* ALERTS */
+
+        .alerts {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .alert {
+            background: #1c2530;
+            border-left: 4px solid #ff3b3b;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+        }
+
+        .alert h4 {
+            color: #ff5555;
+            margin-bottom: 5px;
+        }
+
+        .alert p {
+            color: #aab4c0;
+            font-size: 13px;
+            word-break: break-all;
+        }
+
+        .alert img {
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #6b7280;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 900px) {
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                padding: 15px 20px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="logo">
+            🛡 Aegis<span>Vision</span>
+        </div>
+
+        <div class="status">
+            🟢 SYSTEM ACTIVE
+        </div>
+
+    </header>
+
+
+    <!-- MAIN -->
+
+    <div class="container">
+
+        <div class="title">
+
+            <h1>Border Surveillance Dashboard</h1>
+
+            <p>
+                AI-powered intrusion detection and monitoring system
+            </p>
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+            <div class="card">
+
+                <h3>Total Intrusion Alerts</h3>
+
+                <div class="number" id="alertCount">
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>System Status</h3>
+
+                <div style="font-size: 25px; color: #00ff88;">
+                    ACTIVE
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>AI Detection</h3>
+
+                <div style="font-size: 20px;">
+                    YOLO11 + Tracking
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DASHBOARD -->
+
+        <div class="dashboard">
+
+
+            <!-- LIVE VIDEO -->
+
+            <div class="panel">
+
+                <h2>📹 LIVE SURVEILLANCE</h2>
+
+                <div class="video-box">
+
+                    <!-- Live stream -->
+                    <img src="/video-feed">
+
+                </div>
+
+            </div>
+
+
+            <!-- ALERTS -->
+
+            <div class="panel">
+
+                <h2>🚨 INTRUSION ALERTS</h2>
+
+                <div class="alerts" id="alerts">
+
+                    Loading alerts...
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        AegisVision © 2026 |
+        AI Powered Border Surveillance System
+
+    </footer>
+
+
+    <script>
+
+        async function loadAlerts() {
+
+            try {
+
+                const response = await fetch("/alerts");
+
+                const data = await response.json();
+
+
+                // Update alert count
+
+                document.getElementById("alertCount").innerText =
+                    data.total_alerts;
+
+
+                const alertsContainer =
+                    document.getElementById("alerts");
+
+
+                alertsContainer.innerHTML = "";
+
+
+                // Show newest alerts first
+
+                const alerts =
+                    data.alerts.reverse();
+
+
+                alerts.forEach(function (file) {
+
+                    const alert =
+                        document.createElement("div");
+
+
+                    alert.className =
+                        "alert";
+
+
+                    alert.innerHTML = `
+
+                        <h4>
+                            🚨 INTRUSION DETECTED
+                        </h4>
+
+                        <p>
+                            ${file}
+                        </p>
+
+                        <img
+                            src="/alert-images/${file}"
+                            onclick="window.open('/alert-images/${file}', '_blank')"
+                        >
+
+                    `;
+
+
+                    alertsContainer.appendChild(alert);
+
+                });
+
+
+                if (data.alerts.length === 0) {
+
+                    alertsContainer.innerHTML =
+                        "No intrusion alerts yet.";
+
+                }
+
+            }
+
+            catch (error) {
+
+                console.log(
+                    "Error loading alerts:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // Load alerts immediately
+
+        loadAlerts();
+
+
+        // Refresh alerts every 3 seconds
+
+        setInterval(
+            loadAlerts,
+            3000
+        );
+
+    </script>
+
+
+</body>
+
+</html>
