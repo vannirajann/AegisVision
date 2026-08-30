@@ -2,69 +2,40 @@ import cv2
 
 
 class MovementDetector:
-    def __init__(self, threshold=25):
+    def __init__(self, threshold=3.0):
         self.threshold = threshold
         self.previous_frame = None
 
-    def prepare_frame(self, frame):
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        gray = cv2.GaussianBlur(gray, (21, 21), 0)
-        return gray
-
-    def detect_movement(self, frame):
-        gray = self.prepare_frame(frame)
-
-        # First frame becomes the reference
-        if self.previous_frame is None:
-            self.previous_frame = gray
-            return False
-
-        # Resize current frame to exactly match previous frame
-        gray = cv2.resize(
-            gray,
-            (
-                self.previous_frame.shape[1],
-                self.previous_frame.shape[0]
-            )
-        )
-
-        # Compare the two frames
-        frame_difference = cv2.absdiff(
-            self.previous_frame,
-            gray
-        )
-
-        # Calculate how much the image changed
-        change_amount = frame_difference.mean()
-
-        # Save current frame for next comparison
-        self.previous_frame = gray
-
-        return change_amount > self.threshold
-
     def get_change_amount(self, frame):
-        gray = self.prepare_frame(frame)
+        """
+        Fast movement detection using a small grayscale image.
+        """
 
+        # Convert directly to grayscale
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+        # Very small image = much faster processing
+        gray = cv2.resize(gray, (160, 120))
+
+        # Compare with previous frame
         if self.previous_frame is None:
             self.previous_frame = gray
             return 0.0
 
-        # Always make the dimensions identical
-        gray = cv2.resize(
-            gray,
-            (
-                self.previous_frame.shape[1],
-                self.previous_frame.shape[0]
-            )
-        )
-
-        frame_difference = cv2.absdiff(
+        difference = cv2.absdiff(
             self.previous_frame,
             gray
         )
 
-        change_amount = frame_difference.mean()
+        # Average difference
+        change_amount = float(difference.mean())
 
+        # Save current frame
         self.previous_frame = gray
 
-        return float(change_amount)
+        return change_amount
+
+    def detect_movement(self, frame):
+        change_amount = self.get_change_amount(frame)
+
+        return change_amount > self.threshold
