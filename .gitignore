@@ -218,3 +218,5 @@ __marimo__/
 .streamlit/secrets.toml
 # Local face detection test images
 analytics/face/test_images/
+# Local movement detection test images
+analytics/movement/test_images/
