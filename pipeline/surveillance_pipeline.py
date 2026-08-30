@@ -10,9 +10,11 @@ PROJECT_ROOT = os.path.abspath(
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
+
 from analytics.video.video_source import VideoSource
 from analytics.face.face_detector import FaceDetector
 from analytics.movement.movement_detector import MovementDetector
+from analytics.night.night_detector import NightDetector
 from analytics.tracking.person_tracker import PersonTracker
 from analytics.events.event_generator import EventGenerator
 from analytics.alerts.alert_manager import AlertManager
@@ -29,9 +31,12 @@ class SurveillancePipeline:
         # Video input
         self.video_source = VideoSource(0)
 
-        # Detection and tracking
+        # Detection modules
         self.face_detector = FaceDetector()
         self.movement_detector = MovementDetector()
+        self.night_detector = NightDetector()
+
+        # Tracking
         self.person_tracker = PersonTracker()
 
         # Security modules
@@ -63,16 +68,21 @@ class SurveillancePipeline:
         # 2. Movement detection
         movement_detected = self.movement_detector.detect_movement(frame)
 
-        # 3. Person tracking
+        # 3. Low-light / night detection
+        night_result = self.night_detector.detect(frame)
+
+        low_light = night_result["low_light"]
+        brightness = night_result["brightness"]
+        light_status = night_result["status"]
+
+        # 4. Person tracking
         people = self.person_tracker.update(faces)
 
+        # 5. Event generation
         event = None
-        alert = None
-        evidence = None
 
         current_time = time.time()
 
-        # 4. Generate event
         if movement_detected:
 
             if current_time - self.last_event_time >= self.event_cooldown:
@@ -82,47 +92,64 @@ class SurveillancePipeline:
                 if len(people) > 0:
                     person_id = people[0].get("id")
 
+                # Night movement
+                if low_light:
+
+                    event_type = "night_movement"
+                    message = "Night-time movement detected"
+
+                # Normal movement
+                else:
+
+                    event_type = "movement"
+                    message = "Movement detected"
+
                 event = self.event_generator.create_event(
-                    event_type="movement",
+                    event_type=event_type,
                     person_id=person_id,
                     details={
-                        "message": "Movement detected",
-                        "people_count": len(people)
+                        "message": message,
+                        "people_count": len(people),
+                        "brightness": brightness,
+                        "light_status": light_status
                     }
                 )
 
+                self.last_event_time = current_time
+
                 print("EVENT GENERATED:", event)
 
-                # 5. Generate alert
+                # Generate alert
                 alert = self.alert_manager.create_alert(
-                    event_type="movement",
+                    event_type=event_type,
                     person_id=person_id
                 )
 
                 print("ALERT GENERATED:", alert)
 
-                # 6. Save evidence
-                evidence = self.evidence_manager.save_evidence(
-                    event_type="movement",
+                # Save evidence
+                evidence_path = self.evidence_manager.save_evidence(
+                    event_type=event_type,
                     person_id=person_id,
                     details={
-                        "message": "Movement detected",
+                        "message": message,
                         "people_count": len(people),
+                        "brightness": brightness,
+                        "light_status": light_status,
                         "alert_level": alert["level"]
                     }
                 )
 
-                print("EVIDENCE SAVED:", evidence)
-
-                self.last_event_time = current_time
+                print("EVIDENCE SAVED:", evidence_path)
 
         return {
             "faces": faces,
             "people": people,
             "movement": movement_detected,
-            "event": event,
-            "alert": alert,
-            "evidence": evidence
+            "low_light": low_light,
+            "brightness": brightness,
+            "light_status": light_status,
+            "event": event
         }
 
     def release(self):
