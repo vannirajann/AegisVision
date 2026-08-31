@@ -1,63 +1,78 @@
-import cv2
+from ultralytics import YOLO
 
 
 class FaceDetector:
+
     def __init__(self):
-        # Load OpenCV's built-in Haar Cascade face detector
-        cascade_path = (
-            cv2.data.haarcascades
-            + "haarcascade_frontalface_default.xml"
-        )
+        print("Loading YOLO person detector...")
 
-        self.face_cascade = cv2.CascadeClassifier(cascade_path)
+        # Lightweight YOLO model suitable for webcam/live detection
+        self.model = YOLO("yolov8n.pt")
 
-        if self.face_cascade.empty():
-            raise RuntimeError(
-                "Could not load face detection model."
-            )
+        # COCO dataset:
+        # class 0 = person
+        self.person_class_id = 0
+
+        print("YOLO person detector loaded successfully")
 
     def detect_faces(self, frame):
-        """
-        Detect real faces in an image/frame.
 
-        Returns:
-            List of dictionaries containing face bounding boxes.
-        """
+        if frame is None:
+            return []
 
-        # Convert to grayscale
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-        # Improve contrast
-        gray = cv2.equalizeHist(gray)
-
-        # Detect faces with stricter settings
-        faces = self.face_cascade.detectMultiScale(
-            gray,
-            scaleFactor=1.15,
-            minNeighbors=8,
-            minSize=(60, 60),
-            maxSize=(400, 400)
+        # Run YOLO only for the PERSON class
+        results = self.model.predict(
+            source=frame,
+            conf=0.45,
+            iou=0.50,
+            classes=[self.person_class_id],
+            imgsz=640,
+            verbose=False
         )
 
-        results = []
+        detections = []
 
-        for (x, y, width, height) in faces:
+        if not results:
+            return detections
 
-            # Reject unusually small detections
-            if width < 60 or height < 60:
+        result = results[0]
+
+        if result.boxes is None:
+            return detections
+
+        # Process every detected person
+        for box in result.boxes:
+
+            confidence = float(box.conf[0])
+
+            # Ignore low-confidence detections
+            if confidence < 0.45:
                 continue
 
-            # A real face should roughly have a square/portrait shape
-            aspect_ratio = width / float(height)
+            # Bounding box coordinates
+            x1, y1, x2, y2 = box.xyxy[0].tolist()
 
-            if aspect_ratio < 0.65 or aspect_ratio > 1.35:
+            x1 = int(x1)
+            y1 = int(y1)
+            x2 = int(x2)
+            y2 = int(y2)
+
+            width = x2 - x1
+            height = y2 - y1
+
+            if width <= 0 or height <= 0:
                 continue
 
-            results.append({
-                "x": int(x),
-                "y": int(y),
-                "width": int(width),
-                "height": int(height)
+            detections.append({
+                "x": x1,
+                "y": y1,
+                "width": width,
+                "height": height,
+                "confidence": round(confidence, 3),
+                "class": "person"
             })
 
-        return results
+        return detections
+
+    def detect(self, frame):
+        return self.detect_faces(frame)

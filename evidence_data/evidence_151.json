@@ -1,0 +1,13 @@
+{
+    "evidence_id": 151,
+    "event_type": "movement",
+    "person_id": 227,
+    "timestamp": "2026-08-31T14:12:39.832726",
+    "details": {
+        "message": "Movement detected",
+        "people_count": 1,
+        "brightness": 187.92,
+        "light_status": "NORMAL LIGHT",
+        "alert_level": "LOW"
+    }
+}
