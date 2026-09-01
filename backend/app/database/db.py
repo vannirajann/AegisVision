@@ -10,6 +10,12 @@ class EventDB(SQLModel, table=True):
     severity: str
     data: Dict[str, Any] = Field(default={}, sa_column=Column(JSON))
 
+class CameraDB(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    camera_id: str
+    location: str
+    status: str = "active"
+
 DATABASE_URL = "sqlite:///./aegisvision.db"
 engine = create_engine(DATABASE_URL, echo=True)
 
