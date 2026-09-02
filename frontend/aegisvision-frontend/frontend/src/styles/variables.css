@@ -6,23 +6,23 @@
 */
 :root {
   /* Surfaces */
-  --bg-app: #0a0e14;
-  --bg-panel: #111721;
-  --bg-panel-raised: #161d29;
-  --bg-hover: #1c2431;
-  --border-subtle: #232b38;
-  --border-strong: #2f3a4a;
+  --bg-app: #f8f9fa;
+  --bg-panel: #ffffff;
+  --bg-panel-raised: #f5f6f7;
+  --bg-hover: #e9ecef;
+  --border-subtle: #dee2e6;
+  --border-strong: #cbd5e0;
 
   /* Text */
-  --text-primary: #e7ecf3;
-  --text-secondary: #93a0b3;
-  --text-muted: #5b6779;
+  --text-primary: #1a202c;
+  --text-secondary: #4a5568;
+  --text-muted: #a0aec0;
 
   /* Status / accent */
   --status-online: #2dd4bf;
   --status-online-dim: rgba(45, 212, 191, 0.14);
-  --status-offline: #5b6779;
-  --status-offline-dim: rgba(91, 103, 121, 0.14);
+  --status-offline: #a0aec0;
+  --status-offline-dim: rgba(160, 174, 192, 0.14);
 
   --severity-low: #3b82f6;
   --severity-low-dim: rgba(59, 130, 246, 0.14);
