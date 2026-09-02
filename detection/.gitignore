@@ -1,9 +1,9 @@
 # Detection generated files
-detection/alerts/
-detection/__pycache__/
+alerts/
+__pycache__/
 
 # YOLO AI model
-detection/yolo11n.pt
+yolo11n.pt
 
 # Large test video
-detection/videos/test.mp4
+videos/
