@@ -1,0 +1,7 @@
+opencv-python
+numpy
+pillow
+ultralytics
+paddlepaddle
+paddleocr
+torch
