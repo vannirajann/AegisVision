@@ -1,0 +1,24 @@
+.severity-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.severity-low {
+  background: var(--severity-low-dim);
+  color: var(--severity-low);
+}
+
+.severity-medium {
+  background: var(--severity-medium-dim);
+  color: var(--severity-medium);
+}
+
+.severity-high {
+  background: var(--severity-high-dim);
+  color: var(--severity-high);
+}

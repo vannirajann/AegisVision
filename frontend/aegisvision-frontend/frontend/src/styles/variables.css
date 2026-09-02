@@ -1,0 +1,45 @@
+/*
+  AegisVision design tokens.
+  A dark, low-glare palette suited to a room full of monitors —
+  the accent colors double as status meaning (cyan = live/normal,
+  amber = watch, red = critical) rather than decoration.
+*/
+:root {
+  /* Surfaces */
+  --bg-app: #0a0e14;
+  --bg-panel: #111721;
+  --bg-panel-raised: #161d29;
+  --bg-hover: #1c2431;
+  --border-subtle: #232b38;
+  --border-strong: #2f3a4a;
+
+  /* Text */
+  --text-primary: #e7ecf3;
+  --text-secondary: #93a0b3;
+  --text-muted: #5b6779;
+
+  /* Status / accent */
+  --status-online: #2dd4bf;
+  --status-online-dim: rgba(45, 212, 191, 0.14);
+  --status-offline: #5b6779;
+  --status-offline-dim: rgba(91, 103, 121, 0.14);
+
+  --severity-low: #3b82f6;
+  --severity-low-dim: rgba(59, 130, 246, 0.14);
+  --severity-medium: #f5a623;
+  --severity-medium-dim: rgba(245, 166, 35, 0.14);
+  --severity-high: #ef4444;
+  --severity-high-dim: rgba(239, 68, 68, 0.14);
+
+  /* Type */
+  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-data: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+
+  /* Layout */
+  --sidebar-width: 232px;
+  --topbar-height: 60px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+
+  --shadow-panel: 0 1px 0 rgba(0, 0, 0, 0.4);
+}

@@ -1,0 +1,68 @@
+// Placeholder camera list. Person 5's backend will eventually expose
+// GET /api/cameras with this same shape — keep the fields stable.
+export const mockCameras = [
+  {
+    id: 'CAM-01',
+    name: 'Main Gate',
+    location: 'North Entrance',
+    status: 'online',
+    resolution: '1080p',
+    detections: { people: 2, vehicles: 1 },
+  },
+  {
+    id: 'CAM-02',
+    name: 'Parking Lot A',
+    location: 'West Yard',
+    status: 'online',
+    resolution: '1080p',
+    detections: { people: 0, vehicles: 6 },
+  },
+  {
+    id: 'CAM-03',
+    name: 'Warehouse Floor',
+    location: 'Building 2, Level 1',
+    status: 'online',
+    resolution: '4K',
+    detections: { people: 5, vehicles: 0 },
+  },
+  {
+    id: 'CAM-04',
+    name: 'Rear Fence Line',
+    location: 'South Boundary',
+    status: 'offline',
+    resolution: '1080p',
+    detections: { people: 0, vehicles: 0 },
+  },
+  {
+    id: 'CAM-05',
+    name: 'Loading Dock',
+    location: 'Building 1',
+    status: 'online',
+    resolution: '1080p',
+    detections: { people: 1, vehicles: 2 },
+  },
+  {
+    id: 'CAM-06',
+    name: 'Server Room Corridor',
+    location: 'Building 1, Level 2',
+    status: 'online',
+    resolution: '1080p',
+    detections: { people: 0, vehicles: 0 },
+  },
+  {
+    id: 'CAM-07',
+    name: 'Visitor Lobby',
+    location: 'Building 1, Ground Floor',
+    status: 'online',
+    resolution: '1080p',
+    detections: { people: 3, vehicles: 0 },
+  },
+  {
+    id: 'CAM-08',
+    name: 'East Perimeter',
+    location: 'East Boundary',
+    status: 'offline',
+    resolution: '720p',
+    detections: { people: 0, vehicles: 0 },
+  },
+]
