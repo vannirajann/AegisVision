@@ -7,3 +7,6 @@ yolo11n.pt
 
 # Large test video
 videos/
+
+# Latest generated preview
+static/latest.jpg
