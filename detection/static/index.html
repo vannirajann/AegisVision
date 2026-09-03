@@ -2,356 +2,1508 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>AegisVision Security Dashboard</title>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>AegisVision | Security Intelligence</title>
+
 
     <style>
+
+        /* =========================================
+           GLOBAL
+        ========================================== */
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
         }
+
+
+        :root {
+
+            --black: #080808;
+            --sidebar: #0d0d0d;
+            --panel: #121212;
+            --panel-hover: #171717;
+
+            --border: #282828;
+            --border-light: #3a3a3a;
+
+            --white: #ffffff;
+            --gray: #a0a0a0;
+            --dark-gray: #666666;
+
+            --red: #ff3b30;
+            --green: #36d17c;
+
+        }
+
 
         body {
-            background: #0b0f14;
-            color: white;
+
+            background: var(--black);
+
+            color: var(--white);
+
+            font-family:
+                Inter,
+                Arial,
+                Helvetica,
+                sans-serif;
+
             min-height: 100vh;
+
         }
 
-        /* HEADER */
 
-        header {
-            background: #111820;
-            padding: 20px 40px;
+        /* =========================================
+           APP LAYOUT
+        ========================================== */
+
+        .app {
+
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #26313d;
+
+            min-height: 100vh;
+
         }
+
+
+        /* =========================================
+           SIDEBAR
+        ========================================== */
+
+        .sidebar {
+
+            width: 250px;
+
+            background: var(--sidebar);
+
+            border-right:
+                1px solid var(--border);
+
+            display: flex;
+
+            flex-direction: column;
+
+            position: fixed;
+
+            height: 100vh;
+
+            left: 0;
+
+            top: 0;
+
+            z-index: 100;
+
+        }
+
+
+        /* LOGO */
+
+        .brand {
+
+            height: 80px;
+
+            padding: 0 28px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            border-bottom:
+                1px solid var(--border);
+
+        }
+
+
+        .shield {
+
+            width: 36px;
+
+            height: 36px;
+
+            border:
+                1px solid var(--white);
+
+            border-radius: 9px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 18px;
+
+        }
+
 
         .logo {
-            font-size: 28px;
-            font-weight: bold;
+
+            font-size: 20px;
+
+            font-weight: 700;
+
+            letter-spacing: -0.5px;
+
         }
+
 
         .logo span {
-            color: #ff3b3b;
+
+            color: var(--gray);
+
+            font-weight: 400;
+
         }
 
-        .status {
-            color: #00ff88;
-            font-weight: bold;
+
+        /* NAVIGATION */
+
+        .nav {
+
+            padding: 24px 14px;
+
+            flex: 1;
+
         }
 
-        /* MAIN */
 
-        .container {
-            padding: 30px;
+        .nav-label {
+
+            color: var(--dark-gray);
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            letter-spacing: 1.5px;
+
+            margin:
+                0 12px 12px;
+
         }
 
-        .title {
-            margin-bottom: 25px;
+
+        .nav-item {
+
+            width: 100%;
+
+            border: none;
+
+            background: transparent;
+
+            color: var(--gray);
+
+            padding: 13px 14px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            text-align: left;
+
+            font-size: 14px;
+
+            margin-bottom: 5px;
+
+            transition:
+                0.2s ease;
+
         }
 
-        .title h1 {
-            font-size: 30px;
+
+        .nav-item:hover {
+
+            background: #181818;
+
+            color: var(--white);
+
         }
 
-        .title p {
-            color: #9ca3af;
-            margin-top: 8px;
+
+        .nav-item.active {
+
+            background: var(--white);
+
+            color: var(--black);
+
+            font-weight: 600;
+
         }
 
-        /* STATS */
+
+        /* SIDEBAR BOTTOM */
+
+        .sidebar-bottom {
+
+            padding: 20px;
+
+            border-top:
+                1px solid var(--border);
+
+        }
+
+
+        .system-box {
+
+            background: #151515;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 10px;
+
+            padding: 14px;
+
+        }
+
+
+        .system-title {
+
+            font-size: 10px;
+
+            color: var(--dark-gray);
+
+            letter-spacing: 1px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .system-active {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+        }
+
+
+        .green-dot {
+
+            width: 7px;
+
+            height: 7px;
+
+            background: var(--green);
+
+            border-radius: 50%;
+
+            box-shadow:
+                0 0 10px
+                rgba(54, 209, 124, 0.7);
+
+        }
+
+
+        /* =========================================
+           MAIN
+        ========================================== */
+
+        .main {
+
+            margin-left: 250px;
+
+            width: calc(100% - 250px);
+
+        }
+
+
+        /* =========================================
+           TOPBAR
+        ========================================== */
+
+        .topbar {
+
+            height: 80px;
+
+            padding: 0 42px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            border-bottom:
+                1px solid var(--border);
+
+            background:
+                rgba(8, 8, 8, 0.95);
+
+        }
+
+
+        .breadcrumb {
+
+            font-size: 13px;
+
+            color: var(--gray);
+
+        }
+
+
+        .breadcrumb strong {
+
+            color: var(--white);
+
+            font-weight: 500;
+
+        }
+
+
+        .top-actions {
+
+            display: flex;
+
+            gap: 10px;
+
+        }
+
+
+        /* BUTTONS */
+
+        .btn {
+
+            border:
+                1px solid var(--border);
+
+            background: #151515;
+
+            color: var(--white);
+
+            padding: 10px 15px;
+
+            border-radius: 7px;
+
+            font-size: 12px;
+
+            cursor: pointer;
+
+            transition:
+                0.2s ease;
+
+        }
+
+
+        .btn:hover {
+
+            border-color:
+                var(--border-light);
+
+            background:
+                #202020;
+
+        }
+
+
+        .btn-primary {
+
+            background: var(--white);
+
+            color: var(--black);
+
+            border-color: var(--white);
+
+            font-weight: 600;
+
+        }
+
+
+        .btn-primary:hover {
+
+            background: #dedede;
+
+        }
+
+
+        .btn-danger {
+
+            color: var(--red);
+
+        }
+
+
+        /* =========================================
+           CONTENT
+        ========================================== */
+
+        .content {
+
+            padding: 42px;
+
+            max-width: 1800px;
+
+            margin: auto;
+
+        }
+
+
+        /* =========================================
+           PAGE HEADER
+        ========================================== */
+
+        .page-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-end;
+
+            margin-bottom: 35px;
+
+        }
+
+
+        .eyebrow {
+
+            color: var(--dark-gray);
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        h1 {
+
+            font-size:
+                clamp(32px, 4vw, 48px);
+
+            letter-spacing: -2px;
+
+            font-weight: 700;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .subtitle {
+
+            color: var(--gray);
+
+            font-size: 15px;
+
+        }
+
+
+        /* =========================================
+           STATS
+        ========================================== */
 
         .stats {
+
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 16px;
+
+            margin-bottom: 22px;
+
         }
 
-        .card {
-            background: #141b24;
-            border: 1px solid #26313d;
-            border-radius: 12px;
-            padding: 25px;
+
+        .stat-card {
+
+            background: var(--panel);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 14px;
+
+            padding: 22px;
+
+            min-height: 140px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: space-between;
+
+            transition:
+                0.2s ease;
+
         }
 
-        .card h3 {
-            color: #9ca3af;
-            font-size: 15px;
-            margin-bottom: 15px;
+
+        .stat-card:hover {
+
+            border-color:
+                var(--border-light);
+
+            transform:
+                translateY(-2px);
+
         }
 
-        .number {
-            font-size: 36px;
-            font-weight: bold;
-            color: #ff3b3b;
+
+        .stat-label {
+
+            color: var(--dark-gray);
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            letter-spacing: 1.5px;
+
+            text-transform: uppercase;
+
         }
 
-        /* DASHBOARD GRID */
+
+        .stat-value {
+
+            font-size: 34px;
+
+            font-weight: 700;
+
+            letter-spacing: -1px;
+
+        }
+
+
+        .alert-value {
+
+            color: var(--red);
+
+        }
+
+
+        .active-value {
+
+            color: var(--green);
+
+            font-size: 25px;
+
+        }
+
+
+        .ai-value {
+
+            font-size: 24px;
+
+        }
+
+
+        /* =========================================
+           DASHBOARD
+        ========================================== */
 
         .dashboard {
+
             display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 25px;
+
+            grid-template-columns:
+                minmax(0, 2fr)
+                minmax(340px, 0.8fr);
+
+            gap: 20px;
+
         }
+
+
+        /* =========================================
+           PANEL
+        ========================================== */
 
         .panel {
-            background: #141b24;
-            border: 1px solid #26313d;
-            border-radius: 12px;
-            padding: 20px;
+
+            background: var(--panel);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 15px;
+
+            overflow: hidden;
+
         }
 
-        .panel h2 {
-            margin-bottom: 20px;
-            font-size: 20px;
+
+        .panel-header {
+
+            padding: 19px 22px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            border-bottom:
+                1px solid var(--border);
+
         }
 
-        /* LIVE VIDEO */
+
+        .panel-title {
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        .panel-status {
+
+            color: var(--green);
+
+            font-size: 10px;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        /* =========================================
+           VIDEO
+        ========================================== */
+
+        .video-container {
+
+            padding: 18px;
+
+        }
+
 
         .video-box {
+
             width: 100%;
-            height: 400px;
-            background: black;
+
+            min-height: 520px;
+
+            background: #000;
+
             border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+
             overflow: hidden;
+
+            position: relative;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border:
+                1px solid #202020;
+
         }
+
+
+        .video-box::before {
+
+            content: "● LIVE";
+
+            position: absolute;
+
+            top: 14px;
+
+            left: 14px;
+
+            z-index: 5;
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            letter-spacing: 1.5px;
+
+            background:
+                rgba(0,0,0,0.7);
+
+            padding: 7px 10px;
+
+            border-radius: 5px;
+
+            border:
+                1px solid #333;
+
+        }
+
 
         .video-box img {
+
             width: 100%;
+
             height: 100%;
+
+            max-height: 700px;
+
             object-fit: contain;
+
         }
 
-        /* ALERTS */
+
+        /* =========================================
+           VIDEO CONTROLS
+        ========================================== */
+
+        .video-controls {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-top: 14px;
+
+        }
+
+
+        .camera-info {
+
+            color: var(--dark-gray);
+
+            font-size: 11px;
+
+        }
+
+
+        /* =========================================
+           ALERTS
+        ========================================== */
 
         .alerts {
-            max-height: 500px;
+
+            padding: 14px;
+
+            max-height: 650px;
+
             overflow-y: auto;
+
         }
+
 
         .alert {
-            background: #1c2530;
-            border-left: 4px solid #ff3b3b;
-            padding: 15px;
-            margin-bottom: 12px;
-            border-radius: 6px;
+
+            background: #161616;
+
+            border:
+                1px solid var(--border);
+
+            border-left:
+                3px solid var(--red);
+
+            border-radius: 10px;
+
+            padding: 14px;
+
+            margin-bottom: 11px;
+
+            transition:
+                0.2s ease;
+
         }
 
-        .alert h4 {
-            color: #ff5555;
-            margin-bottom: 5px;
+
+        .alert:hover {
+
+            background:
+                var(--panel-hover);
+
+            border-color:
+                var(--border-light);
+
         }
 
-        .alert p {
-            color: #aab4c0;
-            font-size: 13px;
+
+        .alert-top {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .alert-title {
+
+            color: var(--red);
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            letter-spacing: 1px;
+
+        }
+
+
+        .alert-time {
+
+            color: var(--dark-gray);
+
+            font-size: 9px;
+
+        }
+
+
+        .alert-file {
+
+            color: var(--gray);
+
+            font-size: 10px;
+
             word-break: break-all;
+
         }
+
 
         .alert img {
+
             width: 100%;
-            margin-top: 10px;
-            border-radius: 6px;
+
+            margin-top: 12px;
+
+            border-radius: 7px;
+
             cursor: pointer;
+
+            border:
+                1px solid #292929;
+
         }
 
-        /* FOOTER */
+
+        /* =========================================
+           EMPTY ALERT
+        ========================================== */
+
+        .empty-alerts {
+
+            text-align: center;
+
+            color: var(--dark-gray);
+
+            padding: 90px 20px;
+
+            font-size: 12px;
+
+        }
+
+
+        /* =========================================
+           FOOTER
+        ========================================== */
 
         footer {
-            text-align: center;
-            padding: 20px;
-            color: #6b7280;
+
+            margin-top: 30px;
+
+            color: #555;
+
+            font-size: 10px;
+
+            letter-spacing: 0.5px;
+
+            display: flex;
+
+            justify-content: space-between;
+
         }
 
-        /* MOBILE */
 
-        @media (max-width: 900px) {
+        /* =========================================
+           RESPONSIVE
+        ========================================== */
+
+        @media (max-width: 1100px) {
 
             .dashboard {
+
                 grid-template-columns: 1fr;
+
             }
 
-            header {
-                padding: 15px 20px;
+        }
+
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+
+                width: 70px;
+
             }
 
-            .container {
-                padding: 20px;
+            .brand {
+
+                padding: 0;
+
+                justify-content: center;
+
+            }
+
+            .logo {
+
+                display: none;
+
+            }
+
+            .nav-item {
+
+                font-size: 0;
+
+                text-align: center;
+
+            }
+
+            .nav-label {
+
+                display: none;
+
+            }
+
+            .sidebar-bottom {
+
+                display: none;
+
+            }
+
+            .main {
+
+                margin-left: 70px;
+
+                width: calc(100% - 70px);
+
+            }
+
+            .stats {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .topbar {
+
+                padding: 0 20px;
+
+            }
+
+            .content {
+
+                padding: 25px 20px;
+
+            }
+
+            .page-header {
+
+                display: block;
+
+            }
+
+            .page-header h1 {
+
+                font-size: 34px;
+
+            }
+
+            .video-box {
+
+                min-height: 280px;
+
+            }
+
+            .top-actions {
+
+                margin-top: 20px;
+
             }
 
         }
 
     </style>
+
 </head>
 
 
 <body>
 
-    <!-- HEADER -->
 
-    <header>
+<div class="app">
 
-        <div class="logo">
-            🛡 Aegis<span>Vision</span>
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+
+        <div class="brand">
+
+            <div class="shield">
+                🛡
+            </div>
+
+            <div class="logo">
+                Aegis<span>Vision</span>
+            </div>
+
         </div>
 
-        <div class="status">
-            🟢 SYSTEM ACTIVE
+
+        <nav class="nav">
+
+            <div class="nav-label">
+                MONITORING
+            </div>
+
+
+            <button
+                class="nav-item active"
+                onclick="scrollToTop()"
+            >
+                ◉ Dashboard
+            </button>
+
+
+            <button
+                class="nav-item"
+                onclick="scrollToLive()"
+            >
+                ◉ Live Monitor
+            </button>
+
+
+            <button
+                class="nav-item"
+                onclick="scrollToAlerts()"
+            >
+                ◉ Alerts
+            </button>
+
+
+            <div
+                class="nav-label"
+                style="margin-top: 25px;"
+            >
+                SYSTEM
+            </div>
+
+
+            <button
+                class="nav-item"
+                onclick="showSystemInfo()"
+            >
+                ⚙ System Info
+            </button>
+
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="system-box">
+
+                <div class="system-title">
+                    SYSTEM STATUS
+                </div>
+
+                <div class="system-active">
+
+                    <div class="green-dot"></div>
+
+                    OPERATIONAL
+
+                </div>
+
+            </div>
+
         </div>
 
-    </header>
+
+    </aside>
+
 
 
     <!-- MAIN -->
 
-    <div class="container">
-
-        <div class="title">
-
-            <h1>Border Surveillance Dashboard</h1>
-
-            <p>
-                AI-powered intrusion detection and monitoring system
-            </p>
-
-        </div>
+    <div class="main">
 
 
-        <!-- STATS -->
+        <!-- TOPBAR -->
 
-        <div class="stats">
+        <header class="topbar">
 
-            <div class="card">
+            <div class="breadcrumb">
 
-                <h3>Total Intrusion Alerts</h3>
-
-                <div class="number" id="alertCount">
-                    0
-                </div>
+                <strong>Security Center</strong>
+                / Dashboard
 
             </div>
 
 
-            <div class="card">
+            <div class="top-actions">
 
-                <h3>System Status</h3>
+                <button
+                    class="btn"
+                    onclick="refreshAlerts()"
+                >
+                    ↻ Refresh
+                </button>
 
-                <div style="font-size: 25px; color: #00ff88;">
-                    ACTIVE
-                </div>
 
-            </div>
-
-
-            <div class="card">
-
-                <h3>AI Detection</h3>
-
-                <div style="font-size: 20px;">
-                    YOLO11 + Tracking
-                </div>
+                <button
+                    class="btn btn-primary"
+                    onclick="scrollToLive()"
+                >
+                    View Live
+                </button>
 
             </div>
 
-        </div>
+        </header>
 
 
-        <!-- DASHBOARD -->
 
-        <div class="dashboard">
+        <!-- CONTENT -->
 
-
-            <!-- LIVE VIDEO -->
-
-            <div class="panel">
-
-                <h2>📹 LIVE SURVEILLANCE</h2>
-
-                <div class="video-box">
-
-                    <!-- Live stream -->
-                    <img src="/video-feed">
-
-                </div>
-
-            </div>
+        <main class="content">
 
 
-            <!-- ALERTS -->
+            <!-- PAGE HEADER -->
 
-            <div class="panel">
+            <section class="page-header">
 
-                <h2>🚨 INTRUSION ALERTS</h2>
+                <div>
 
-                <div class="alerts" id="alerts">
+                    <div class="eyebrow">
+                        AI SECURITY INTELLIGENCE
+                    </div>
 
-                    Loading alerts...
+
+                    <h1>
+                        Border Surveillance
+                    </h1>
+
+
+                    <div class="subtitle">
+
+                        Real-time detection, tracking and
+                        intrusion monitoring.
+
+                    </div>
 
                 </div>
 
-            </div>
+            </section>
 
 
-        </div>
+
+            <!-- STATS -->
+
+            <section class="stats">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        Intrusion Alerts
+                    </div>
+
+                    <div
+                        class="stat-value alert-value"
+                        id="alertCount"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        System Status
+                    </div>
+
+                    <div
+                        class="stat-value active-value"
+                    >
+                        ACTIVE
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        AI Engine
+                    </div>
+
+                    <div
+                        class="stat-value ai-value"
+                    >
+                        YOLO11 + ByteTrack
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- DASHBOARD -->
+
+            <section
+                class="dashboard"
+            >
+
+
+                <!-- LIVE PANEL -->
+
+                <div
+                    class="panel"
+                    id="liveSection"
+                >
+
+                    <div class="panel-header">
+
+                        <div class="panel-title">
+
+                            LIVE SURVEILLANCE
+
+                        </div>
+
+
+                        <div class="panel-status">
+
+                            ● CAMERA ACTIVE
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="video-container">
+
+
+                        <div
+                            class="video-box"
+                            id="videoBox"
+                        >
+
+                            <img
+                                src="/video-feed"
+                                alt="Live Surveillance Feed"
+                            >
+
+                        </div>
+
+
+                        <div class="video-controls">
+
+
+                            <div class="camera-info">
+
+                                CAMERA 01 • AI DETECTION ENABLED
+
+                            </div>
+
+
+                            <button
+                                class="btn"
+                                onclick="toggleFullscreen()"
+                            >
+                                ⛶ Fullscreen
+                            </button>
+
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ALERT PANEL -->
+
+                <div
+                    class="panel"
+                    id="alertsSection"
+                >
+
+
+                    <div class="panel-header">
+
+
+                        <div class="panel-title">
+
+                            INTRUSION ALERTS
+
+                        </div>
+
+
+                        <button
+                            class="btn btn-danger"
+                            onclick="clearAlerts()"
+                        >
+                            Clear View
+                        </button>
+
+
+                    </div>
+
+
+
+                    <div
+                        class="alerts"
+                        id="alerts"
+                    >
+
+                        <div class="empty-alerts">
+
+                            Loading security events...
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- FOOTER -->
+
+            <footer>
+
+                <div>
+                    AegisVision © 2026
+                </div>
+
+                <div>
+                    AI-POWERED BORDER SECURITY PLATFORM
+                </div>
+
+            </footer>
+
+
+        </main>
+
 
     </div>
 
 
-    <!-- FOOTER -->
-
-    <footer>
-
-        AegisVision © 2026 |
-        AI Powered Border Surveillance System
-
-    </footer>
+</div>
 
 
-    <script>
 
-        async function loadAlerts() {
-
-            try {
-
-                const response = await fetch("/alerts");
-
-                const data = await response.json();
+<script>
 
 
-                // Update alert count
+    /* =========================================
+       LOAD ALERTS
+    ========================================== */
 
-                document.getElementById("alertCount").innerText =
-                    data.total_alerts;
+    async function loadAlerts() {
 
+        try {
 
-                const alertsContainer =
-                    document.getElementById("alerts");
-
-
-                alertsContainer.innerHTML = "";
-
-
-                // Show newest alerts first
-
-                const alerts =
-                    data.alerts.reverse();
+            const response =
+                await fetch("/alerts");
 
 
-                alerts.forEach(function (file) {
+            const data =
+                await response.json();
+
+
+            document.getElementById(
+                "alertCount"
+            ).innerText =
+                data.total_alerts;
+
+
+            const alertsContainer =
+                document.getElementById(
+                    "alerts"
+                );
+
+
+            alertsContainer.innerHTML = "";
+
+
+            if (
+                data.alerts.length === 0
+            ) {
+
+                alertsContainer.innerHTML = `
+
+                    <div class="empty-alerts">
+
+                        No intrusion events detected.
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            data.alerts.forEach(
+                function (file) {
+
 
                     const alert =
-                        document.createElement("div");
+                        document.createElement(
+                            "div"
+                        );
 
 
                     alert.className =
@@ -360,61 +1512,207 @@
 
                     alert.innerHTML = `
 
-                        <h4>
-                            🚨 INTRUSION DETECTED
-                        </h4>
+                        <div class="alert-top">
 
-                        <p>
+                            <div class="alert-title">
+
+                                INTRUSION DETECTED
+
+                            </div>
+
+
+                            <div class="alert-time">
+
+                                LIVE EVENT
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="alert-file">
+
                             ${file}
-                        </p>
+
+                        </div>
+
 
                         <img
                             src="/alert-images/${file}"
-                            onclick="window.open('/alert-images/${file}', '_blank')"
+                            alt="Intrusion Evidence"
+                            onclick="
+                                window.open(
+                                    '/alert-images/${file}',
+                                    '_blank'
+                                )
+                            "
                         >
 
                     `;
 
 
-                    alertsContainer.appendChild(alert);
+                    alertsContainer.appendChild(
+                        alert
+                    );
 
-                });
-
-
-                if (data.alerts.length === 0) {
-
-                    alertsContainer.innerHTML =
-                        "No intrusion alerts yet.";
 
                 }
 
-            }
+            );
 
-            catch (error) {
-
-                console.log(
-                    "Error loading alerts:",
-                    error
-                );
-
-            }
 
         }
 
+        catch (error) {
 
-        // Load alerts immediately
+            console.log(
+                "Alert loading error:",
+                error
+            );
+
+        }
+
+    }
+
+
+
+    /* =========================================
+       BUTTON FUNCTIONS
+    ========================================== */
+
+
+    function scrollToTop() {
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+
+
+    function scrollToLive() {
+
+        document.getElementById(
+            "liveSection"
+        ).scrollIntoView({
+
+            behavior: "smooth"
+
+        });
+
+    }
+
+
+
+    function scrollToAlerts() {
+
+        document.getElementById(
+            "alertsSection"
+        ).scrollIntoView({
+
+            behavior: "smooth"
+
+        });
+
+    }
+
+
+
+    function refreshAlerts() {
 
         loadAlerts();
 
+    }
 
-        // Refresh alerts every 3 seconds
 
-        setInterval(
-            loadAlerts,
-            3000
+
+    function toggleFullscreen() {
+
+        const videoBox =
+            document.getElementById(
+                "videoBox"
+            );
+
+
+        if (
+            !document.fullscreenElement
+        ) {
+
+            videoBox.requestFullscreen();
+
+        }
+
+        else {
+
+            document.exitFullscreen();
+
+        }
+
+    }
+
+
+
+    function clearAlerts() {
+
+        const alertsContainer =
+            document.getElementById(
+                "alerts"
+            );
+
+
+        alertsContainer.innerHTML = `
+
+            <div class="empty-alerts">
+
+                Alert view cleared.
+
+            </div>
+
+        `;
+
+    }
+
+
+
+    function showSystemInfo() {
+
+        alert(
+
+            "AegisVision Security System\n\n" +
+
+            "Status: ACTIVE\n" +
+
+            "AI Engine: YOLO11 + ByteTrack\n" +
+
+            "Detection: Person & Vehicles\n" +
+
+            "Intrusion Detection: ENABLED\n" +
+
+            "Evidence Capture: ENABLED"
+
         );
 
-    </script>
+    }
+
+
+
+    /* =========================================
+       INITIAL LOAD
+    ========================================== */
+
+
+    loadAlerts();
+
+
+    setInterval(
+        loadAlerts,
+        3000
+    );
+
+
+</script>
 
 
 </body>

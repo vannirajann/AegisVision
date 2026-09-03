@@ -1,48 +1,63 @@
 from fastapi import FastAPI
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
-from ultralytics import YOLO
+
 import cv2
 import os
 from datetime import datetime
 import threading
 import time
 
-app = FastAPI()
+from config import (
+    ALERTS_DIR,
+    STATIC_DIR,
+    VIDEO_PATH
+)
+
+from detector import (
+    detect_objects,
+    create_detection_output
+)
+
 
 # ==========================================
-# FOLDERS
+# FASTAPI APP
 # ==========================================
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+app = FastAPI(
+    title="AegisVision Detection Module",
+    version="1.0"
+)
 
-ALERTS_DIR = os.path.join(BASE_DIR, "alerts")
-STATIC_DIR = os.path.join(BASE_DIR, "static")
-VIDEO_PATH = os.path.join(BASE_DIR, "videos", "test.mp4")
-
-os.makedirs(ALERTS_DIR, exist_ok=True)
-
-# ==========================================
-# YOLO MODEL
-# ==========================================
-
-model = YOLO("yolo11n.pt")
-
-# person, bicycle, car, motorcycle, bus, truck
-ALLOWED_CLASSES = [0, 1, 2, 3, 5, 7]
 
 # ==========================================
 # GLOBAL VARIABLES
 # ==========================================
 
 latest_frame = None
+
 frame_lock = threading.Lock()
 
-# Previous position of each tracked object
+
+# Previous position of tracked objects
+
 previous_positions = {}
 
-# Objects already counted
+
+# Objects already counted for alerts
+
 counted_objects = set()
+
+
+# Latest structured detection output
+
+latest_detection_output = {
+    "frame_id": 0,
+    "detections": []
+}
+
+detection_lock = threading.Lock()
+
 
 # ==========================================
 # STATIC FILES
@@ -50,9 +65,12 @@ counted_objects = set()
 
 app.mount(
     "/static",
-    StaticFiles(directory=STATIC_DIR),
+    StaticFiles(
+        directory=STATIC_DIR
+    ),
     name="static"
 )
+
 
 # ==========================================
 # HOME DASHBOARD
@@ -62,7 +80,10 @@ app.mount(
 def home():
 
     return FileResponse(
-        os.path.join(STATIC_DIR, "index.html")
+        os.path.join(
+            STATIC_DIR,
+            "index.html"
+        )
     )
 
 
@@ -80,13 +101,24 @@ def get_alerts():
         for file in os.listdir(ALERTS_DIR):
 
             if file.lower().endswith(
-                (".jpg", ".jpeg", ".png")
+                (
+                    ".jpg",
+                    ".jpeg",
+                    ".png"
+                )
             ):
+
                 files.append(file)
 
     return {
+
         "total_alerts": len(files),
-        "alerts": sorted(files, reverse=True)
+
+        "alerts": sorted(
+            files,
+            reverse=True
+        )
+
     }
 
 
@@ -94,8 +126,12 @@ def get_alerts():
 # SHOW ALERT IMAGE
 # ==========================================
 
-@app.get("/alert-images/{filename}")
-def get_alert_image(filename: str):
+@app.get(
+    "/alert-images/{filename}"
+)
+def get_alert_image(
+    filename: str
+):
 
     image_path = os.path.join(
         ALERTS_DIR,
@@ -104,10 +140,64 @@ def get_alert_image(filename: str):
 
     if os.path.exists(image_path):
 
-        return FileResponse(image_path)
+        return FileResponse(
+            image_path
+        )
 
     return {
         "error": "Image not found"
+    }
+
+
+# ==========================================
+# GET STRUCTURED DETECTION OUTPUT
+# ==========================================
+
+@app.get("/detections")
+def get_detections():
+
+    with detection_lock:
+
+        return latest_detection_output
+
+
+# ==========================================
+# SYSTEM STATUS
+# ==========================================
+
+@app.get("/status")
+def get_status():
+
+    return {
+
+        "module":
+        "AegisVision Detection",
+
+        "status":
+        "active",
+
+        "model":
+        "YOLO11n",
+
+        "source":
+        "video",
+
+        "features": [
+
+            "person_detection",
+
+            "vehicle_detection",
+
+            "object_tracking",
+
+            "restricted_zone",
+
+            "intrusion_detection",
+
+            "evidence_capture"
+
+        ]
+
     }
 
 
@@ -118,247 +208,529 @@ def get_alert_image(filename: str):
 def detection_loop():
 
     global latest_frame
+    global latest_detection_output
 
-    video = cv2.VideoCapture(VIDEO_PATH)
+
+    # ==========================================
+    # OPEN VIDEO
+    # ==========================================
+
+    video = cv2.VideoCapture(
+        VIDEO_PATH
+    )
+
+
+    if not video.isOpened():
+
+        print(
+            "❌ ERROR: Cannot open video:"
+        )
+
+        print(
+            VIDEO_PATH
+        )
+
+        return
+
+
+    print(
+        "✅ Video source connected:"
+    )
+
+    print(
+        VIDEO_PATH
+    )
+
+
+    frame_id = 0
+
+
+    # ==========================================
+    # MAIN LOOP
+    # ==========================================
 
     while True:
 
+
+        # ==========================================
+        # READ VIDEO FRAME
+        # ==========================================
+
         success, frame = video.read()
 
-        # Restart video when finished
+
+        # ==========================================
+        # RESTART VIDEO
+        # ==========================================
+
         if not success:
+
+            print(
+                "🔄 Video finished. Restarting..."
+            )
 
             video.set(
                 cv2.CAP_PROP_POS_FRAMES,
                 0
             )
 
-            # IMPORTANT:
-            # Do NOT clear counted_objects.
-            # This prevents the same test video
-            # from creating alerts again.
-
             previous_positions.clear()
+
+            # Keep counted objects
+            # to prevent duplicate alerts
 
             continue
 
 
-        # Flip video
-        frame = cv2.flip(frame, 1)
+        # ==========================================
+        # FRAME ID
+        # ==========================================
+
+        frame_id += 1
+
+
+        # ==========================================
+        # FLIP VIDEO
+        # ==========================================
+
+        frame = cv2.flip(
+            frame,
+            1
+        )
+
+
+        # ==========================================
+        # FRAME DIMENSIONS
+        # ==========================================
 
         height, width = frame.shape[:2]
 
-        # Center crossing line
+
+        # ==========================================
+        # RESTRICTED ZONE
+        # ==========================================
+
         ZONE_Y = height // 2
+
 
         # ==========================================
         # YOLO DETECTION + TRACKING
         # ==========================================
 
-        results = model.track(
-            frame,
-            persist=True,
-            classes=ALLOWED_CLASSES,
-            tracker="bytetrack.yaml",
-            verbose=False
+        results = detect_objects(
+            frame
         )
 
+
+        # ==========================================
+        # CREATE OUTPUT FRAME
+        # ==========================================
+
         output_frame = frame.copy()
+
 
         # ==========================================
         # DRAW RESTRICTED ZONE
         # ==========================================
 
         cv2.rectangle(
+
             output_frame,
+
             (0, 0),
+
             (width, ZONE_Y),
+
             (0, 0, 255),
+
             2
+
         )
+
+
+        # ==========================================
+        # DRAW INTRUSION LINE
+        # ==========================================
 
         cv2.line(
+
             output_frame,
+
             (0, ZONE_Y),
+
             (width, ZONE_Y),
+
             (0, 0, 255),
+
             5
+
         )
+
+
+        # ==========================================
+        # RESTRICTED ZONE TEXT
+        # ==========================================
 
         cv2.putText(
+
             output_frame,
+
             "RESTRICTED ZONE",
+
             (20, 50),
+
             cv2.FONT_HERSHEY_SIMPLEX,
+
             1,
+
             (0, 0, 255),
+
             3
+
         )
 
+
         # ==========================================
-        # CHECK DETECTED OBJECTS
+        # CREATE STRUCTURED OUTPUT
         # ==========================================
 
-        for box in results[0].boxes:
+        structured_output = (
+            create_detection_output(
 
-            class_id = int(box.cls[0])
-            class_name = model.names[class_id]
+                results,
 
-            x1, y1, x2, y2 = box.xyxy[0]
+                frame_id,
 
-            x1 = int(x1)
-            y1 = int(y1)
-            x2 = int(x2)
-            y2 = int(y2)
+                ZONE_Y
+
+            )
+        )
+
+
+        # ==========================================
+        # CHECK EVERY DETECTION
+        # ==========================================
+
+        for detection in structured_output[
+            "detections"
+        ]:
+
+
+            class_name = detection[
+                "class"
+            ]
+
+
+            confidence = detection[
+                "confidence"
+            ]
+
+
+            track_id = detection[
+                "track_id"
+            ]
+
+
+            bbox = detection[
+                "bbox"
+            ]
+
+
+            x1 = bbox["x1"]
+            y1 = bbox["y1"]
+            x2 = bbox["x2"]
+            y2 = bbox["y2"]
+
 
             # Object center
-            center_x = (x1 + x2) // 2
-            center_y = (y1 + y2) // 2
 
-            # Get tracking ID
-            if box.id is None:
-                continue
+            center_x = (
+                x1 + x2
+            ) // 2
 
-            track_id = int(box.id[0])
 
-            object_key = (
-                f"{class_name}_{track_id}"
+            center_y = (
+                y1 + y2
+            ) // 2
+
+
+            # ======================================
+            # DEFAULT SAFE
+            # ======================================
+
+            color = (
+                0,
+                255,
+                0
             )
 
-            # Default
-            color = (0, 255, 0)
 
             label = (
+
                 f"{class_name.upper()} "
-                f"ID:{track_id}"
+
+                f"{confidence:.2f}"
+
             )
 
-            # Previous position
+
+            if track_id is not None:
+
+                label += (
+                    f" ID:{track_id}"
+                )
+
+
+            # ======================================
+            # OBJECT KEY
+            # ======================================
+
+            if track_id is not None:
+
+                object_key = (
+                    f"{class_name}_"
+                    f"{track_id}"
+                )
+
+            else:
+
+                object_key = (
+                    f"{class_name}_"
+                    f"{x1}_"
+                    f"{y1}"
+                )
+
+
+            # ======================================
+            # CHECK LINE CROSSING
+            # ======================================
+
+            crossed_line = False
+
+
             previous_y = previous_positions.get(
                 object_key
             )
 
-            # Check real crossing
-            crossed_line = False
 
             if previous_y is not None:
 
-                # Object moves from bottom
-                # to top through red line
                 if (
+
                     previous_y > ZONE_Y
-                    and center_y <= ZONE_Y
+
+                    and
+
+                    center_y <= ZONE_Y
+
                 ):
 
                     crossed_line = True
 
+
             # Save current position
-            previous_positions[object_key] = center_y
 
-            # ==========================================
-            # RESTRICTED AREA
-            # ==========================================
+            previous_positions[
+                object_key
+            ] = center_y
 
-            if center_y < ZONE_Y:
 
-                color = (0, 0, 255)
+            # ======================================
+            # CHECK INTRUDER
+            # ======================================
 
-                label = (
-                    f"INTRUDER: "
-                    f"{class_name.upper()}"
+            if detection["intruder"]:
+
+
+                color = (
+                    0,
+                    0,
+                    255
                 )
 
-            # ==========================================
-            # CREATE ONE ALERT
-            # ==========================================
+
+                label = (
+
+                    f"INTRUDER: "
+
+                    f"{class_name.upper()} "
+
+                    f"{confidence:.2f}"
+
+                )
+
+
+                if track_id is not None:
+
+                    label += (
+                        f" ID:{track_id}"
+                    )
+
+
+            # ======================================
+            # CREATE ALERT
+            # ======================================
 
             if crossed_line:
 
-                # Use approximate crossing position
-                # so ID changes do not create many alerts
+
                 position_key = (
+
                     f"{class_name}_"
+
                     f"{center_x // 150}"
+
                 )
 
-                # Count only once
+
                 if position_key not in counted_objects:
+
 
                     counted_objects.add(
                         position_key
                     )
 
-                    timestamp = datetime.now().strftime(
-                        "%Y%m%d_%H%M%S_%f"
+
+                    timestamp = (
+                        datetime.now().strftime(
+                            "%Y%m%d_%H%M%S_%f"
+                        )
                     )
+
 
                     filename = (
+
                         f"intruder_"
+
                         f"{class_name}_"
+
+                        f"ID_{track_id}_"
+
                         f"{timestamp}.jpg"
+
                     )
+
 
                     file_path = os.path.join(
+
                         ALERTS_DIR,
+
                         filename
+
                     )
 
-                    # Draw box before saving
-                    cv2.rectangle(
-                        output_frame,
-                        (x1, y1),
-                        (x2, y2),
-                        (0, 0, 255),
-                        3
-                    )
 
-                    cv2.putText(
-                        output_frame,
-                        f"ALERT: {class_name.upper()}",
-                        (x1, max(y1 - 10, 30)),
-                        cv2.FONT_HERSHEY_SIMPLEX,
-                        0.7,
-                        (0, 0, 255),
-                        2
-                    )
+                    # Save evidence
 
-                    # Save ONE evidence image
                     cv2.imwrite(
+
                         file_path,
+
                         output_frame
+
                     )
+
 
                     print(
-                        f"ALERT +1: "
+                        "\n🚨 INTRUSION DETECTED!"
+                    )
+
+
+                    print(
+                        f"Object: "
                         f"{class_name.upper()}"
                     )
 
-            # ==========================================
-            # DRAW OBJECT
-            # ==========================================
+
+                    print(
+                        f"Confidence: "
+                        f"{confidence:.2f}"
+                    )
+
+
+                    print(
+                        f"ID: "
+                        f"{track_id}"
+                    )
+
+
+                    print(
+                        f"Evidence: "
+                        f"{file_path}\n"
+                    )
+
+
+            # ======================================
+            # DRAW OBJECT BOX
+            # ======================================
 
             cv2.rectangle(
+
                 output_frame,
+
                 (x1, y1),
+
                 (x2, y2),
+
                 color,
+
                 3
+
             )
+
+
+            # ======================================
+            # DRAW LABEL
+            # ======================================
 
             cv2.putText(
+
                 output_frame,
+
                 label,
-                (x1, max(y1 - 10, 30)),
+
+                (
+
+                    x1,
+
+                    max(
+                        y1 - 10,
+                        30
+                    )
+
+                ),
+
                 cv2.FONT_HERSHEY_SIMPLEX,
+
                 0.7,
+
                 color,
+
                 2
+
             )
 
-        # Store latest frame
+
+        # ==========================================
+        # UPDATE DETECTION OUTPUT
+        # ==========================================
+
+        with detection_lock:
+
+            latest_detection_output = (
+                structured_output
+            )
+
+
+        # ==========================================
+        # STORE LATEST FRAME
+        # ==========================================
+
         with frame_lock:
 
-            latest_frame = output_frame.copy()
+            latest_frame = (
+                output_frame.copy()
+            )
 
 
 # ==========================================
@@ -368,63 +740,110 @@ def detection_loop():
 @app.on_event("startup")
 def start_detection():
 
-    thread = threading.Thread(
-        target=detection_loop,
-        daemon=True
+    print(
+        "🚀 Starting AegisVision..."
     )
+
+
+    thread = threading.Thread(
+
+        target=detection_loop,
+
+        daemon=True
+
+    )
+
 
     thread.start()
 
 
 # ==========================================
-# VIDEO STREAM
+# VIDEO STREAM GENERATOR
 # ==========================================
 
 def generate_frames():
 
     while True:
 
+
         with frame_lock:
+
 
             if latest_frame is None:
 
                 frame = None
 
+
             else:
 
-                frame = latest_frame.copy()
+                frame = (
+                    latest_frame.copy()
+                )
+
 
         if frame is None:
 
-            time.sleep(0.05)
+            time.sleep(
+                0.05
+            )
+
             continue
 
-        _, buffer = cv2.imencode(
+
+        success, buffer = cv2.imencode(
+
             ".jpg",
+
             frame
+
         )
 
-        frame_bytes = buffer.tobytes()
+
+        if not success:
+
+            continue
+
+
+        frame_bytes = (
+            buffer.tobytes()
+        )
+
 
         yield (
+
             b"--frame\r\n"
+
             b"Content-Type: image/jpeg\r\n\r\n"
+
             + frame_bytes
+
             + b"\r\n"
+
         )
 
-        time.sleep(0.03)
+
+        time.sleep(
+            0.03
+        )
 
 
 # ==========================================
-# VIDEO FEED
+# LIVE VIDEO FEED
 # ==========================================
 
 @app.get("/video-feed")
 def video_feed():
 
     return StreamingResponse(
+
         generate_frames(),
-        media_type=
-        "multipart/x-mixed-replace; boundary=frame"
+
+        media_type=(
+
+            "multipart/x-mixed-replace; "
+
+            "boundary=frame"
+
+        )
+
     )

@@ -220,3 +220,6 @@ __marimo__/
 analytics/face/test_images/
 # Local movement detection test images
 analytics/movement/test_images/
+detection/videos/test.mp4
+detection/alerts/
+detection/static/latest.jpg
