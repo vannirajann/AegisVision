@@ -1,0 +1,13 @@
+{
+    "evidence_id": 443,
+    "event_type": "movement",
+    "person_id": 2,
+    "timestamp": "2026-09-04T10:28:24.451376",
+    "details": {
+        "message": "Movement detected",
+        "people_count": 1,
+        "brightness": 110.89,
+        "light_status": "NORMAL LIGHT",
+        "alert_level": "LOW"
+    }
+}

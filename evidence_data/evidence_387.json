@@ -1,0 +1,13 @@
+{
+    "evidence_id": 387,
+    "event_type": "night_movement",
+    "person_id": null,
+    "timestamp": "2026-09-04T10:17:33.643957",
+    "details": {
+        "message": "Night-time movement detected",
+        "people_count": 0,
+        "brightness": 55.12,
+        "light_status": "LOW LIGHT / NIGHT",
+        "alert_level": "LOW"
+    }
+}

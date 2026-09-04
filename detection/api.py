@@ -130,6 +130,9 @@ latest_frame = None
 
 frame_lock = threading.Lock()
 
+# Current number of intruders in the latest frame
+current_intruders = 0
+
 
 events = []
 
@@ -803,16 +806,15 @@ def create_intrusion_alert(
 def detection_loop():
 
     global latest_frame
-    global source_changed
-
-
-    print(
-        "Detection thread started"
-    )
-
 
     video = None
 
+
+    using_file = video.isOpened()
+
+    if not using_file:
+        print("Video file not found, using webcam...")
+        video = cv2.VideoCapture(0)
 
     while True:
 
@@ -893,16 +895,8 @@ def detection_loop():
 
             success, frame = video.read()
 
-
-            # ==================================
-            # VIDEO FINISHED
-            # ==================================
-
-            if not success:
-
-
-                if selected_type == "video":
-
+        # Restart video when finished
+        if not success:
 
                     video.set(
 
@@ -1040,13 +1034,9 @@ def detection_loop():
 
             )
 
-
-            # ==================================
-            # PROCESS DETECTIONS
-            # ==================================
-
-            if results[0].boxes is not None:
-
+        # ==========================================
+        # CHECK DETECTED OBJECTS
+        # ==========================================
 
                 for box in results[0].boxes:
 
@@ -1163,9 +1153,7 @@ def detection_loop():
 
                     color = (
 
-                        0,
-                        255,
-                        0
+                color = (0, 0, 255)
 
                     )
 
@@ -1334,76 +1322,8 @@ def detection_loop():
 
                     )
 
-
-                    # ==========================
-                    # CREATE ALERT
-                    # ==========================
-
-                    if crossed_line:
-
-
-                        if object_key not in counted_objects:
-
-
-                            counted_objects.add(
-                                object_key
-                            )
-
-
-                            create_intrusion_alert(
-
-                                output_frame,
-
-                                class_name,
-
-                                track_id,
-
-                                confidence,
-
-                                faces
-
-                            )
-
-
-            # ==================================
-            # SOURCE LABEL
-            # ==================================
-
-            cv2.putText(
-
-                output_frame,
-
-                f"SOURCE: "
-
-                f"{selected_type.upper()}",
-
-                (
-                    20,
-
-                    height - 20
-
-                ),
-
-                cv2.FONT_HERSHEY_SIMPLEX,
-
-                0.7,
-
-                (
-                    0,
-                    255,
-                    255
-                ),
-
-                2
-
-            )
-
-
-            # ==================================
-            # SAVE FRAME FOR WEB
-            # ==================================
-
-            with frame_lock:
+        # Store latest frame
+        with frame_lock:
 
                 latest_frame = output_frame.copy()
 
@@ -1589,3 +1509,32 @@ def video_feed():
         "boundary=frame"
 
     )
+
+
+# ==========================================
+# STATUS
+# ==========================================
+
+@app.get("/status")
+def status():
+
+    with frame_lock:
+
+        intruders = current_intruders
+
+    files = []
+
+    if os.path.exists(ALERTS_DIR):
+
+        for file in os.listdir(ALERTS_DIR):
+
+            if file.lower().endswith(
+                (".jpg", ".jpeg", ".png")
+            ):
+                files.append(file)
+
+    return {
+        "status": "active",
+        "current_intruders": int(intruders),
+        "total_alerts": len(files)
+    }

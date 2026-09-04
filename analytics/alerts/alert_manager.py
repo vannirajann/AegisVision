@@ -11,7 +11,7 @@ class AlertManager:
             level = "HIGH"
             message = "Intrusion detected in restricted area"
 
-        elif event_type == "suspicious":
+        elif event_type in ("suspicious", "suspicious_activity"):
             level = "MEDIUM"
             message = "Suspicious activity detected"
 
