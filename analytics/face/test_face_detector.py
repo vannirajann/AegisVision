@@ -1,46 +1,52 @@
 import cv2
-from face_detector import FaceDetector
+import pytest
+from pathlib import Path
+from .face_detector import FaceDetector
 
 
-# Path to our test image
-IMAGE_PATH = "test_images/test.jpg"
+def test_face_detection():
 
-# Load the image
-image = cv2.imread(IMAGE_PATH)
+    # Test image location
+    image_path = Path(__file__).parent / "test_images" / "test.jpg"
 
-if image is None:
-    raise FileNotFoundError(f"Could not load image: {IMAGE_PATH}")
+    # Check if image exists
+    if not image_path.exists():
+        pytest.skip(f"Test image not found: {image_path}")
 
-# Create the face detector
-detector = FaceDetector()
+    # Load image
+    image = cv2.imread(str(image_path))
 
-# Detect faces
-faces = detector.detect_faces(image)
+    assert image is not None, "Could not load test image"
 
-print("Number of faces detected:", len(faces))
+    # Create detector
+    detector = FaceDetector()
 
-# Draw bounding boxes around detected faces
-for face in faces:
-    x = face["x"]
-    y = face["y"]
-    width = face["width"]
-    height = face["height"]
+    # Detect faces
+    faces = detector.detect_faces(image)
 
-    cv2.rectangle(
-        image,
-        (x, y),
-        (x + width, y + height),
-        (0, 255, 0),
-        2
-    )
+    print("Number of faces detected:", len(faces))
 
-    print(
-        "Face:",
-        f"x={x}, y={y}, width={width}, height={height}"
-    )
+    # Draw detected faces
+    for face in faces:
+        x = face["x"]
+        y = face["y"]
+        width = face["width"]
+        height = face["height"]
 
-# Save the result
-OUTPUT_PATH = "test_images/face_detection_result.jpg"
-cv2.imwrite(OUTPUT_PATH, image)
+        cv2.rectangle(
+            image,
+            (x, y),
+            (x + width, y + height),
+            (0, 255, 0),
+            2
+        )
 
-print("Result saved to:", OUTPUT_PATH)
+    # Save result
+    output_path = Path(__file__).parent / "test_images" / "face_detection_result.jpg"
+
+    cv2.imwrite(str(output_path), image)
+
+    print("Result saved to:", output_path)
+
+    # Basic test
+    assert isinstance(faces, list)

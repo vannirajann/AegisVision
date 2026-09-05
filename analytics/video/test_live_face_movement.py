@@ -3,6 +3,7 @@ import sys
 import os
 import time
 
+
 # Project root
 project_root = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "..", "..")
@@ -15,121 +16,115 @@ from analytics.face.face_detector import FaceDetector
 from analytics.movement.movement_detector import MovementDetector
 
 
-# Create components
-source = VideoSource(0)
-face_detector = FaceDetector()
-movement_detector = MovementDetector(threshold=3.0)
+def test_live_components():
+    """Test that face and movement components can be created."""
+
+    face_detector = FaceDetector()
+    movement_detector = MovementDetector(threshold=3.0)
+
+    assert face_detector is not None
+    assert movement_detector is not None
+
+    print("Face detector loaded successfully")
+    print("Movement detector loaded successfully")
 
 
-try:
-    source.open()
+def run_live_detection():
+    """Run the actual live camera detection."""
 
-    print("Camera opened successfully")
-    print("AegisVision live detection started")
-    print("Move your hand or body")
-    print("Press Q to quit")
+    source = VideoSource(0)
+    face_detector = FaceDetector()
+    movement_detector = MovementDetector(threshold=3.0)
 
-    last_face_detection = 0
-    faces = []
+    try:
+        source.open()
 
-    while True:
+        print("Camera opened successfully")
+        print("AegisVision live detection started")
+        print("Move your hand or body")
+        print("Press Q to quit")
 
-        # Read camera frame
-        ret, frame = source.read()
+        last_face_detection = 0
+        faces = []
 
-        if not ret or frame is None:
-            print("ERROR: Camera frame not received")
-            break
+        while True:
 
-        # -------------------------------------------------
-        # MOVEMENT DETECTION
-        # Runs on every frame - very fast
-        # -------------------------------------------------
+            ret, frame = source.read()
 
-        movement_detected = movement_detector.detect_movement(frame)
+            if not ret or frame is None:
+                print("ERROR: Camera frame not received")
+                break
 
-        # -------------------------------------------------
-        # FACE DETECTION
-        # Run only every 5 frames to reduce lag
-        # -------------------------------------------------
+            # Movement detection
+            movement_detected = movement_detector.detect_movement(frame)
 
-        current_time = time.time()
+            # Face detection
+            current_time = time.time()
 
-        if current_time - last_face_detection > 0.15:
+            if current_time - last_face_detection > 0.15:
+                faces = face_detector.detect_faces(frame)
+                last_face_detection = current_time
 
-            faces = face_detector.detect_faces(frame)
+            # Draw face boxes
+            for face in faces:
 
-            last_face_detection = current_time
+                x = face["x"]
+                y = face["y"]
+                w = face["width"]
+                h = face["height"]
 
-        # -------------------------------------------------
-        # DRAW FACE BOXES
-        # -------------------------------------------------
+                cv2.rectangle(
+                    frame,
+                    (x, y),
+                    (x + w, y + h),
+                    (0, 255, 0),
+                    2
+                )
 
-        for face in faces:
-
-            x = face["x"]
-            y = face["y"]
-            w = face["width"]
-            h = face["height"]
-
-            cv2.rectangle(
+            # Face count
+            cv2.putText(
                 frame,
-                (x, y),
-                (x + w, y + h),
+                f"Faces: {len(faces)}",
+                (20, 40),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.8,
                 (0, 255, 0),
                 2
             )
 
-        # -------------------------------------------------
-        # DISPLAY FACE COUNT
-        # -------------------------------------------------
+            # Movement status
+            if movement_detected:
+                movement_text = "MOVEMENT DETECTED"
+            else:
+                movement_text = "NO MOVEMENT"
 
-        cv2.putText(
-            frame,
-            f"Faces: {len(faces)}",
-            (20, 40),
-            cv2.FONT_HERSHEY_SIMPLEX,
-            0.8,
-            (0, 255, 0),
-            2
-        )
+            cv2.putText(
+                frame,
+                movement_text,
+                (20, 75),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.8,
+                (0, 255, 0),
+                2
+            )
 
-        # -------------------------------------------------
-        # DISPLAY MOVEMENT
-        # -------------------------------------------------
+            # Show camera
+            cv2.imshow("AegisVision - Live Detection", frame)
 
-        if movement_detected:
-            movement_text = "MOVEMENT DETECTED"
-        else:
-            movement_text = "NO MOVEMENT"
+            # Press Q to quit
+            if cv2.waitKey(1) & 0xFF == ord("q"):
+                break
 
-        cv2.putText(
-            frame,
-            movement_text,
-            (20, 75),
-            cv2.FONT_HERSHEY_SIMPLEX,
-            0.8,
-            (0, 255, 0),
-            2
-        )
+    finally:
 
-        # -------------------------------------------------
-        # DISPLAY VIDEO
-        # -------------------------------------------------
+        source.release()
+        cv2.destroyAllWindows()
 
-        cv2.imshow(
-            "AegisVision - Live Detection",
-            frame
-        )
-
-        # Q = quit
-        if cv2.waitKey(1) & 0xFF == ord("q"):
-            break
+        print("Camera released")
 
 
-finally:
-
-    source.release()
-    cv2.destroyAllWindows()
-
-    print("Camera released")
+# IMPORTANT:
+# Camera starts only when this file is run directly.
+# Pytest will NOT open the camera.
+if __name__ == "__main__":
+    run_live_detection()

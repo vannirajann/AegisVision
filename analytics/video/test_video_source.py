@@ -1,27 +1,21 @@
-import cv2
-from video_source import VideoSource
+import os
+import sys
+
+# Add analytics folder to Python path
+analytics_root = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..")
+)
+
+sys.path.insert(0, analytics_root)
+
+from video.video_source import VideoSource
 
 
-source = VideoSource(0)
+def test_video_source_creation():
+    """Test that VideoSource can be created."""
 
-try:
-    source.open()
-    print("Camera opened successfully")
-    print("Press Q to close the camera")
+    source = VideoSource(0)
 
-    while True:
-        ret, frame = source.read()
+    assert source is not None
 
-        if not ret or frame is None:
-            print("ERROR: Could not read frame")
-            break
-
-        cv2.imshow("AegisVision Camera Test", frame)
-
-        if cv2.waitKey(1) & 0xFF == ord("q"):
-            break
-
-finally:
-    source.release()
-    cv2.destroyAllWindows()
-    print("Camera released")
+    print("VideoSource created successfully")
