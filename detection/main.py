@@ -275,4 +275,4 @@ while True:
 # ==========================================
 
 video.release()
-cv2.destroyAllWindows()git remote add origin https://github.com/your-username/your-repo-name.git
+cv2.destroyAllWindows()

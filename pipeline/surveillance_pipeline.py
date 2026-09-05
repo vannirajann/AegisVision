@@ -95,6 +95,10 @@ class SurveillancePipeline:
         self.last_event_time = 0
         self.event_cooldown = 2.0
 
+        # Prevent repeated suspicious alerts
+        # for the same person after loitering starts
+        self.loitering_alerted_ids = set()
+
         print("All AegisVision modules loaded successfully")
 
 
@@ -139,7 +143,99 @@ class SurveillancePipeline:
         people = self.person_tracker.update(faces)
 
         # ==========================================
-        # 5. Event Generation
+        # 5. Loitering Detection
+        # ==========================================
+
+        loitering_people = []
+
+        current_track_ids = set()
+
+        for person in people:
+
+            person_id = person.get("id")
+
+            if person_id is None:
+                continue
+
+            current_track_ids.add(person_id)
+
+            # Start timer for newly detected person
+            self.loitering_detector.person_entered(person_id)
+
+            # Get current loitering status
+            loitering_status = (
+                self.loitering_detector.get_status(person_id)
+            )
+
+            if loitering_status["loitering"]:
+
+                loitering_people.append(
+                    loitering_status
+                )
+
+        # Remove timers for people who are no longer tracked
+        tracked_ids = set(
+            self.person_tracker.tracked_people.keys()
+        )
+
+        for track_id in list(
+            self.loitering_detector.person_start_times.keys()
+        ):
+
+            if track_id not in tracked_ids:
+
+                self.loitering_detector.person_left(
+                    track_id
+                )
+
+                self.loitering_alerted_ids.discard(
+                    track_id
+                )
+
+        # ==========================================
+        # 6. Suspicious Activity Detection
+        # ==========================================
+
+        suspicious_events = []
+
+        # Check each currently tracked person
+        for person in people:
+
+            person_id = person.get("id")
+
+            if person_id is None:
+                continue
+
+            loitering_status = (
+                self.loitering_detector.get_status(
+                    person_id
+                )
+            )
+
+            is_loitering = loitering_status["loitering"]
+
+            # Night movement is considered suspicious
+            night_movement = (
+                movement_detected and low_light
+            )
+
+            suspicious_event = (
+                self.suspicious_detector.analyze(
+                    track_id=person_id,
+                    loitering=is_loitering,
+                    repeated_entry=False,
+                    night_movement=night_movement
+                )
+            )
+
+            if suspicious_event is not None:
+
+                suspicious_events.append(
+                    suspicious_event
+                )
+
+        # ==========================================
+        # 7. Event Generation
         # ==========================================
 
         event = None
@@ -224,10 +320,161 @@ class SurveillancePipeline:
                     )
                 )
 
-                print("EVIDENCE SAVED:", evidence_path)
+                print(
+                    "EVIDENCE SAVED:",
+                    evidence_path
+                )
 
         # ==========================================
-        # 6. Analytics Summary
+        # 8. Loitering Events / Alerts
+        # ==========================================
+
+        for loitering_status in loitering_people:
+
+            person_id = loitering_status["track_id"]
+
+            # Generate only once for each loitering episode
+            if person_id in self.loitering_alerted_ids:
+                continue
+
+            self.loitering_alerted_ids.add(person_id)
+
+            print(
+                "LOITERING DETECTED:",
+                loitering_status
+            )
+
+            loitering_event = (
+                self.event_generator.create_event(
+                    event_type="loitering",
+                    person_id=person_id,
+                    details={
+                        "message": (
+                            "Person remained in "
+                            "camera view for too long"
+                        ),
+                        "duration_seconds": (
+                            loitering_status[
+                                "duration_seconds"
+                            ]
+                        ),
+                        "threshold_seconds": (
+                            self.loitering_detector
+                            .threshold_seconds
+                        )
+                    }
+                )
+            )
+
+            print(
+                "LOITERING EVENT GENERATED:",
+                loitering_event
+            )
+
+            loitering_alert = (
+                self.alert_manager.create_alert(
+                    event_type="loitering",
+                    person_id=person_id
+                )
+            )
+
+            print(
+                "LOITERING ALERT GENERATED:",
+                loitering_alert
+            )
+
+            evidence_path = (
+                self.evidence_manager.save_evidence(
+                    event_type="loitering",
+                    person_id=person_id,
+                    details={
+                        "duration_seconds": (
+                            loitering_status[
+                                "duration_seconds"
+                            ]
+                        ),
+                        "threshold_seconds": (
+                            self.loitering_detector
+                            .threshold_seconds
+                        ),
+                        "alert_level": (
+                            loitering_alert["level"]
+                        )
+                    }
+                )
+            )
+
+            print(
+                "LOITERING EVIDENCE SAVED:",
+                evidence_path
+            )
+
+        # ==========================================
+        # 9. Suspicious Activity Events
+        # ==========================================
+
+        for suspicious_event in suspicious_events:
+
+            person_id = suspicious_event.get(
+                "track_id"
+            )
+
+            reasons = suspicious_event.get(
+                "reasons",
+                []
+            )
+
+            # Avoid generating repeated suspicious
+            # events continuously for loitering.
+            if (
+                "Person stayed too long in "
+                "restricted zone" in reasons
+                and person_id in self.loitering_alerted_ids
+            ):
+                continue
+
+            print(
+                "SUSPICIOUS ACTIVITY DETECTED:",
+                suspicious_event
+            )
+
+            suspicious_alert = (
+                self.alert_manager.create_alert(
+                    event_type="suspicious_activity",
+                    person_id=person_id
+                )
+            )
+
+            print(
+                "SUSPICIOUS ALERT GENERATED:",
+                suspicious_alert
+            )
+
+            evidence_path = (
+                self.evidence_manager.save_evidence(
+                    event_type="suspicious_activity",
+                    person_id=person_id,
+                    details={
+                        "severity": (
+                            suspicious_event[
+                                "severity"
+                            ]
+                        ),
+                        "reasons": reasons,
+                        "alert_level": (
+                            suspicious_alert["level"]
+                        )
+                    }
+                )
+            )
+
+            print(
+                "SUSPICIOUS EVIDENCE SAVED:",
+                evidence_path
+            )
+
+        # ==========================================
+        # 10. Analytics Summary
         # ==========================================
 
         self.analytics_summary.update_people(
@@ -243,7 +490,7 @@ class SurveillancePipeline:
             self.analytics_summary.add_event()
 
         # ==========================================
-        # 7. Return Results
+        # 11. Return Results
         # ==========================================
 
         return {
@@ -261,6 +508,10 @@ class SurveillancePipeline:
             "light_status": light_status,
 
             "event": event,
+
+            "loitering": loitering_people,
+
+            "suspicious_activity": suspicious_events,
 
             "summary":
                 self.analytics_summary.get_summary()
@@ -427,6 +678,42 @@ def main():
             )
 
             # ======================================
+            # Loitering Status
+            # ======================================
+
+            loitering_count = len(
+                results["loitering"]
+            )
+
+            cv2.putText(
+                frame,
+                f"Loitering: {loitering_count}",
+                (20, 175),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.8,
+                (0, 255, 0),
+                2
+            )
+
+            # ======================================
+            # Suspicious Activity Status
+            # ======================================
+
+            suspicious_count = len(
+                results["suspicious_activity"]
+            )
+
+            cv2.putText(
+                frame,
+                f"Suspicious: {suspicious_count}",
+                (20, 210),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.8,
+                (0, 255, 0),
+                2
+            )
+
+            # ======================================
             # Event Notification
             # ======================================
 
@@ -435,7 +722,7 @@ def main():
                 cv2.putText(
                     frame,
                     "EVENT GENERATED",
-                    (20, 175),
+                    (20, 245),
                     cv2.FONT_HERSHEY_SIMPLEX,
                     0.8,
                     (0, 255, 0),
