@@ -1,10 +1,11 @@
+@"
 venv/
+.venv/
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
-
-runs/
+.pytest_cache/
 output/
-
-.env
+output_crops/
+runs/
+*.log
+"@ | Set-Content ".\anpr\.gitignore"

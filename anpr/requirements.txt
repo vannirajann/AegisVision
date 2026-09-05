@@ -1,7 +1,4 @@
-opencv-python
-numpy
-pillow
+opencv-contrib-python
 ultralytics
-paddlepaddle
-paddleocr
-torch
+easyocr
+pytest
