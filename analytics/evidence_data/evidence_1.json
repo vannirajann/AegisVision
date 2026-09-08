@@ -1,0 +1,10 @@
+{
+    "evidence_id": 1,
+    "event_type": "intrusion",
+    "person_id": 1,
+    "timestamp": "2026-09-05T22:18:09.349531",
+    "details": {
+        "location": "restricted_zone",
+        "message": "Person entered restricted area"
+    }
+}

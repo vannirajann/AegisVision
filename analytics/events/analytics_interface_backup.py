@@ -1,9 +1,7 @@
 try:
     from analytics.events.event_standardizer import EventStandardizer
-    from analytics.events.backend_sender import send_event
 except ImportError:
     from event_standardizer import EventStandardizer
-    from backend_sender import send_event
 
 
 class AnalyticsInterface:
@@ -11,12 +9,8 @@ class AnalyticsInterface:
     def __init__(self):
         self.standardizer = EventStandardizer()
 
-    def _send(self, event):
-        send_event(event)
-        return event
-
     def create_face_event(self, track_id=None, face_count=1):
-        event = self.standardizer.create_event(
+        return self.standardizer.create_event(
             event_type="face_detected",
             track_id=track_id,
             severity="low",
@@ -25,7 +19,6 @@ class AnalyticsInterface:
                 "message": "Face detected"
             }
         )
-        return self._send(event)
 
     def create_night_movement_event(
         self,
@@ -33,7 +26,7 @@ class AnalyticsInterface:
         brightness=0,
         light_status="LOW LIGHT / NIGHT"
     ):
-        event = self.standardizer.create_event(
+        return self.standardizer.create_event(
             event_type="night_movement",
             track_id=track_id,
             severity="medium",
@@ -43,10 +36,13 @@ class AnalyticsInterface:
                 "message": "Night-time movement detected"
             }
         )
-        return self._send(event)
 
-    def create_loitering_event(self, track_id, duration_seconds):
-        event = self.standardizer.create_event(
+    def create_loitering_event(
+        self,
+        track_id,
+        duration_seconds
+    ):
+        return self.standardizer.create_event(
             event_type="loitering",
             track_id=track_id,
             severity="medium",
@@ -55,10 +51,14 @@ class AnalyticsInterface:
                 "message": "Person remained too long in restricted zone"
             }
         )
-        return self._send(event)
 
-    def create_suspicious_event(self, track_id, severity, reasons):
-        event = self.standardizer.create_event(
+    def create_suspicious_event(
+        self,
+        track_id,
+        severity,
+        reasons
+    ):
+        return self.standardizer.create_event(
             event_type="suspicious_activity",
             track_id=track_id,
             severity=severity,
@@ -66,4 +66,3 @@ class AnalyticsInterface:
                 "reasons": reasons
             }
         )
-        return self._send(event)

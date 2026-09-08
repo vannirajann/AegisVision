@@ -1,0 +1,11 @@
+{
+    "evidence_id": 461,
+    "event_type": "loitering",
+    "person_id": 5,
+    "timestamp": "2026-09-05T12:40:11.132658",
+    "details": {
+        "duration_seconds": 10.0,
+        "threshold_seconds": 10,
+        "alert_level": "LOW"
+    }
+}

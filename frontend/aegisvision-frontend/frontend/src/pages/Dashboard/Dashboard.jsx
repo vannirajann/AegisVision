@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import StatCard from '../../components/common/StatCard.jsx'
 import Panel from '../../components/common/Panel.jsx'
-import SeverityBadge from '../../components/common/SeverityBadge.jsx'
 import EmptyState from '../../components/common/EmptyState.jsx'
-import { timeAgo, formatTimestamp } from '../../utils/formatTime.js'
+import SeverityBadge from '../../components/common/SeverityBadge.jsx'
+import { formatTimestamp, timeAgo } from '../../utils/formatTime.js'
 import './Dashboard.css'
 
 const BACKEND_URL = 'http://127.0.0.1:8001'
@@ -37,12 +37,53 @@ export default function Dashboard() {
   const activeCameras = 1
 
   const activeAlerts = events.filter(
-    (event) => event.severity === 'high' && !event.acknowledged
+    (event) =>
+      event.severity === 'high' &&
+      !event.acknowledged
   )
 
   const highSeverityAlerts = activeAlerts.length
 
   const recentEvents = events.slice(-6).reverse()
+
+  const getEventLabel = (event) => {
+    switch (event.event_type) {
+      case 'anpr':
+        return 'ANPR Detection'
+
+      case 'face_detected':
+        return 'Face Detected'
+
+      case 'night_movement':
+        return 'Night Movement'
+
+      case 'loitering':
+        return 'Loitering'
+
+      case 'suspicious_activity':
+        return 'Suspicious Activity'
+
+      case 'intrusion':
+        return 'Intrusion'
+
+      default:
+        return event.event_type
+    }
+  }
+
+  const getEventSource = (event) => {
+    if (event.event_type === 'anpr') {
+      return event.data?.plate_number
+        ? `Plate: ${event.data.plate_number}`
+        : 'ANPR'
+    }
+
+    if (event.source === 'analytics') {
+      return 'Analytics'
+    }
+
+    return event.source || 'Unknown'
+  }
 
   return (
     <div className="dashboard">
@@ -88,13 +129,19 @@ export default function Dashboard() {
 
       <div className="dashboard-grid">
 
-        <Panel title="Recent Activity" className="dashboard-activity">
+        <Panel
+          title="Recent Activity"
+          className="dashboard-activity"
+        >
 
           {loading ? (
             <EmptyState text="Loading events..." />
+
           ) : recentEvents.length === 0 ? (
             <EmptyState text="No activity recorded yet." />
+
           ) : (
+
             <ul className="activity-list">
 
               {recentEvents.map((event) => (
@@ -107,11 +154,11 @@ export default function Dashboard() {
                   <div className="activity-item-main">
 
                     <span className="activity-item-type">
-                      {event.event_type}
+                      {getEventLabel(event)}
                     </span>
 
                     <span className="activity-item-camera">
-                      {event.source}
+                      {getEventSource(event)}
                     </span>
 
                   </div>
@@ -125,56 +172,88 @@ export default function Dashboard() {
               ))}
 
             </ul>
+
           )}
 
         </Panel>
 
-        <Panel title="Active Alerts" className="dashboard-alerts">
+        <Panel
+          title="Active Alerts"
+          className="dashboard-alerts"
+        >
 
           {activeAlerts.length === 0 ? (
-            <EmptyState text="No unacknowledged alerts right now." />
+
+            <EmptyState
+              text="No unacknowledged alerts right now."
+            />
+
           ) : (
 
             <ul className="alert-list">
 
-              {activeAlerts.slice(-5).reverse().map((event) => (
+              {activeAlerts
+                .slice(-5)
+                .reverse()
+                .map((event) => (
 
-                <li
-                  key={event.id}
-                  className="alert-list-item"
-                >
+                  <li
+                    key={event.id}
+                    className="alert-list-item"
+                  >
 
-                  <div className="alert-list-top">
+                    <div className="alert-list-top">
 
-                    <span className="alert-list-type">
-                      {event.event_type}
-                    </span>
+                      <span className="alert-list-type">
+                        {getEventLabel(event)}
+                      </span>
 
-                    <SeverityBadge level={event.severity} />
+                      <SeverityBadge
+                        level={event.severity}
+                      />
 
-                  </div>
+                    </div>
 
-                  <p className="alert-list-message">
-                    {event.data?.object
-                      ? `${event.data.object} detected crossing the restricted zone.`
-                      : 'Security event detected.'}
-                  </p>
+                    <p className="alert-list-message">
 
-                  <div className="alert-list-meta">
+                      {event.event_type === 'intrusion'
+                        ? `${event.data?.object || 'Object'} detected crossing the restricted zone.`
 
-                    <span>
-                      {event.source}
-                    </span>
+                        : event.event_type === 'anpr'
+                        ? `Vehicle plate detected: ${event.data?.plate_number || 'Unknown'}`
 
-                    <span>
-                      {formatTimestamp(event.timestamp)}
-                    </span>
+                        : event.event_type === 'face_detected'
+                        ? `Face detected by the analytics system.`
 
-                  </div>
+                        : event.event_type === 'night_movement'
+                        ? `Movement detected during low-light conditions.`
 
-                </li>
+                        : event.event_type === 'loitering'
+                        ? `Person remained in the area for too long.`
 
-              ))}
+                        : event.event_type === 'suspicious_activity'
+                        ? `Suspicious activity detected.`
+
+                        : 'Security event detected.'
+                      }
+
+                    </p>
+
+                    <div className="alert-list-meta">
+
+                      <span>
+                        {event.source || 'Unknown'}
+                      </span>
+
+                      <span>
+                        {formatTimestamp(event.timestamp)}
+                      </span>
+
+                    </div>
+
+                  </li>
+
+                ))}
 
             </ul>
 

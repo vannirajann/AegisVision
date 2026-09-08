@@ -1,70 +1,78 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import SeverityBadge from '../../components/common/SeverityBadge.jsx'
 import EmptyState from '../../components/common/EmptyState.jsx'
-import { mockAlerts } from '../../data/mockAlerts.js'
 import { formatTimestamp } from '../../utils/formatTime.js'
 import './Alerts.css'
 
-const filters = ['All', 'Intrusion', 'ANPR', 'Loitering', 'Night Movement']
+const BACKEND_URL = 'http://127.0.0.1:8001'
 
 export default function Alerts() {
-  // Local copy so "Acknowledge" can update the UI immediately.
-  // Once the backend exists, this becomes state fetched from
-  // getAlerts() and acknowledgeAlert() will send the PATCH/POST.
-  const [alerts, setAlerts] = useState(mockAlerts)
-  const [activeFilter, setActiveFilter] = useState('All')
+  const [alerts, setAlerts] = useState([])
 
-  function acknowledge(id) {
-    setAlerts((prev) => prev.map((a) => (a.id === id ? { ...a, acknowledged: true } : a)))
+  const loadAlerts = async () => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/events`)
+      const data = await response.json()
+
+      const highSeverityAlerts = (data.events || []).filter(
+        (event) =>
+          event.severity === 'high' &&
+          event.acknowledged === false
+      )
+
+      setAlerts(highSeverityAlerts)
+    } catch (error) {
+      console.error('Failed to load alerts:', error)
+    }
   }
 
-  const visibleAlerts = alerts.filter((a) => activeFilter === 'All' || a.type === activeFilter)
+  useEffect(() => {
+    loadAlerts()
+
+    const interval = setInterval(loadAlerts, 5000)
+
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <div className="alerts-page">
-      <div className="alerts-filters">
-        {filters.map((f) => (
-          <button
-            key={f}
-            className={'alerts-filter' + (f === activeFilter ? ' is-active' : '')}
-            onClick={() => setActiveFilter(f)}
-          >
-            {f}
-          </button>
-        ))}
+      <div className="alerts-toolbar">
+        <span>{alerts.length} active alerts</span>
       </div>
 
-      {visibleAlerts.length === 0 ? (
-        <EmptyState text="No alerts match this filter." />
+      {alerts.length === 0 ? (
+        <EmptyState text="No active alerts." />
       ) : (
-        <div className="alerts-table">
-          <div className="alerts-row alerts-row-head">
-            <span>Type</span>
-            <span>Camera</span>
-            <span>Severity</span>
-            <span>Time</span>
-            <span>Message</span>
-            <span>Status</span>
-          </div>
-          {visibleAlerts.map((alert) => (
-            <div key={alert.id} className={'alerts-row' + (alert.acknowledged ? ' is-acknowledged' : '')}>
-              <span className="alerts-cell-type">{alert.type}</span>
-              <span>{alert.camera}</span>
-              <span><SeverityBadge level={alert.severity} /></span>
-              <span className="alerts-cell-time">{formatTimestamp(alert.timestamp)}</span>
-              <span className="alerts-cell-message">{alert.message}</span>
-              <span>
-                {alert.acknowledged ? (
-                  <span className="alerts-ack-label">Acknowledged</span>
-                ) : (
-                  <button className="alerts-ack-btn" onClick={() => acknowledge(alert.id)}>
-                    Acknowledge
-                  </button>
-                )}
-              </span>
-            </div>
-          ))}
-        </div>
+        <table className="event-table">
+          <thead>
+            <tr>
+              <th>Alert</th>
+              <th>Source</th>
+              <th>Time</th>
+              <th>Severity</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {alerts.map((alert) => (
+              <tr key={alert.id}>
+                <td className="event-table-type">
+                  {alert.event_type}
+                </td>
+
+                <td>{alert.source}</td>
+
+                <td className="event-table-time">
+                  {formatTimestamp(alert.timestamp)}
+                </td>
+
+                <td>
+                  <SeverityBadge level={alert.severity} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
     </div>
   )
