@@ -10,21 +10,31 @@ from config import (
 # LOAD YOLO MODEL
 # ==========================================
 
-model = YOLO(MODEL_PATH)
+model = YOLO(
+    MODEL_PATH
+)
 
 
 # ==========================================
-# DETECT AND TRACK OBJECTS
+# DETECT + TRACK OBJECTS
 # ==========================================
 
-def detect_objects(frame):
+def detect_objects(
+    frame
+):
 
     results = model.track(
+
         frame,
+
         persist=True,
+
         classes=ALLOWED_CLASSES,
+
         tracker="bytetrack.yaml",
+
         verbose=False
+
     )
 
     return results
@@ -37,21 +47,46 @@ def detect_objects(frame):
 def create_detection_output(
     results,
     frame_id,
-    zone_y
+    fence=None,
+    restricted_side=1
 ):
 
     detections = []
 
+
     for box in results[0].boxes:
 
-        class_id = int(box.cls[0])
+        # ==================================
+        # CLASS
+        # ==================================
 
-        class_name = model.names[class_id]
+        class_id = int(
+            box.cls[0]
+        )
+
+        class_name = model.names[
+            class_id
+        ]
+
+
+        # ==================================
+        # CONFIDENCE
+        # ==================================
 
         confidence = round(
-            float(box.conf[0]),
+
+            float(
+                box.conf[0]
+            ),
+
             2
+
         )
+
+
+        # ==================================
+        # BOUNDING BOX
+        # ==================================
 
         x1, y1, x2, y2 = box.xyxy[0]
 
@@ -60,23 +95,110 @@ def create_detection_output(
         x2 = int(x2)
         y2 = int(y2)
 
-        # Get tracking ID
+
+        # ==================================
+        # TRACK ID
+        # ==================================
+
         if box.id is not None:
 
-            track_id = int(box.id[0])
+            track_id = int(
+                box.id[0]
+            )
 
         else:
 
             track_id = None
 
 
-        # Object center
-        center_y = (y1 + y2) // 2
+        # ==================================
+        # CENTER
+        # ==================================
+
+        center_x = (
+            x1 + x2
+        ) // 2
+
+        center_y = (
+            y1 + y2
+        ) // 2
 
 
-        # Check restricted zone
-        intruder = center_y < zone_y
+        # ==================================
+        # DEFAULT
+        # ==================================
 
+        intruder = False
+
+
+        # ==================================
+        # FENCE CHECK
+        # ==================================
+
+        if fence is not None:
+
+            height, width = (
+                results[0].orig_shape
+            )
+
+            p1 = (
+                int(fence[0][0] * width),
+                int(fence[0][1] * height)
+            )
+
+            p2 = (
+                int(fence[1][0] * width),
+                int(fence[1][1] * height)
+            )
+
+
+            # Bottom-center of object
+            # is better for ground crossing
+
+            point_x = center_x
+            point_y = y2
+
+
+            # Cross product
+            side = (
+
+                (p2[0] - p1[0])
+                *
+                (point_y - p1[1])
+
+                -
+
+                (p2[1] - p1[1])
+                *
+                (point_x - p1[0])
+
+            )
+
+
+            if side > 0:
+
+                current_side = 1
+
+            elif side < 0:
+
+                current_side = -1
+
+            else:
+
+                current_side = 0
+
+
+            if (
+                current_side
+                == restricted_side
+            ):
+
+                intruder = True
+
+
+        # ==================================
+        # STRUCTURED DETECTION
+        # ==================================
 
         detection = {
 
@@ -92,6 +214,13 @@ def create_detection_output(
                 "y1": y1,
                 "x2": x2,
                 "y2": y2
+
+            },
+
+            "center": {
+
+                "x": center_x,
+                "y": center_y
 
             },
 
