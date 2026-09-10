@@ -17,6 +17,13 @@ class CameraDB(SQLModel, table=True):
     location: str
     status: str = "active"
 
+class UserDB(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    username: str
+    hashed_password: str
+    full_name: str
+    role: str = "operator"
+
 DATABASE_URL = "sqlite:///./aegisvision.db"
 engine = create_engine(DATABASE_URL, echo=True)
 
