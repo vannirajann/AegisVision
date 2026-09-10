@@ -1,0 +1,482 @@
+[
+  {
+    "frame": 1,
+    "track_id": 1,
+    "variant": "color_upscaled",
+    "raw_text": "DC-735218",
+    "cleaned_text": "DC735218",
+    "valid_format": true,
+    "confidence": 0.749,
+    "quality": 0.85
+  },
+  {
+    "frame": 2,
+    "track_id": 1,
+    "variant": "color_upscaled",
+    "raw_text": "1B5735219",
+    "cleaned_text": "1B5735219",
+    "valid_format": false,
+    "confidence": 0.583,
+    "quality": 0.85
+  },
+  {
+    "frame": 2,
+    "track_id": 1,
+    "variant": "night_gamma",
+    "raw_text": "18573529",
+    "cleaned_text": "18573529",
+    "valid_format": false,
+    "confidence": 0.6,
+    "quality": 0.85
+  },
+  {
+    "frame": 2,
+    "track_id": 1,
+    "variant": "night_clahe_strong",
+    "raw_text": "1DE7529",
+    "cleaned_text": "1DE7529",
+    "valid_format": false,
+    "confidence": 0.386,
+    "quality": 0.85
+  },
+  {
+    "frame": 2,
+    "track_id": 1,
+    "variant": "night_contrast_norm",
+    "raw_text": "867529",
+    "cleaned_text": "867529",
+    "valid_format": false,
+    "confidence": 0.577,
+    "quality": 0.85
+  },
+  {
+    "frame": 2,
+    "track_id": 1,
+    "variant": "night_adaptive",
+    "raw_text": "106715215",
+    "cleaned_text": "106715215",
+    "valid_format": false,
+    "confidence": 0.697,
+    "quality": 0.85
+  },
+  {
+    "frame": 2,
+    "track_id": 1,
+    "variant": "night_denoise",
+    "raw_text": "1BE715219",
+    "cleaned_text": "1BE715219",
+    "valid_format": false,
+    "confidence": 0.522,
+    "quality": 0.85
+  },
+  {
+    "frame": 2,
+    "track_id": 1,
+    "variant": "gentle_clahe",
+    "raw_text": "BE72N",
+    "cleaned_text": "BE72N",
+    "valid_format": false,
+    "confidence": 0.426,
+    "quality": 0.85
+  },
+  {
+    "frame": 3,
+    "track_id": 1,
+    "variant": "color_upscaled",
+    "raw_text": "B6-725219",
+    "cleaned_text": "B6725219",
+    "valid_format": false,
+    "confidence": 0.673,
+    "quality": 0.85
+  },
+  {
+    "frame": 3,
+    "track_id": 1,
+    "variant": "night_gamma",
+    "raw_text": "186725219",
+    "cleaned_text": "186725219",
+    "valid_format": false,
+    "confidence": 0.626,
+    "quality": 0.85
+  },
+  {
+    "frame": 3,
+    "track_id": 1,
+    "variant": "night_clahe_strong",
+    "raw_text": "86725218",
+    "cleaned_text": "86725218",
+    "valid_format": false,
+    "confidence": 0.68,
+    "quality": 0.85
+  },
+  {
+    "frame": 3,
+    "track_id": 1,
+    "variant": "night_contrast_norm",
+    "raw_text": "BC-725219",
+    "cleaned_text": "BC725219",
+    "valid_format": true,
+    "confidence": 0.666,
+    "quality": 0.85
+  },
+  {
+    "frame": 4,
+    "track_id": 1,
+    "variant": "color_upscaled",
+    "raw_text": "0672219",
+    "cleaned_text": "0672219",
+    "valid_format": false,
+    "confidence": 0.577,
+    "quality": 0.85
+  },
+  {
+    "frame": 4,
+    "track_id": 1,
+    "variant": "night_gamma",
+    "raw_text": "06702M",
+    "cleaned_text": "06702M",
+    "valid_format": false,
+    "confidence": 0.612,
+    "quality": 0.85
+  },
+  {
+    "frame": 4,
+    "track_id": 1,
+    "variant": "night_clahe_strong",
+    "raw_text": "1067292M",
+    "cleaned_text": "1067292M",
+    "valid_format": false,
+    "confidence": 0.508,
+    "quality": 0.85
+  },
+  {
+    "frame": 4,
+    "track_id": 1,
+    "variant": "night_contrast_norm",
+    "raw_text": "067221",
+    "cleaned_text": "067221",
+    "valid_format": false,
+    "confidence": 0.656,
+    "quality": 0.85
+  },
+  {
+    "frame": 4,
+    "track_id": 1,
+    "variant": "night_adaptive",
+    "raw_text": "10172A9",
+    "cleaned_text": "10172A9",
+    "valid_format": false,
+    "confidence": 0.682,
+    "quality": 0.85
+  },
+  {
+    "frame": 4,
+    "track_id": 1,
+    "variant": "night_denoise",
+    "raw_text": "0672219",
+    "cleaned_text": "0672219",
+    "valid_format": false,
+    "confidence": 0.469,
+    "quality": 0.85
+  },
+  {
+    "frame": 4,
+    "track_id": 1,
+    "variant": "gentle_clahe",
+    "raw_text": "106722219",
+    "cleaned_text": "106722219",
+    "valid_format": false,
+    "confidence": 0.499,
+    "quality": 0.85
+  },
+  {
+    "frame": 5,
+    "track_id": 1,
+    "variant": "color_upscaled",
+    "raw_text": "DE723219",
+    "cleaned_text": "DE723219",
+    "valid_format": true,
+    "confidence": 0.718,
+    "quality": 0.85
+  },
+  {
+    "frame": 5,
+    "track_id": 1,
+    "variant": "night_gamma",
+    "raw_text": "0E79218",
+    "cleaned_text": "OE79218",
+    "valid_format": true,
+    "confidence": 0.573,
+    "quality": 0.85
+  },
+  {
+    "frame": 5,
+    "track_id": 1,
+    "variant": "night_clahe_strong",
+    "raw_text": "105723219",
+    "cleaned_text": "105723219",
+    "valid_format": false,
+    "confidence": 0.611,
+    "quality": 0.85
+  },
+  {
+    "frame": 5,
+    "track_id": 1,
+    "variant": "night_contrast_norm",
+    "raw_text": "DE723218",
+    "cleaned_text": "DE723218",
+    "valid_format": true,
+    "confidence": 0.689,
+    "quality": 0.85
+  },
+  {
+    "frame": 6,
+    "track_id": 1,
+    "variant": "color_upscaled",
+    "raw_text": "1067028",
+    "cleaned_text": "1067028",
+    "valid_format": false,
+    "confidence": 0.515,
+    "quality": 0.85
+  },
+  {
+    "frame": 6,
+    "track_id": 1,
+    "variant": "night_gamma",
+    "raw_text": "0672",
+    "cleaned_text": "0672",
+    "valid_format": false,
+    "confidence": 0.659,
+    "quality": 0.85
+  },
+  {
+    "frame": 6,
+    "track_id": 1,
+    "variant": "night_clahe_strong",
+    "raw_text": "0F7221",
+    "cleaned_text": "OF7221",
+    "valid_format": true,
+    "confidence": 0.627,
+    "quality": 0.85
+  },
+  {
+    "frame": 6,
+    "track_id": 1,
+    "variant": "night_contrast_norm",
+    "raw_text": "106702",
+    "cleaned_text": "106702",
+    "valid_format": false,
+    "confidence": 0.601,
+    "quality": 0.85
+  },
+  {
+    "frame": 27,
+    "track_id": 2,
+    "variant": "color_upscaled",
+    "raw_text": "106Z718",
+    "cleaned_text": "106Z718",
+    "valid_format": false,
+    "confidence": 0.37,
+    "quality": 0.84
+  },
+  {
+    "frame": 27,
+    "track_id": 2,
+    "variant": "night_gamma",
+    "raw_text": "106720",
+    "cleaned_text": "106720",
+    "valid_format": false,
+    "confidence": 0.465,
+    "quality": 0.84
+  },
+  {
+    "frame": 27,
+    "track_id": 2,
+    "variant": "night_clahe_strong",
+    "raw_text": "10222Z10",
+    "cleaned_text": "10222Z10",
+    "valid_format": false,
+    "confidence": 0.322,
+    "quality": 0.84
+  },
+  {
+    "frame": 27,
+    "track_id": 2,
+    "variant": "night_contrast_norm",
+    "raw_text": "10670718",
+    "cleaned_text": "10670718",
+    "valid_format": false,
+    "confidence": 0.365,
+    "quality": 0.84
+  },
+  {
+    "frame": 27,
+    "track_id": 2,
+    "variant": "night_adaptive",
+    "raw_text": "0E7H2LA",
+    "cleaned_text": "0E7H2LA",
+    "valid_format": false,
+    "confidence": 0.455,
+    "quality": 0.84
+  },
+  {
+    "frame": 27,
+    "track_id": 2,
+    "variant": "night_otsu",
+    "raw_text": "11.2.0",
+    "cleaned_text": "1120",
+    "valid_format": false,
+    "confidence": 0.587,
+    "quality": 0.84
+  },
+  {
+    "frame": 27,
+    "track_id": 2,
+    "variant": "night_denoise",
+    "raw_text": "1067718",
+    "cleaned_text": "1067718",
+    "valid_format": false,
+    "confidence": 0.434,
+    "quality": 0.84
+  },
+  {
+    "frame": 27,
+    "track_id": 2,
+    "variant": "gentle_clahe",
+    "raw_text": "101-720210",
+    "cleaned_text": "101720210",
+    "valid_format": false,
+    "confidence": 0.566,
+    "quality": 0.84
+  },
+  {
+    "frame": 28,
+    "track_id": 2,
+    "variant": "color_upscaled",
+    "raw_text": "BE72ZKA",
+    "cleaned_text": "BE72ZKA",
+    "valid_format": true,
+    "confidence": 0.661,
+    "quality": 0.84
+  },
+  {
+    "frame": 28,
+    "track_id": 2,
+    "variant": "night_gamma",
+    "raw_text": "BE7ZA",
+    "cleaned_text": "BE7ZA",
+    "valid_format": false,
+    "confidence": 0.509,
+    "quality": 0.84
+  },
+  {
+    "frame": 28,
+    "track_id": 2,
+    "variant": "night_clahe_strong",
+    "raw_text": "BEZ2ZKA",
+    "cleaned_text": "BEZ2ZKA",
+    "valid_format": false,
+    "confidence": 0.459,
+    "quality": 0.84
+  },
+  {
+    "frame": 28,
+    "track_id": 2,
+    "variant": "night_contrast_norm",
+    "raw_text": "0E72ZKA",
+    "cleaned_text": "OE72ZKA",
+    "valid_format": true,
+    "confidence": 0.569,
+    "quality": 0.84
+  },
+  {
+    "frame": 29,
+    "track_id": 2,
+    "variant": "color_upscaled",
+    "raw_text": "DE7IZN",
+    "cleaned_text": "DE7IZN",
+    "valid_format": false,
+    "confidence": 0.535,
+    "quality": 0.85
+  },
+  {
+    "frame": 29,
+    "track_id": 2,
+    "variant": "night_gamma",
+    "raw_text": "0E712N",
+    "cleaned_text": "0E712N",
+    "valid_format": false,
+    "confidence": 0.452,
+    "quality": 0.85
+  },
+  {
+    "frame": 29,
+    "track_id": 2,
+    "variant": "night_clahe_strong",
+    "raw_text": "0E72121S",
+    "cleaned_text": "0E72121S",
+    "valid_format": false,
+    "confidence": 0.463,
+    "quality": 0.85
+  },
+  {
+    "frame": 29,
+    "track_id": 2,
+    "variant": "night_contrast_norm",
+    "raw_text": "DE712N",
+    "cleaned_text": "DE712N",
+    "valid_format": false,
+    "confidence": 0.574,
+    "quality": 0.85
+  },
+  {
+    "frame": 29,
+    "track_id": 2,
+    "variant": "night_adaptive",
+    "raw_text": "01.711218",
+    "cleaned_text": "01711218",
+    "valid_format": false,
+    "confidence": 0.696,
+    "quality": 0.85
+  },
+  {
+    "frame": 29,
+    "track_id": 2,
+    "variant": "night_otsu",
+    "raw_text": "17.11.1.5",
+    "cleaned_text": "171115",
+    "valid_format": false,
+    "confidence": 0.725,
+    "quality": 0.85
+  },
+  {
+    "frame": 29,
+    "track_id": 2,
+    "variant": "night_denoise",
+    "raw_text": "DE7121S",
+    "cleaned_text": "DE7121S",
+    "valid_format": false,
+    "confidence": 0.538,
+    "quality": 0.85
+  },
+  {
+    "frame": 29,
+    "track_id": 2,
+    "variant": "gentle_clahe",
+    "raw_text": "DE722S",
+    "cleaned_text": "DE722S",
+    "valid_format": false,
+    "confidence": 0.469,
+    "quality": 0.85
+  },
+  {
+    "frame": 30,
+    "track_id": 2,
+    "variant": "night_adaptive",
+    "raw_text": "1005",
+    "cleaned_text": "1005",
+    "valid_format": false,
+    "confidence": 0.595,
+    "quality": 0.77
+  }
+]

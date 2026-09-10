@@ -1,0 +1,34 @@
+[
+  {
+    "raw_text": "DE723219",
+    "cleaned_text": "DE723219",
+    "valid": true,
+    "confidence": 0.718,
+    "variant": "color_upscaled",
+    "quality": 0.85
+  },
+  {
+    "raw_text": "0E79218",
+    "cleaned_text": "OE79218",
+    "valid": true,
+    "confidence": 0.573,
+    "variant": "night_gamma",
+    "quality": 0.85
+  },
+  {
+    "raw_text": "105723219",
+    "cleaned_text": "105723219",
+    "valid": false,
+    "confidence": 0.611,
+    "variant": "night_clahe_strong",
+    "quality": 0.85
+  },
+  {
+    "raw_text": "DE723218",
+    "cleaned_text": "DE723218",
+    "valid": true,
+    "confidence": 0.689,
+    "variant": "night_contrast_norm",
+    "quality": 0.85
+  }
+]

@@ -1,0 +1,12 @@
+vehicle_id,vehicle_type,plate_text,plate_valid_format,ocr_confidence,valid_reads,plate_confidence,frame_number,timestamp_seconds,is_night,vehicle_bbox,plate_bbox,crop_file
+1,car,,False,,0,0.203,12,0.399,False,"(43, 172, 124, 238)","(54, 222, 118, 234)",car_01_f0012_plate.png
+2,car,EF10DZT,True,0.95,1,0.91,84,2.795,False,"(623, 418, 802, 572)","(688, 525, 743, 543)",car_02_f0084_plate.png
+3,car,AF65JKV,True,0.814,1,0.864,120,3.993,False,"(594, 364, 762, 504)","(653, 464, 705, 479)",car_03_f0120_plate.png
+4,car,AK64DNV,True,0.973,1,0.885,24,0.799,False,"(232, 365, 413, 534)","(294, 476, 349, 493)",car_04_f0024_plate.png
+5,car,OU52HYJ,True,0.794,1,0.628,108,3.594,False,"(874, 348, 1024, 489)","(946, 435, 1004, 467)",car_05_f0108_plate.png
+6,car,GJ06EPD,True,0.945,1,0.846,288,9.584,False,"(615, 409, 780, 558)","(675, 514, 728, 532)",car_06_f0288_plate.png
+10,car,LN15ZZC,True,0.883,1,0.926,240,7.987,False,"(268, 322, 416, 451)","(316, 410, 360, 427)",car_10_f0240_plate.png
+12,car,DI07CLX,True,0.948,1,0.819,360,11.98,False,"(616, 381, 789, 517)","(679, 479, 733, 495)",car_12_f0360_plate.png
+15,car,KH06KSU,True,0.934,1,0.719,216,7.188,False,"(222, 407, 404, 563)","(279, 534, 335, 548)",car_15_f0216_plate.png
+26,car,MINA,False,0.582,0,0.341,348,11.581,False,"(246, 383, 423, 530)","(329, 486, 357, 506)",car_26_f0348_plate.png
+40,car,EY0SYVS,False,0.491,0,0.256,360,11.98,False,"(571, 244, 724, 392)","(626, 355, 670, 370)",car_40_f0360_plate.png

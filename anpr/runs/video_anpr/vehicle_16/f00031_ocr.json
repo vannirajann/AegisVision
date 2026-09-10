@@ -1,0 +1,18 @@
+[
+  {
+    "raw_text": "L05 ZZC",
+    "cleaned_text": "L05ZZC",
+    "valid": false,
+    "confidence": 0.847,
+    "variant": "color_upscaled",
+    "quality": 0.98
+  },
+  {
+    "raw_text": "L05 ZZC",
+    "cleaned_text": "L05ZZC",
+    "valid": false,
+    "confidence": 0.858,
+    "variant": "gentle_clahe",
+    "quality": 0.98
+  }
+]

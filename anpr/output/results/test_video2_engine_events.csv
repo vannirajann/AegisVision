@@ -1,0 +1,4 @@
+frame_number,timestamp_seconds,vehicle_id,vehicle_type,vehicle_confidence,vehicle_bbox,plate_bbox,plate_confidence,plate_text,plate_valid_format,plate_status,ocr_confidence,sightings,confirmation_count,best_plate_confidence,best_frame,timestamp
+18,0.75,1,car,0.89,"[347, 201, 621, 386]","[539, 315, 588, 346]",0.44,BC725219,False,low_confidence,0.61,5,1,0.44,3,2026-09-09T15:36:12.786851+00:00
+30,1.25,1,car,0.88,"[347, 201, 621, 387]","[538, 318, 587, 346]",0.41,DE723218,True,confirmed,0.72,2,2,0.414,5,2026-09-09T15:37:01.922746+00:00
+168,7.0,2,car,0.85,"[346, 201, 624, 388]","[539, 318, 587, 344]",0.45,BE72ZKA,True,confirmed,0.56,4,2,0.45,28,2026-09-09T15:38:49.819625+00:00

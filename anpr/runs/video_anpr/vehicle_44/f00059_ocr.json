@@ -1,0 +1,18 @@
+[
+  {
+    "raw_text": "EY09VXS",
+    "cleaned_text": "EY09VXS",
+    "valid": true,
+    "confidence": 0.714,
+    "variant": "color_upscaled",
+    "quality": 0.88
+  },
+  {
+    "raw_text": "EY09V8S",
+    "cleaned_text": "EY09VBS",
+    "valid": true,
+    "confidence": 0.78,
+    "variant": "gentle_clahe",
+    "quality": 0.88
+  }
+]

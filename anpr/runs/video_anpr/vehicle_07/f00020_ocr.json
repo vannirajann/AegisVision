@@ -1,0 +1,18 @@
+[
+  {
+    "raw_text": "FOAGEND",
+    "cleaned_text": "FOAGEND",
+    "valid": false,
+    "confidence": 0.665,
+    "variant": "color_upscaled",
+    "quality": 0.68
+  },
+  {
+    "raw_text": "POASEND",
+    "cleaned_text": "POASEND",
+    "valid": false,
+    "confidence": 0.49,
+    "variant": "gentle_clahe",
+    "quality": 0.68
+  }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "raw_text": "GJOGEPO",
+    "cleaned_text": "GJOGEPO",
+    "valid": false,
+    "confidence": 0.814,
+    "variant": "color_upscaled",
+    "quality": 0.76
+  },
+  {
+    "raw_text": "GJOSEPD",
+    "cleaned_text": "GJ05EPD",
+    "valid": true,
+    "confidence": 0.841,
+    "variant": "gentle_clahe",
+    "quality": 0.76
+  }
+]

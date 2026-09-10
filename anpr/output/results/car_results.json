@@ -1,0 +1,9 @@
+[
+  {
+    "event_type": "anpr",
+    "plate_number": "TN01AK6321",
+    "plate_valid_format": true,
+    "confidence": 0.79,
+    "timestamp": "2026-09-06T12:13:13.031903+00:00"
+  }
+]

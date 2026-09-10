@@ -1,0 +1,2 @@
+frame_number,timestamp_seconds,vehicle_id,vehicle_type,vehicle_confidence,vehicle_bbox,plate_bbox,plate_confidence,plate_text,plate_valid_format,plate_status,ocr_confidence,sightings,best_plate_confidence,best_frame,timestamp
+201,6.689,6,car,0.85,"[609, 314, 745, 435]","[659, 398, 700, 412]",0.69,GJ06EFD,False,low_confidence,0.85,2,0.689,2,2026-09-09T04:41:25.036961+00:00

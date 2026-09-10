@@ -1,0 +1,18 @@
+[
+  {
+    "raw_text": "10303",
+    "cleaned_text": "10303",
+    "valid": false,
+    "confidence": 0.475,
+    "variant": "color_upscaled",
+    "quality": 0.97
+  },
+  {
+    "raw_text": "1013",
+    "cleaned_text": "1013",
+    "valid": false,
+    "confidence": 0.48,
+    "variant": "gentle_clahe",
+    "quality": 0.97
+  }
+]

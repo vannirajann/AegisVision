@@ -1,0 +1,10 @@
+[
+  {
+    "raw_text": "POLICE",
+    "cleaned_text": "POLICE",
+    "valid": false,
+    "confidence": 0.991,
+    "variant": "color_upscaled",
+    "quality": 0.88
+  }
+]

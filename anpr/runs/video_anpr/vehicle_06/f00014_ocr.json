@@ -1,0 +1,10 @@
+[
+  {
+    "raw_text": "EFIO DZT",
+    "cleaned_text": "EF10DZT",
+    "valid": true,
+    "confidence": 0.95,
+    "variant": "color_upscaled",
+    "quality": 0.67
+  }
+]
