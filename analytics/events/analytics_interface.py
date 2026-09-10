@@ -1,4 +1,7 @@
-from event_standardizer import EventStandardizer
+try:
+    from analytics.events.event_standardizer import EventStandardizer
+except ImportError:
+    from event_standardizer import EventStandardizer
 
 
 class AnalyticsInterface:

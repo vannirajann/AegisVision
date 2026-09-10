@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import health, events, alerts, cameras
+from app.routes import health, events, alerts, cameras, auth
 from app.database.db import init_db
 
 app = FastAPI(title="AegisVision Backend")
@@ -21,3 +21,4 @@ app.include_router(health.router)
 app.include_router(events.router)
 app.include_router(alerts.router)
 app.include_router(cameras.router)
+app.include_router(auth.router)

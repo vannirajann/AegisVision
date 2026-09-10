@@ -9,6 +9,20 @@ class EventDB(SQLModel, table=True):
     source: str
     severity: str
     data: Dict[str, Any] = Field(default={}, sa_column=Column(JSON))
+    acknowledged: bool = False
+
+class CameraDB(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    camera_id: str
+    location: str
+    status: str = "active"
+
+class UserDB(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    username: str
+    hashed_password: str
+    full_name: str
+    role: str = "operator"
 
 DATABASE_URL = "sqlite:///./aegisvision.db"
 engine = create_engine(DATABASE_URL, echo=True)

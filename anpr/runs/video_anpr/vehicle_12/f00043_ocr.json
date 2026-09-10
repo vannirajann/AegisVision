@@ -1,0 +1,10 @@
+[
+  {
+    "raw_text": "DA070LT",
+    "cleaned_text": "DA07OLT",
+    "valid": true,
+    "confidence": 0.738,
+    "variant": "color_upscaled",
+    "quality": 0.97
+  }
+]

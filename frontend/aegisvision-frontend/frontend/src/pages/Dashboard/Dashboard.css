@@ -1,0 +1,122 @@
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+/* Recent activity list */
+.activity-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 4px;
+  border-bottom: 1px solid var(--border-subtle);
+  border-left: 2px solid transparent;
+  padding-left: 10px;
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-item.sev-high { border-left-color: var(--severity-high); }
+.activity-item.sev-medium { border-left-color: var(--severity-medium); }
+.activity-item.sev-low { border-left-color: var(--severity-low); }
+
+.activity-item-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.activity-item-type {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.activity-item-camera {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+.activity-item-time {
+  font-family: var(--font-data);
+  font-size: 11px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+/* Active alerts list */
+.alert-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.alert-list-item {
+  padding: 12px 4px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.alert-list-item:last-child {
+  border-bottom: none;
+}
+
+.alert-list-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.alert-list-type {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.alert-list-message {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  margin: 0 0 8px;
+  line-height: 1.45;
+}
+
+.alert-list-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-family: var(--font-data);
+  color: var(--text-muted);
+}
+
+@media (max-width: 1200px) {
+  .dashboard-stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

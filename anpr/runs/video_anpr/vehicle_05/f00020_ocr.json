@@ -1,0 +1,10 @@
+[
+  {
+    "raw_text": "AF65.JKV",
+    "cleaned_text": "AF65JKV",
+    "valid": true,
+    "confidence": 0.814,
+    "variant": "color_upscaled",
+    "quality": 0.76
+  }
+]

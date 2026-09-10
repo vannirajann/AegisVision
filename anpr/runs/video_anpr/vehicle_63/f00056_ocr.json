@@ -1,0 +1,18 @@
+[
+  {
+    "raw_text": "ETOS YTS",
+    "cleaned_text": "ET05YTS",
+    "valid": true,
+    "confidence": 0.652,
+    "variant": "color_upscaled",
+    "quality": 0.9
+  },
+  {
+    "raw_text": "EYOSYES",
+    "cleaned_text": "EY05YES",
+    "valid": true,
+    "confidence": 0.756,
+    "variant": "gentle_clahe",
+    "quality": 0.9
+  }
+]

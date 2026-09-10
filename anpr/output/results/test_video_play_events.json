@@ -1,0 +1,37 @@
+[
+  {
+    "event_type": "anpr",
+    "plate_text": "GJ06EFD",
+    "plate_number": "GJ06EFD",
+    "plate_valid_format": false,
+    "plate_status": "low_confidence",
+    "ocr_confidence": 0.85,
+    "raw_ocr": [
+      "GJOEEFD",
+      "GJ06EFD"
+    ],
+    "vehicle_id": 6,
+    "vehicle_type": "car",
+    "vehicle_confidence": 0.85,
+    "vehicle_bbox": [
+      609,
+      314,
+      745,
+      435
+    ],
+    "plate_bbox": [
+      659,
+      398,
+      700,
+      412
+    ],
+    "plate_confidence": 0.69,
+    "sightings": 2,
+    "timestamp": "2026-09-09T04:41:25.036961+00:00",
+    "frame_number": 201,
+    "timestamp_seconds": 6.689,
+    "best_plate_confidence": 0.689,
+    "best_frame": 2,
+    "best_quality": 0.73
+  }
+]

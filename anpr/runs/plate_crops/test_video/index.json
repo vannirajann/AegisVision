@@ -1,0 +1,383 @@
+[
+  {
+    "vehicle_id": 1,
+    "vehicle_type": "car",
+    "plate_text": "",
+    "ocr_confidence": null,
+    "plate_valid_format": false,
+    "valid_reads": 0,
+    "plate_confidence": 0.203,
+    "frame_number": 12,
+    "timestamp_seconds": 0.399,
+    "is_night": false,
+    "vehicle_bbox": [
+      43,
+      172,
+      124,
+      238
+    ],
+    "plate_bbox": [
+      54,
+      222,
+      118,
+      234
+    ],
+    "crop_file": "car_01_f0012_plate.png",
+    "reads": []
+  },
+  {
+    "vehicle_id": 2,
+    "vehicle_type": "car",
+    "plate_text": "EF10DZT",
+    "ocr_confidence": 0.95,
+    "plate_valid_format": true,
+    "valid_reads": 1,
+    "plate_confidence": 0.91,
+    "frame_number": 84,
+    "timestamp_seconds": 2.795,
+    "is_night": false,
+    "vehicle_bbox": [
+      623,
+      418,
+      802,
+      572
+    ],
+    "plate_bbox": [
+      688,
+      525,
+      743,
+      543
+    ],
+    "crop_file": "car_02_f0084_plate.png",
+    "reads": [
+      {
+        "raw": "EFIO DZT",
+        "clean": "EF10DZT",
+        "conf": 0.95,
+        "valid": true,
+        "variant": "color_upscaled"
+      }
+    ]
+  },
+  {
+    "vehicle_id": 3,
+    "vehicle_type": "car",
+    "plate_text": "AF65JKV",
+    "ocr_confidence": 0.814,
+    "plate_valid_format": true,
+    "valid_reads": 1,
+    "plate_confidence": 0.864,
+    "frame_number": 120,
+    "timestamp_seconds": 3.993,
+    "is_night": false,
+    "vehicle_bbox": [
+      594,
+      364,
+      762,
+      504
+    ],
+    "plate_bbox": [
+      653,
+      464,
+      705,
+      479
+    ],
+    "crop_file": "car_03_f0120_plate.png",
+    "reads": [
+      {
+        "raw": "AF65.JKV",
+        "clean": "AF65JKV",
+        "conf": 0.814,
+        "valid": true,
+        "variant": "color_upscaled"
+      }
+    ]
+  },
+  {
+    "vehicle_id": 4,
+    "vehicle_type": "car",
+    "plate_text": "AK64DNV",
+    "ocr_confidence": 0.973,
+    "plate_valid_format": true,
+    "valid_reads": 1,
+    "plate_confidence": 0.885,
+    "frame_number": 24,
+    "timestamp_seconds": 0.799,
+    "is_night": false,
+    "vehicle_bbox": [
+      232,
+      365,
+      413,
+      534
+    ],
+    "plate_bbox": [
+      294,
+      476,
+      349,
+      493
+    ],
+    "crop_file": "car_04_f0024_plate.png",
+    "reads": [
+      {
+        "raw": "AK64DNV",
+        "clean": "AK64DNV",
+        "conf": 0.973,
+        "valid": true,
+        "variant": "color_upscaled"
+      }
+    ]
+  },
+  {
+    "vehicle_id": 5,
+    "vehicle_type": "car",
+    "plate_text": "OU52HYJ",
+    "ocr_confidence": 0.794,
+    "plate_valid_format": true,
+    "valid_reads": 1,
+    "plate_confidence": 0.628,
+    "frame_number": 108,
+    "timestamp_seconds": 3.594,
+    "is_night": false,
+    "vehicle_bbox": [
+      874,
+      348,
+      1024,
+      489
+    ],
+    "plate_bbox": [
+      946,
+      435,
+      1004,
+      467
+    ],
+    "crop_file": "car_05_f0108_plate.png",
+    "reads": [
+      {
+        "raw": "OUS2HT",
+        "clean": "OUS2HT",
+        "conf": 0.844,
+        "valid": false,
+        "variant": "color_upscaled"
+      },
+      {
+        "raw": "OUS2 HYJ",
+        "clean": "OU52HYJ",
+        "conf": 0.794,
+        "valid": true,
+        "variant": "gentle_clahe"
+      }
+    ]
+  },
+  {
+    "vehicle_id": 6,
+    "vehicle_type": "car",
+    "plate_text": "GJ06EPD",
+    "ocr_confidence": 0.945,
+    "plate_valid_format": true,
+    "valid_reads": 1,
+    "plate_confidence": 0.846,
+    "frame_number": 288,
+    "timestamp_seconds": 9.584,
+    "is_night": false,
+    "vehicle_bbox": [
+      615,
+      409,
+      780,
+      558
+    ],
+    "plate_bbox": [
+      675,
+      514,
+      728,
+      532
+    ],
+    "crop_file": "car_06_f0288_plate.png",
+    "reads": [
+      {
+        "raw": "GJO6EPD",
+        "clean": "GJ06EPD",
+        "conf": 0.945,
+        "valid": true,
+        "variant": "color_upscaled"
+      }
+    ]
+  },
+  {
+    "vehicle_id": 10,
+    "vehicle_type": "car",
+    "plate_text": "LN15ZZC",
+    "ocr_confidence": 0.883,
+    "plate_valid_format": true,
+    "valid_reads": 1,
+    "plate_confidence": 0.926,
+    "frame_number": 240,
+    "timestamp_seconds": 7.987,
+    "is_night": false,
+    "vehicle_bbox": [
+      268,
+      322,
+      416,
+      451
+    ],
+    "plate_bbox": [
+      316,
+      410,
+      360,
+      427
+    ],
+    "crop_file": "car_10_f0240_plate.png",
+    "reads": [
+      {
+        "raw": "LNI5 ZZC",
+        "clean": "LN15ZZC",
+        "conf": 0.883,
+        "valid": true,
+        "variant": "color_upscaled"
+      }
+    ]
+  },
+  {
+    "vehicle_id": 12,
+    "vehicle_type": "car",
+    "plate_text": "DI07CLX",
+    "ocr_confidence": 0.948,
+    "plate_valid_format": true,
+    "valid_reads": 1,
+    "plate_confidence": 0.819,
+    "frame_number": 360,
+    "timestamp_seconds": 11.98,
+    "is_night": false,
+    "vehicle_bbox": [
+      616,
+      381,
+      789,
+      517
+    ],
+    "plate_bbox": [
+      679,
+      479,
+      733,
+      495
+    ],
+    "crop_file": "car_12_f0360_plate.png",
+    "reads": [
+      {
+        "raw": "D107CLX",
+        "clean": "DI07CLX",
+        "conf": 0.948,
+        "valid": true,
+        "variant": "color_upscaled"
+      }
+    ]
+  },
+  {
+    "vehicle_id": 15,
+    "vehicle_type": "car",
+    "plate_text": "KH06KSU",
+    "ocr_confidence": 0.934,
+    "plate_valid_format": true,
+    "valid_reads": 1,
+    "plate_confidence": 0.719,
+    "frame_number": 216,
+    "timestamp_seconds": 7.188,
+    "is_night": false,
+    "vehicle_bbox": [
+      222,
+      407,
+      404,
+      563
+    ],
+    "plate_bbox": [
+      279,
+      534,
+      335,
+      548
+    ],
+    "crop_file": "car_15_f0216_plate.png",
+    "reads": [
+      {
+        "raw": "KH06KSU",
+        "clean": "KH06KSU",
+        "conf": 0.934,
+        "valid": true,
+        "variant": "color_upscaled"
+      }
+    ]
+  },
+  {
+    "vehicle_id": 26,
+    "vehicle_type": "car",
+    "plate_text": "",
+    "ocr_confidence": null,
+    "plate_valid_format": false,
+    "valid_reads": 0,
+    "plate_confidence": 0.341,
+    "frame_number": 348,
+    "timestamp_seconds": 11.581,
+    "is_night": false,
+    "vehicle_bbox": [
+      246,
+      383,
+      423,
+      530
+    ],
+    "plate_bbox": [
+      329,
+      486,
+      357,
+      506
+    ],
+    "crop_file": "car_26_f0348_plate.png",
+    "reads": [
+      {
+        "raw": "MINA",
+        "clean": "MINA",
+        "conf": 0.582,
+        "valid": false,
+        "variant": "color_upscaled"
+      }
+    ],
+    "plate_text_confirmed": false
+  },
+  {
+    "vehicle_id": 40,
+    "vehicle_type": "car",
+    "plate_text": "EY0SYVS",
+    "ocr_confidence": 0.491,
+    "plate_valid_format": false,
+    "valid_reads": 0,
+    "plate_confidence": 0.256,
+    "frame_number": 360,
+    "timestamp_seconds": 11.98,
+    "is_night": false,
+    "vehicle_bbox": [
+      571,
+      244,
+      724,
+      392
+    ],
+    "plate_bbox": [
+      626,
+      355,
+      670,
+      370
+    ],
+    "crop_file": "car_40_f0360_plate.png",
+    "reads": [
+      {
+        "raw": "EY0SYVS",
+        "clean": "EY0SYVS",
+        "conf": 0.491,
+        "valid": false,
+        "variant": "color_upscaled"
+      },
+      {
+        "raw": "EY09YUS",
+        "clean": "EY09YUS",
+        "conf": 0.433,
+        "valid": false,
+        "variant": "gentle_clahe"
+      }
+    ]
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "event_type": "anpr",
+    "plate_text": "TN01DE7845",
+    "plate_valid_format": true,
+    "ocr_confidence": 0.97,
+    "raw_ocr": [
+      "TH01DE7845",
+      "TNO1DE7845",
+      "PTNO1DE7845",
+      "TNO1DE7845",
+      "TNO1DE7845",
+      "TN01DE7845",
+      "TN01DE7845",
+      "TN01DE7845",
+      "TN01DE78451",
+      "TN01DE7845"
+    ],
+    "vehicle_id": 1,
+    "vehicle_type": "car",
+    "vehicle_confidence": 0.88,
+    "vehicle_bbox": [
+      225,
+      234,
+      1053,
+      685
+    ],
+    "plate_bbox": [
+      359,
+      423,
+      531,
+      471
+    ],
+    "plate_confidence": 0.81,
+    "sightings": 8,
+    "timestamp": "2026-09-08T16:57:31.862187+00:00"
+  }
+]

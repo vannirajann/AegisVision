@@ -1,0 +1,399 @@
+[
+  {
+    "event_type": "anpr",
+    "plate_text": "EF10DZT",
+    "plate_number": "EF10DZT",
+    "plate_valid_format": true,
+    "plate_status": "confirmed",
+    "ocr_confidence": 0.87,
+    "raw_ocr": [
+      "EF10DZT",
+      "EF10DZT"
+    ],
+    "vehicle_id": 6,
+    "vehicle_type": "car",
+    "vehicle_confidence": 0.86,
+    "vehicle_bbox": [
+      619,
+      342,
+      772,
+      476
+    ],
+    "plate_bbox": [
+      673,
+      433,
+      720,
+      448
+    ],
+    "plate_confidence": 0.44,
+    "sightings": 2,
+    "confirmation_count": 2,
+    "timestamp": "2026-09-09T15:08:08.145916+00:00",
+    "frame_number": 24,
+    "timestamp_seconds": 0.799,
+    "best_plate_confidence": 0.441,
+    "best_frame": 4,
+    "best_quality": 0.65
+  },
+  {
+    "event_type": "anpr",
+    "plate_text": "AK64DNV",
+    "plate_number": "AK64DNV",
+    "plate_valid_format": true,
+    "plate_status": "confirmed",
+    "ocr_confidence": 0.93,
+    "raw_ocr": [
+      "AK64DXV",
+      "AK64DNV"
+    ],
+    "vehicle_id": 4,
+    "vehicle_type": "car",
+    "vehicle_confidence": 0.86,
+    "vehicle_bbox": [
+      232,
+      365,
+      413,
+      535
+    ],
+    "plate_bbox": [
+      294,
+      476,
+      349,
+      493
+    ],
+    "plate_confidence": 0.89,
+    "sightings": 2,
+    "confirmation_count": 2,
+    "timestamp": "2026-09-09T15:08:08.147916+00:00",
+    "frame_number": 24,
+    "timestamp_seconds": 0.799,
+    "best_plate_confidence": 0.885,
+    "best_frame": 4,
+    "best_quality": 0.73
+  },
+  {
+    "event_type": "anpr",
+    "plate_text": "DU52HYJ",
+    "plate_number": "DU52HYJ",
+    "plate_valid_format": true,
+    "plate_status": "confirmed",
+    "ocr_confidence": 0.87,
+    "raw_ocr": [
+      "DU52HYJ",
+      "OU52HYJ"
+    ],
+    "vehicle_id": 3,
+    "vehicle_type": "car",
+    "vehicle_confidence": 0.9,
+    "vehicle_bbox": [
+      874,
+      348,
+      1024,
+      491
+    ],
+    "plate_bbox": [
+      946,
+      435,
+      1004,
+      467
+    ],
+    "plate_confidence": 0.63,
+    "sightings": 2,
+    "confirmation_count": 2,
+    "timestamp": "2026-09-09T15:15:58.795807+00:00",
+    "frame_number": 108,
+    "timestamp_seconds": 3.594,
+    "best_plate_confidence": 0.553,
+    "best_frame": 15,
+    "best_quality": 0.88
+  },
+  {
+    "event_type": "anpr",
+    "plate_text": "AF65JKV",
+    "plate_number": "AF65JKV",
+    "plate_valid_format": true,
+    "plate_status": "confirmed",
+    "ocr_confidence": 0.86,
+    "raw_ocr": [
+      "AF65JKV",
+      "AF65JKV"
+    ],
+    "vehicle_id": 5,
+    "vehicle_type": "car",
+    "vehicle_confidence": 0.9,
+    "vehicle_bbox": [
+      595,
+      379,
+      772,
+      523
+    ],
+    "plate_bbox": [
+      658,
+      482,
+      715,
+      496
+    ],
+    "plate_confidence": 0.71,
+    "sightings": 2,
+    "confirmation_count": 2,
+    "timestamp": "2026-09-09T15:19:06.378120+00:00",
+    "frame_number": 132,
+    "timestamp_seconds": 4.393,
+    "best_plate_confidence": 0.864,
+    "best_frame": 20,
+    "best_quality": 0.76
+  },
+  {
+    "event_type": "anpr",
+    "plate_text": "CX36EPA",
+    "plate_number": "CX36EPA",
+    "plate_valid_format": true,
+    "plate_status": "confirmed",
+    "ocr_confidence": 0.59,
+    "raw_ocr": [
+      "CX05EPA",
+      "CX36EPA"
+    ],
+    "vehicle_id": 7,
+    "vehicle_type": "car",
+    "vehicle_confidence": 0.86,
+    "vehicle_bbox": [
+      605,
+      290,
+      727,
+      403
+    ],
+    "plate_bbox": [
+      646,
+      364,
+      690,
+      379
+    ],
+    "plate_confidence": 0.26,
+    "sightings": 2,
+    "confirmation_count": 2,
+    "timestamp": "2026-09-09T15:21:32.931282+00:00",
+    "frame_number": 168,
+    "timestamp_seconds": 5.591,
+    "best_plate_confidence": 0.642,
+    "best_frame": 26,
+    "best_quality": 0.62
+  },
+  {
+    "event_type": "anpr",
+    "plate_text": "KM06KS",
+    "plate_number": "KM06KS",
+    "plate_valid_format": false,
+    "plate_status": "low_confidence",
+    "ocr_confidence": 0.68,
+    "raw_ocr": [
+      "KM06KSU",
+      "H06KSU"
+    ],
+    "vehicle_id": 35,
+    "vehicle_type": "car",
+    "vehicle_confidence": 0.87,
+    "vehicle_bbox": [
+      247,
+      362,
+      411,
+      505
+    ],
+    "plate_bbox": [
+      307,
+      477,
+      351,
+      490
+    ],
+    "plate_confidence": 0.71,
+    "sightings": 2,
+    "confirmation_count": 1,
+    "timestamp": "2026-09-09T15:23:07.019991+00:00",
+    "frame_number": 180,
+    "timestamp_seconds": 5.99,
+    "best_plate_confidence": 0.707,
+    "best_frame": 30,
+    "best_quality": 0.81
+  },
+  {
+    "event_type": "anpr",
+    "plate_text": "L05ZZC",
+    "plate_number": "L05ZZC",
+    "plate_valid_format": false,
+    "plate_status": "low_confidence",
+    "ocr_confidence": 0.85,
+    "raw_ocr": [
+      "L05ZZC",
+      "L05ZZC"
+    ],
+    "vehicle_id": 16,
+    "vehicle_type": "car",
+    "vehicle_confidence": 0.78,
+    "vehicle_bbox": [
+      297,
+      283,
+      429,
+      398
+    ],
+    "plate_bbox": [
+      346,
+      361,
+      382,
+      373
+    ],
+    "plate_confidence": 0.84,
+    "sightings": 2,
+    "confirmation_count": 0,
+    "timestamp": "2026-09-09T15:23:18.257357+00:00",
+    "frame_number": 186,
+    "timestamp_seconds": 6.19,
+    "best_plate_confidence": 0.838,
+    "best_frame": 31,
+    "best_quality": 0.98
+  },
+  {
+    "event_type": "anpr",
+    "plate_text": "LN15ZZ",
+    "plate_number": "LN15ZZ",
+    "plate_valid_format": false,
+    "plate_status": "low_confidence",
+    "ocr_confidence": 0.84,
+    "raw_ocr": [
+      "L05ZZC",
+      "L05ZZC",
+      "LN15ZZC"
+    ],
+    "vehicle_id": 16,
+    "vehicle_type": "car",
+    "vehicle_confidence": 0.82,
+    "vehicle_bbox": [
+      293,
+      291,
+      428,
+      407
+    ],
+    "plate_bbox": [
+      334,
+      366,
+      381,
+      382
+    ],
+    "plate_confidence": 0.43,
+    "sightings": 3,
+    "confirmation_count": 1,
+    "timestamp": "2026-09-09T15:24:55.682297+00:00",
+    "frame_number": 198,
+    "timestamp_seconds": 6.589,
+    "best_plate_confidence": 0.838,
+    "best_frame": 31,
+    "best_quality": 0.98
+  },
+  {
+    "event_type": "anpr",
+    "plate_text": "DA07CLX",
+    "plate_number": "DA07CLX",
+    "plate_valid_format": true,
+    "plate_status": "confirmed",
+    "ocr_confidence": 0.8,
+    "raw_ocr": [
+      "DA07OLT",
+      "DA07CLX"
+    ],
+    "vehicle_id": 12,
+    "vehicle_type": "car",
+    "vehicle_confidence": 0.88,
+    "vehicle_bbox": [
+      613,
+      298,
+      750,
+      406
+    ],
+    "plate_bbox": [
+      661,
+      372,
+      704,
+      386
+    ],
+    "plate_confidence": 0.42,
+    "sightings": 2,
+    "confirmation_count": 2,
+    "timestamp": "2026-09-09T15:27:03.241233+00:00",
+    "frame_number": 270,
+    "timestamp_seconds": 8.985,
+    "best_plate_confidence": 0.73,
+    "best_frame": 43,
+    "best_quality": 0.97
+  },
+  {
+    "event_type": "anpr",
+    "plate_text": "EY05YES",
+    "plate_number": "EY05YES",
+    "plate_valid_format": true,
+    "plate_status": "confirmed",
+    "ocr_confidence": 0.7,
+    "raw_ocr": [
+      "ET05YTS",
+      "EY05YES"
+    ],
+    "vehicle_id": 63,
+    "vehicle_type": "truck",
+    "vehicle_confidence": 0.49,
+    "vehicle_bbox": [
+      578,
+      236,
+      719,
+      375
+    ],
+    "plate_bbox": [
+      629,
+      340,
+      664,
+      351
+    ],
+    "plate_confidence": 0.94,
+    "sightings": 2,
+    "confirmation_count": 2,
+    "timestamp": "2026-09-09T15:30:42.423838+00:00",
+    "frame_number": 336,
+    "timestamp_seconds": 11.182,
+    "best_plate_confidence": 0.944,
+    "best_frame": 56,
+    "best_quality": 0.9
+  },
+  {
+    "event_type": "anpr",
+    "plate_text": "EY05VWS",
+    "plate_number": "EY05VWS",
+    "plate_valid_format": true,
+    "plate_status": "confirmed",
+    "ocr_confidence": 0.69,
+    "raw_ocr": [
+      "EY05YYS",
+      "EY05VWS"
+    ],
+    "vehicle_id": 25,
+    "vehicle_type": "car",
+    "vehicle_confidence": 0.47,
+    "vehicle_bbox": [
+      574,
+      241,
+      719,
+      384
+    ],
+    "plate_bbox": [
+      629,
+      350,
+      665,
+      361
+    ],
+    "plate_confidence": 0.63,
+    "sightings": 2,
+    "confirmation_count": 2,
+    "timestamp": "2026-09-09T15:31:48.839334+00:00",
+    "frame_number": 348,
+    "timestamp_seconds": 11.581,
+    "best_plate_confidence": 0.868,
+    "best_frame": 56,
+    "best_quality": 0.88
+  }
+]

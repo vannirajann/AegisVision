@@ -1,0 +1,18 @@
+[
+  {
+    "raw_text": "POLICI",
+    "cleaned_text": "POLICI",
+    "valid": false,
+    "confidence": 0.979,
+    "variant": "gentle_clahe",
+    "quality": 0.89
+  },
+  {
+    "raw_text": "203 H11",
+    "cleaned_text": "203H11",
+    "valid": false,
+    "confidence": 0.601,
+    "variant": "gentle_clahe",
+    "quality": 0.89
+  }
+]

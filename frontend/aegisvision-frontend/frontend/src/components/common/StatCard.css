@@ -1,0 +1,48 @@
+.stat-card {
+  display: flex;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  min-width: 0;
+}
+
+.stat-card-bar {
+  width: 3px;
+  flex-shrink: 0;
+  background: var(--text-muted);
+}
+
+.stat-card.tone-online .stat-card-bar { background: var(--status-online); }
+.stat-card.tone-info .stat-card-bar { background: var(--severity-low); }
+.stat-card.tone-medium .stat-card-bar { background: var(--severity-medium); }
+.stat-card.tone-high .stat-card-bar { background: var(--severity-high); }
+
+.stat-card-body {
+  padding: 16px 18px;
+  min-width: 0;
+}
+
+.stat-card-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.stat-card-value {
+  font-family: var(--font-data);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--text-primary);
+}
+
+.stat-card.tone-high .stat-card-value { color: var(--severity-high); }
+.stat-card.tone-medium .stat-card-value { color: var(--severity-medium); }
+.stat-card.tone-online .stat-card-value { color: var(--status-online); }
+
+.stat-card-hint {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}

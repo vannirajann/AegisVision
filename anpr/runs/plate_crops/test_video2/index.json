@@ -1,0 +1,133 @@
+[
+  {
+    "vehicle_id": 1,
+    "vehicle_type": "car",
+    "plate_text": "106722219",
+    "ocr_confidence": 0.499,
+    "plate_valid_format": false,
+    "valid_reads": 0,
+    "plate_confidence": 0.388,
+    "frame_number": 24,
+    "timestamp_seconds": 1.0,
+    "is_night": true,
+    "vehicle_bbox": [
+      347,
+      201,
+      621,
+      387
+    ],
+    "plate_bbox": [
+      539,
+      316,
+      587,
+      345
+    ],
+    "crop_file": "car_01_f0024_plate.png",
+    "reads": [
+      {
+        "raw": "0672219",
+        "clean": "0672219",
+        "conf": 0.577,
+        "valid": false,
+        "variant": "color_upscaled"
+      },
+      {
+        "raw": "06702M",
+        "clean": "06702M",
+        "conf": 0.612,
+        "valid": false,
+        "variant": "night_gamma"
+      },
+      {
+        "raw": "1067292M",
+        "clean": "1067292M",
+        "conf": 0.508,
+        "valid": false,
+        "variant": "night_clahe_strong"
+      },
+      {
+        "raw": "067221",
+        "clean": "067221",
+        "conf": 0.656,
+        "valid": false,
+        "variant": "night_contrast_norm"
+      },
+      {
+        "raw": "10172A9",
+        "clean": "10172A9",
+        "conf": 0.682,
+        "valid": false,
+        "variant": "night_adaptive"
+      },
+      {
+        "raw": "0672219",
+        "clean": "0672219",
+        "conf": 0.469,
+        "valid": false,
+        "variant": "night_denoise"
+      },
+      {
+        "raw": "106722219",
+        "clean": "106722219",
+        "conf": 0.499,
+        "valid": false,
+        "variant": "gentle_clahe"
+      }
+    ]
+  },
+  {
+    "vehicle_id": 2,
+    "vehicle_type": "car",
+    "plate_text": "BE72ZKA",
+    "ocr_confidence": 0.661,
+    "plate_valid_format": true,
+    "valid_reads": 2,
+    "plate_confidence": 0.45,
+    "frame_number": 168,
+    "timestamp_seconds": 7.0,
+    "is_night": true,
+    "vehicle_bbox": [
+      346,
+      201,
+      624,
+      387
+    ],
+    "plate_bbox": [
+      539,
+      318,
+      587,
+      344
+    ],
+    "crop_file": "car_02_f0168_plate.png",
+    "reads": [
+      {
+        "raw": "BE72ZKA",
+        "clean": "BE72ZKA",
+        "conf": 0.661,
+        "valid": true,
+        "variant": "color_upscaled"
+      },
+      {
+        "raw": "BE7ZA",
+        "clean": "BE7ZA",
+        "conf": 0.509,
+        "valid": false,
+        "variant": "night_gamma"
+      },
+      {
+        "raw": "BEZ2ZKA",
+        "clean": "BEZ2ZKA",
+        "conf": 0.459,
+        "valid": false,
+        "variant": "night_clahe_strong"
+      },
+      {
+        "raw": "0E72ZKA",
+        "clean": "OE72ZKA",
+        "conf": 0.569,
+        "valid": true,
+        "variant": "night_contrast_norm"
+      }
+    ]
+  }
+]

@@ -1,0 +1,64 @@
+.anpr-table {
+  width: 100%;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  font-size: 13px;
+}
+
+.anpr-table thead th {
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  background: var(--bg-panel-raised);
+  padding: 11px 16px;
+  font-weight: 600;
+}
+
+.anpr-table tbody td {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.anpr-plate {
+  font-family: var(--font-data);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.anpr-time {
+  font-family: var(--font-data);
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.anpr-confidence {
+  font-family: var(--font-data);
+  color: var(--text-secondary);
+}
+
+.anpr-status {
+  display: inline-flex;
+  padding: 3px 9px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.anpr-status-allowed {
+  background: var(--status-online-dim);
+  color: var(--status-online);
+}
+
+.anpr-status-blocked {
+  background: var(--severity-high-dim);
+  color: var(--severity-high);
+}
+
+.anpr-status-unknown {
+  background: var(--severity-medium-dim);
+  color: var(--severity-medium);
+}

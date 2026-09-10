@@ -13,7 +13,14 @@ model = YOLO("yolo11n.pt")
 # OPEN VIDEO
 # ==========================================
 
-video = cv2.VideoCapture("videos/test.mp4")
+VIDEO_PATH = "videos/test.mp4"
+
+video = cv2.VideoCapture(VIDEO_PATH)
+
+# Fall back to webcam if the test video is missing
+if not video.isOpened():
+    print("Video file not found, using webcam...")
+    video = cv2.VideoCapture(0)
 
 # ==========================================
 # DETECT THESE CLASSES
@@ -268,4 +275,4 @@ while True:
 # ==========================================
 
 video.release()
-cv2.destroyAllWindows()
+cv2.destroyAllWindows()git remote add origin https://github.com/your-username/your-repo-name.git

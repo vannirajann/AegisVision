@@ -1,0 +1,10 @@
+[
+  {
+    "raw_text": "10E0",
+    "cleaned_text": "10E0",
+    "valid": false,
+    "confidence": 0.394,
+    "variant": "gentle_clahe",
+    "quality": 0.96
+  }
+]

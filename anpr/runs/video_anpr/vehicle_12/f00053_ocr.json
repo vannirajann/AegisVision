@@ -1,0 +1,10 @@
+[
+  {
+    "raw_text": "0807CLX",
+    "cleaned_text": "OB07CLX",
+    "valid": true,
+    "confidence": 0.976,
+    "variant": "color_upscaled",
+    "quality": 0.85
+  }
+]

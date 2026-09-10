@@ -1,0 +1,13 @@
+{
+    "evidence_id": 221,
+    "event_type": "movement",
+    "person_id": 67,
+    "timestamp": "2026-09-02T14:53:53.900406",
+    "details": {
+        "message": "Movement detected",
+        "people_count": 1,
+        "brightness": 152.97,
+        "light_status": "NORMAL LIGHT",
+        "alert_level": "LOW"
+    }
+}

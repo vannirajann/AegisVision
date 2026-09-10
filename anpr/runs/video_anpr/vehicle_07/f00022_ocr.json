@@ -1,0 +1,10 @@
+[
+  {
+    "raw_text": "C X8 120",
+    "cleaned_text": "CX8120",
+    "valid": true,
+    "confidence": 0.799,
+    "variant": "color_upscaled",
+    "quality": 0.59
+  }
+]
