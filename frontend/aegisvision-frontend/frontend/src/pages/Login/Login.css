@@ -1,0 +1,615 @@
+* {
+  box-sizing: border-box;
+}
+
+.login-page {
+  min-height: 100vh;
+  width: 100%;
+  background: #05090d;
+  color: #e8f1f5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+  overflow: hidden;
+
+  font-family: Arial, sans-serif;
+}
+
+/* ================= BACKGROUND GRID ================= */
+
+.grid-background {
+  position: absolute;
+  inset: 0;
+
+  background-image:
+    linear-gradient(
+      rgba(0, 255, 170, 0.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(0, 255, 170, 0.035) 1px,
+      transparent 1px
+    );
+
+  background-size: 50px 50px;
+
+  animation: gridMove 15s linear infinite;
+}
+
+@keyframes gridMove {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(50px);
+  }
+}
+
+/* ================= BRAND ================= */
+
+.brand {
+  position: absolute;
+
+  top: 35px;
+  left: 45px;
+
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  z-index: 5;
+}
+
+.shield {
+  width: 52px;
+  height: 60px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 28px;
+
+  background: rgba(0, 230, 160, 0.08);
+
+  border: 1px solid #00e6a0;
+
+  clip-path: polygon(
+    50% 0%,
+    90% 18%,
+    90% 60%,
+    50% 100%,
+    10% 60%,
+    10% 18%
+  );
+
+  box-shadow:
+    0 0 20px rgba(0, 230, 160, 0.25);
+}
+
+.brand h1 {
+  margin: 0;
+
+  font-size: 22px;
+
+  letter-spacing: 4px;
+}
+
+.brand p {
+  margin: 5px 0 0;
+
+  font-size: 9px;
+
+  letter-spacing: 2px;
+
+  color: #71828c;
+}
+
+/* ================= RADAR ================= */
+
+.radar {
+  position: absolute;
+
+  width: 620px;
+  height: 620px;
+
+  right: -160px;
+  bottom: -170px;
+
+  border-radius: 50%;
+
+  opacity: 0.45;
+}
+
+.radar-circle {
+  position: absolute;
+
+  border: 1px solid rgba(0, 230, 160, 0.2);
+
+  border-radius: 50%;
+}
+
+.circle-1 {
+  inset: 0;
+}
+
+.circle-2 {
+  inset: 100px;
+}
+
+.circle-3 {
+  inset: 200px;
+}
+
+.radar-line {
+  position: absolute;
+
+  width: 50%;
+  height: 2px;
+
+  top: 50%;
+  left: 50%;
+
+  transform-origin: left center;
+
+  background: linear-gradient(
+    90deg,
+    rgba(0, 255, 170, 0.8),
+    transparent
+  );
+
+  animation: radarScan 4s linear infinite;
+}
+
+@keyframes radarScan {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Radar detection points */
+
+.radar-dot {
+  position: absolute;
+
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #ff3d3d;
+
+  box-shadow: 0 0 15px #ff3d3d;
+
+  animation: dotPulse 1.5s infinite;
+}
+
+.dot-1 {
+  top: 30%;
+  left: 65%;
+}
+
+.dot-2 {
+  top: 65%;
+  left: 30%;
+}
+
+.dot-3 {
+  top: 45%;
+  left: 20%;
+}
+
+@keyframes dotPulse {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.7);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+}
+
+/* ================= LOGIN CARD ================= */
+
+.login-container {
+  width: 410px;
+
+  padding: 40px;
+
+  position: relative;
+
+  z-index: 3;
+
+  background: rgba(8, 16, 21, 0.94);
+
+  border: 1px solid rgba(0, 230, 160, 0.3);
+
+  box-shadow:
+    0 0 50px rgba(0, 0, 0, 0.7),
+    inset 0 0 30px rgba(0, 230, 160, 0.025);
+
+  backdrop-filter: blur(12px);
+
+  animation: loginAppear 1s ease-out;
+}
+
+@keyframes loginAppear {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Corner design */
+
+.login-container::before,
+.login-container::after {
+  content: '';
+
+  position: absolute;
+
+  width: 45px;
+  height: 45px;
+
+  border-color: #00e6a0;
+
+  border-style: solid;
+}
+
+.login-container::before {
+  top: -1px;
+  left: -1px;
+
+  border-width: 2px 0 0 2px;
+}
+
+.login-container::after {
+  bottom: -1px;
+  right: -1px;
+
+  border-width: 0 2px 2px 0;
+}
+
+/* ================= CCTV CAMERA ================= */
+
+.camera-icon {
+  height: 55px;
+
+  display: flex;
+
+  justify-content: center;
+
+  position: relative;
+}
+
+.camera-body {
+  width: 75px;
+  height: 40px;
+
+  border: 2px solid #7d909a;
+
+  border-radius: 6px;
+
+  position: relative;
+}
+
+.camera-lens {
+  position: absolute;
+
+  width: 22px;
+  height: 22px;
+
+  border-radius: 50%;
+
+  border: 2px solid #00e6a0;
+
+  top: 7px;
+  left: 25px;
+
+  box-shadow:
+    0 0 15px rgba(0, 230, 160, 0.5);
+
+  animation: lensPulse 2s infinite;
+}
+
+@keyframes lensPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 8px rgba(0, 230, 160, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 22px rgba(0, 230, 160, 0.8);
+  }
+}
+
+.camera-stand {
+  position: absolute;
+
+  width: 25px;
+  height: 8px;
+
+  background: #7d909a;
+
+  bottom: 0;
+}
+
+/* ================= STATUS ================= */
+
+.security-status {
+  text-align: center;
+
+  font-size: 10px;
+
+  letter-spacing: 2px;
+
+  color: #00e6a0;
+
+  margin: 10px 0 25px;
+}
+
+.status-dot {
+  display: inline-block;
+
+  width: 7px;
+  height: 7px;
+
+  margin-right: 8px;
+
+  border-radius: 50%;
+
+  background: #00e6a0;
+
+  box-shadow: 0 0 10px #00e6a0;
+}
+
+.status-dot.active {
+  animation: statusBlink 0.5s infinite;
+}
+
+@keyframes statusBlink {
+  50% {
+    opacity: 0.2;
+  }
+}
+
+/* ================= TEXT ================= */
+
+.login-container h2 {
+  text-align: center;
+
+  margin: 0;
+
+  font-size: 27px;
+
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  text-align: center;
+
+  margin: 8px 0 30px;
+
+  color: #687982;
+
+  font-size: 12px;
+}
+
+/* ================= INPUTS ================= */
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+
+  font-size: 9px;
+
+  letter-spacing: 2px;
+
+  color: #80919a;
+
+  margin-bottom: 8px;
+}
+
+.input-group input {
+  width: 100%;
+
+  padding: 14px;
+
+  border: 1px solid #25353d;
+
+  background: #071015;
+
+  color: white;
+
+  outline: none;
+
+  font-size: 13px;
+
+  transition: 0.3s;
+}
+
+.input-group input:focus {
+  border-color: #00e6a0;
+
+  box-shadow:
+    0 0 15px rgba(0, 230, 160, 0.1);
+}
+
+.input-group input::placeholder {
+  color: #45545b;
+}
+
+/* ================= BUTTON ================= */
+
+button {
+  width: 100%;
+
+  padding: 15px;
+
+  margin-top: 5px;
+
+  border: 1px solid #00e6a0;
+
+  background: rgba(0, 230, 160, 0.08);
+
+  color: #00e6a0;
+
+  font-weight: bold;
+
+  letter-spacing: 2px;
+
+  cursor: pointer;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #00e6a0;
+
+  color: #04100d;
+
+  box-shadow:
+    0 0 25px rgba(0, 230, 160, 0.35);
+}
+
+button:disabled {
+  cursor: not-allowed;
+
+  opacity: 0.7;
+}
+
+.button-arrow {
+  font-size: 20px;
+}
+
+/* ================= ERROR ================= */
+
+.error-message {
+  padding: 10px;
+
+  margin-bottom: 15px;
+
+  border: 1px solid #ff3d3d;
+
+  color: #ff6b6b;
+
+  background: rgba(255, 61, 61, 0.06);
+
+  font-size: 11px;
+
+  text-align: center;
+}
+
+/* ================= FOOTER ================= */
+
+.security-footer {
+  margin-top: 25px;
+
+  padding-top: 15px;
+
+  border-top: 1px solid #1c292f;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  font-size: 8px;
+
+  color: #53636b;
+
+  letter-spacing: 1px;
+}
+
+/* ================= SYSTEM INFO ================= */
+
+.system-info {
+  position: absolute;
+
+  bottom: 25px;
+
+  left: 35px;
+  right: 35px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  color: #3d4d54;
+
+  font-size: 8px;
+
+  letter-spacing: 1px;
+}
+
+/* ================= LOGIN SCAN ================= */
+
+.scanning {
+  box-shadow:
+    0 0 50px rgba(0, 230, 160, 0.25),
+    inset 0 0 50px rgba(0, 230, 160, 0.08);
+
+  animation: scanningPulse 0.8s infinite alternate;
+}
+
+@keyframes scanningPulse {
+  from {
+    border-color: rgba(0, 230, 160, 0.3);
+  }
+
+  to {
+    border-color: rgba(0, 230, 160, 0.9);
+  }
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 600px) {
+  .login-container {
+    width: 90%;
+
+    padding: 30px 25px;
+  }
+
+  .brand {
+    top: 20px;
+    left: 20px;
+  }
+
+  .brand h1 {
+    font-size: 18px;
+  }
+
+  .system-info {
+    display: none;
+  }
+
+  .radar {
+    opacity: 0.2;
+  }
+}
