@@ -1,4 +1,0 @@
-opencv-contrib-python
-ultralytics
-easyocr
-pytest
