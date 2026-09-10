@@ -1,21 +1,36 @@
-import { mockCameras } from '../../data/mockCameras.js'
-import CameraTile from './CameraTile.jsx'
 import './LiveMonitoring.css'
 
 export default function LiveMonitoring() {
-  const onlineCount = mockCameras.filter((c) => c.status === 'online').length
+  const videoFeedUrl = 'http://127.0.0.1:8000/video-feed'
 
   return (
     <div className="live-monitoring">
+
       <div className="live-monitoring-toolbar">
-        <span>{onlineCount} of {mockCameras.length} cameras streaming</span>
+        <span>4 of 4 cameras streaming</span>
+
+        <span className="live-status">
+          <span className="live-dot"></span>
+          LIVE
+        </span>
       </div>
 
       <div className="camera-grid">
-        {mockCameras.map((camera) => (
-          <CameraTile key={camera.id} camera={camera} />
-        ))}
+
+        <div className="camera-feed">
+          <div className="camera-label">
+            <span>CAM-01</span>
+            <span>LIVE</span>
+          </div>
+
+          <img
+            src={videoFeedUrl}
+            alt="AegisVision four-camera surveillance feed"
+          />
+        </div>
+
       </div>
+
     </div>
   )
 }

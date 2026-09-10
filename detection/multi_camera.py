@@ -54,12 +54,7 @@ DOG_CLASS = "dog"
 # INTERNAL TRACK SETTINGS
 # ============================================================
 
-# Maximum distance an object can move between frames
-# and still be considered the same object when YOLO
-# does not provide a track ID.
 MAX_TRACK_DISTANCE = 140
-
-# A very large movement is useful for detecting a jump.
 JUMP_DISTANCE = 25
 
 
@@ -79,13 +74,7 @@ class CameraProcessor:
         self.name = camera_config["name"]
         self.source = camera_config["source"]
 
-        # ====================================================
-        # IMPORTANT
-        #
-        # FENCE IS TAKEN DIRECTLY FROM CONFIG.PY.
-        # NO FENCE COORDINATES ARE CHANGED.
-        # ====================================================
-
+        # Fence comes directly from config.py
         self.fence_normalized = camera_config["fence"]
 
         self.cap = None
@@ -98,7 +87,7 @@ class CameraProcessor:
         self.frame_id = 0
 
         # ====================================================
-        # YOLO TRACKS
+        # TRACKS
         # ====================================================
 
         self.seen_tracks = set()
@@ -106,38 +95,14 @@ class CameraProcessor:
         self.seen_vehicle_tracks = set()
         self.seen_dog_tracks = set()
 
-        # ====================================================
-        # INTERNAL TRACKER
-        #
-        # This is the important fix.
-        #
-        # Even if YOLO says:
-        #
-        # Track ID: None
-        #
-        # we create our own ID.
-        # ====================================================
-
         self.next_internal_id = 1
-
         self.internal_tracks = {}
-
-        # Format:
-        #
-        # internal_id: {
-        #     "class": "person",
-        #     "center": (x,y),
-        #     "bottom": (x,y),
-        #     "side": -1/1/0,
-        #     "last_frame": frame_number
-        # }
 
         # ====================================================
         # INTRUDERS
         # ====================================================
 
         self.intruder_tracks = set()
-
         self.total_intruders = 0
 
         # ====================================================
@@ -245,10 +210,6 @@ class CameraProcessor:
         width,
         height
     ):
-
-        # ====================================================
-        # EXACT VALUES FROM CONFIG.PY
-        # ====================================================
 
         (x1, y1), (x2, y2) = (
             self.fence_normalized
@@ -381,8 +342,6 @@ class CameraProcessor:
 
     # ========================================================
     # FIND INTERNAL TRACK
-    #
-    # THIS FIXES Track ID: None
     # ========================================================
 
     def find_internal_track(
@@ -396,16 +355,11 @@ class CameraProcessor:
         best_id = None
         best_distance = float("inf")
 
-        # ----------------------------------------------------
-        # Search existing tracks
-        # ----------------------------------------------------
-
         for internal_id, data in self.internal_tracks.items():
 
             if data["class"] != class_name:
                 continue
 
-            # Ignore very old tracks
             if (
                 self.frame_id
                 -
@@ -434,10 +388,6 @@ class CameraProcessor:
                 best_distance = distance
                 best_id = internal_id
 
-        # ----------------------------------------------------
-        # Existing track found
-        # ----------------------------------------------------
-
         if best_id is not None:
 
             self.internal_tracks[
@@ -461,10 +411,6 @@ class CameraProcessor:
             }
 
             return best_id
-
-        # ----------------------------------------------------
-        # New internal track
-        # ----------------------------------------------------
 
         internal_id = self.next_internal_id
 
@@ -577,13 +523,6 @@ class CameraProcessor:
             filename
         )
 
-        # IMPORTANT:
-        # frame already contains:
-        # RED BOX
-        # INTRUDER LABEL
-        # RED ALERT BANNER
-        # VIRTUAL FENCE
-
         success = cv2.imwrite(
             path,
             frame
@@ -592,12 +531,10 @@ class CameraProcessor:
         if success:
 
             print(
-                f"📸 ALERT SCREENSHOT SAVED:"
+                "📸 ALERT SCREENSHOT SAVED:"
             )
 
-            print(
-                f"   {path}"
-            )
+            print(path)
 
         else:
 
@@ -623,20 +560,12 @@ class CameraProcessor:
             frame.shape[:2]
         )
 
-        # ====================================================
-        # FENCE
-        # ====================================================
-
         fence_p1, fence_p2 = (
             self.get_fence_points(
                 width,
                 height
             )
         )
-
-        # ====================================================
-        # YOLO
-        # ====================================================
 
         try:
 
@@ -691,10 +620,6 @@ class CameraProcessor:
             -1
         )
 
-        # ====================================================
-        # FENCE LABEL
-        # ====================================================
-
         label_x = (
             fence_p1[0]
             +
@@ -747,10 +672,6 @@ class CameraProcessor:
 
             for box in results[0].boxes:
 
-                # =================================================
-                # CLASS
-                # =================================================
-
                 class_id = int(
                     box.cls[0]
                 )
@@ -766,10 +687,6 @@ class CameraProcessor:
                 if confidence < DETECTION_CONFIDENCE:
                     continue
 
-                # =================================================
-                # BOUNDING BOX
-                # =================================================
-
                 x1, y1, x2, y2 = (
                     box.xyxy[0]
                 )
@@ -779,10 +696,6 @@ class CameraProcessor:
                 x2 = int(x2)
                 y2 = int(y2)
 
-                # =================================================
-                # YOLO TRACK ID
-                # =================================================
-
                 yolo_track_id = None
 
                 if box.id is not None:
@@ -790,10 +703,6 @@ class CameraProcessor:
                     yolo_track_id = int(
                         box.id[0]
                     )
-
-                # =================================================
-                # COUNTS
-                # =================================================
 
                 current_objects += 1
 
@@ -809,10 +718,6 @@ class CameraProcessor:
 
                     current_dogs += 1
 
-                # =================================================
-                # POSITION
-                # =================================================
-
                 center = (
                     (x1 + x2) // 2,
                     (y1 + y2) // 2
@@ -823,21 +728,11 @@ class CameraProcessor:
                     y2
                 )
 
-                # =================================================
-                # SIDE
-                # =================================================
-
                 current_side = self.get_side(
                     bottom_center,
                     fence_p1,
                     fence_p2
                 )
-
-                # =================================================
-                # INTERNAL TRACK
-                #
-                # THIS WORKS EVEN IF YOLO TRACK ID = NONE.
-                # =================================================
 
                 internal_id = (
                     self.find_internal_track(
@@ -853,10 +748,6 @@ class CameraProcessor:
                     f"{class_name}_"
                     f"internal_{internal_id}"
                 )
-
-                # =================================================
-                # TOTAL TRACKS
-                # =================================================
 
                 self.seen_tracks.add(
                     track_key
@@ -880,10 +771,6 @@ class CameraProcessor:
                         track_key
                     )
 
-                # =================================================
-                # PREVIOUS POSITION
-                # =================================================
-
                 previous_point = (
                     self.previous_points.get(
                         track_key
@@ -904,13 +791,7 @@ class CameraProcessor:
 
                 crossed_fence = False
 
-                # =================================================
-                # METHOD 1
-                #
-                # TRAJECTORY CROSSES FENCE
-                #
-                # MOST IMPORTANT FOR JUMPING.
-                # =================================================
+                # Method 1: trajectory intersection
 
                 if previous_point is not None:
 
@@ -923,11 +804,7 @@ class CameraProcessor:
 
                         crossed_fence = True
 
-                # =================================================
-                # METHOD 2
-                #
-                # SIDE CHANGED
-                # =================================================
+                # Method 2: side changed
 
                 if not crossed_fence:
 
@@ -943,11 +820,7 @@ class CameraProcessor:
 
                         crossed_fence = True
 
-                # =================================================
-                # METHOD 3
-                #
-                # CENTER CROSSED FENCE
-                # =================================================
+                # Method 3: center crossed
 
                 if (
                     not crossed_fence
@@ -983,11 +856,7 @@ class CameraProcessor:
 
                         crossed_fence = True
 
-                # =================================================
-                # METHOD 4
-                #
-                # LARGE JUMP + FENCE INTERSECTION
-                # =================================================
+                # Method 4: jump + intersection
 
                 if (
                     not crossed_fence
@@ -1016,10 +885,6 @@ class CameraProcessor:
 
                             crossed_fence = True
 
-                # =================================================
-                # UPDATE HISTORY
-                # =================================================
-
                 self.previous_points[
                     track_key
                 ] = bottom_center
@@ -1031,10 +896,6 @@ class CameraProcessor:
                 self.previous_centers[
                     track_key
                 ] = center
-
-                # =================================================
-                # CHECK EXISTING INTRUDER
-                # =================================================
 
                 is_intruder = (
                     track_key
@@ -1054,12 +915,6 @@ class CameraProcessor:
                     self.intruder_tracks
                 ):
 
-                    # =================================================
-                    # ANY REAL CROSSING = INTRUSION
-                    #
-                    # No restricted-side filter.
-                    # =================================================
-
                     is_intruder = True
 
                     self.intruder_tracks.add(
@@ -1070,10 +925,6 @@ class CameraProcessor:
 
                     intrusion_now = True
 
-                    # =================================================
-                    # RED BOX FIRST
-                    # =================================================
-
                     cv2.rectangle(
                         output_frame,
                         (x1, y1),
@@ -1081,10 +932,6 @@ class CameraProcessor:
                         (0, 0, 255),
                         7
                     )
-
-                    # =================================================
-                    # RED INTRUDER LABEL
-                    # =================================================
 
                     alert_label = (
                         "INTRUDER: "
@@ -1108,10 +955,6 @@ class CameraProcessor:
                         3
                     )
 
-                    # =================================================
-                    # RED ALERT BANNER
-                    # =================================================
-
                     cv2.rectangle(
                         output_frame,
                         (0, 0),
@@ -1130,10 +973,6 @@ class CameraProcessor:
                         2
                     )
 
-                    # =================================================
-                    # ALERT INFORMATION
-                    # =================================================
-
                     cv2.putText(
                         output_frame,
                         "FENCE CROSSED",
@@ -1150,17 +989,6 @@ class CameraProcessor:
                         3
                     )
 
-                    # =================================================
-                    # SAVE THE ACTUAL ALERT IMAGE
-                    #
-                    # It contains:
-                    # - Person
-                    # - RED BOX
-                    # - INTRUDER LABEL
-                    # - RED ALERT
-                    # - Fence
-                    # =================================================
-
                     evidence = (
                         self.save_evidence(
                             output_frame,
@@ -1169,10 +997,6 @@ class CameraProcessor:
                             yolo_track_id
                         )
                     )
-
-                    # =================================================
-                    # TERMINAL ALERT
-                    # =================================================
 
                     print()
                     print(
@@ -1222,9 +1046,6 @@ class CameraProcessor:
 
                 # =================================================
                 # PERSISTENT INTRUDER
-                #
-                # Once crossed:
-                # ALWAYS RED while tracked.
                 # =================================================
 
                 if is_intruder:
@@ -1262,27 +1083,15 @@ class CameraProcessor:
                         f" INT-ID:{internal_id}"
                     )
 
-                # =================================================
-                # CONFIDENCE
-                # =================================================
-
                 label += (
                     f" {confidence:.2f}"
                 )
-
-                # =================================================
-                # YOLO ID IF AVAILABLE
-                # =================================================
 
                 if yolo_track_id is not None:
 
                     label += (
                         f" ID:{yolo_track_id}"
                     )
-
-                # =================================================
-                # DRAW BOX
-                # =================================================
 
                 cv2.rectangle(
                     output_frame,
@@ -1291,10 +1100,6 @@ class CameraProcessor:
                     box_color,
                     5 if is_intruder else 3
                 )
-
-                # =================================================
-                # DRAW LABEL
-                # =================================================
 
                 cv2.putText(
                     output_frame,
@@ -1309,10 +1114,6 @@ class CameraProcessor:
                     2
                 )
 
-                # =================================================
-                # BOTTOM CENTER
-                # =================================================
-
                 cv2.circle(
                     output_frame,
                     bottom_center,
@@ -1320,10 +1121,6 @@ class CameraProcessor:
                     box_color,
                     -1
                 )
-
-                # =================================================
-                # STRUCTURED OUTPUT
-                # =================================================
 
                 frame_detections.append({
 
@@ -1360,15 +1157,7 @@ class CameraProcessor:
                         is_intruder
                 })
 
-        # ========================================================
-        # CLEAN OLD INTERNAL TRACKS
-        # ========================================================
-
         self.clean_old_tracks()
-
-        # ========================================================
-        # CURRENT COUNTS
-        # ========================================================
 
         self.current_objects = (
             current_objects
@@ -1389,10 +1178,6 @@ class CameraProcessor:
         self.current_detections = (
             frame_detections
         )
-
-        # ========================================================
-        # TOTAL COUNTS
-        # ========================================================
 
         self.total_objects = len(
             self.seen_tracks
@@ -1426,10 +1211,6 @@ class CameraProcessor:
                 255
             )
 
-            # ====================================================
-            # RED SCREEN BORDER
-            # ====================================================
-
             cv2.rectangle(
                 output_frame,
                 (3, 3),
@@ -1440,10 +1221,6 @@ class CameraProcessor:
                 (0, 0, 255),
                 8
             )
-
-            # ====================================================
-            # RED ALERT BANNER
-            # ====================================================
 
             cv2.rectangle(
                 output_frame,
@@ -1615,39 +1392,35 @@ class CameraProcessor:
                 self.cap.read()
             )
 
+            # =================================================
+            # VIDEO ENDED
+            #
+            # IMPORTANT:
+            # DO NOT REOPEN THE VIDEO.
+            # The demo video plays only once.
+            # =================================================
+
             if not success:
 
                 print(
-                    f"🔄 Camera {self.camera_id}: "
-                    f"Video ended. Reopening..."
+                    f"⏹️ Camera {self.camera_id}: "
+                    f"Video ended. Camera stopped."
                 )
 
-                # Reset only movement history.
-                #
-                # Intruder history is NOT reset.
-
-                self.previous_points.clear()
-                self.previous_sides.clear()
-                self.previous_centers.clear()
-
-                self.internal_tracks.clear()
+                self.running = False
 
                 if self.cap is not None:
 
                     self.cap.release()
                     self.cap = None
 
-                time.sleep(0.3)
+                # Keep the last processed frame visible.
+                # No reset and no replay.
 
-                if not self.open_video():
-
-                    time.sleep(1)
-                    continue
-
-                continue
+                break
 
             # =================================================
-            # PROCESS
+            # PROCESS FRAME
             # =================================================
 
             output_frame = (
@@ -1667,6 +1440,11 @@ class CameraProcessor:
             self.cap.release()
             self.cap = None
 
+        print(
+            f"⏹️ Camera {self.camera_id}: "
+            f"Processing stopped."
+        )
+
 
     # ========================================================
     # START
@@ -1674,7 +1452,11 @@ class CameraProcessor:
 
     def start(self):
 
-        if self.thread is not None:
+        if (
+            self.thread is not None
+            and
+            self.thread.is_alive()
+        ):
             return
 
         self.thread = threading.Thread(
@@ -1706,6 +1488,15 @@ class CameraProcessor:
     def stop(self):
 
         self.running = False
+
+        if self.cap is not None:
+
+            try:
+                self.cap.release()
+            except:
+                pass
+
+            self.cap = None
 
 
 # ============================================================
@@ -1826,8 +1617,6 @@ class MultiCameraManager:
                     f"Camera {len(frames) + 1}"
                 )
             )
-
-        # Make sure exactly four frames exist.
 
         frames = frames[:4]
 
@@ -2047,10 +1836,15 @@ if __name__ == "__main__":
         "✅ Alert screenshot capture enabled."
     )
 
+    print(
+        "✅ Videos will play ONCE and stop."
+    )
+
     print()
     print(
         "Press Q to stop."
     )
+
     print()
 
     try:

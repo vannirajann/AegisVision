@@ -7,88 +7,48 @@ export default function Login() {
   const [error, setError] = useState('')
   const [scanning, setScanning] = useState(false)
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault()
 
     setError('')
     setScanning(true)
 
-    try {
-      const formData = new URLSearchParams()
+    // DEMO LOGIN
+    const demoUsername = 'admin'
+    const demoPassword = 'admin123'
 
-      formData.append('username', username.trim())
-      formData.append('password', password)
+    setTimeout(() => {
+      if (
+        username.trim() === demoUsername &&
+        password === demoPassword
+      ) {
+        sessionStorage.setItem(
+          'access_token',
+          'aegisvision-demo-token'
+        )
 
-      const response = await fetch(
-        'http://127.0.0.1:8000/auth/login',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: formData.toString(),
-        }
-      )
+        sessionStorage.setItem(
+          'role',
+          'operator'
+        )
 
-      const text = await response.text()
+        sessionStorage.setItem(
+          'full_name',
+          'Border Security Operator'
+        )
 
-      let data
+        console.log('LOGIN SUCCESS')
+        console.log('Redirecting to dashboard...')
 
-      try {
-        data = JSON.parse(text)
-      } catch {
-        throw new Error(
-          `Server returned an invalid response (${response.status})`
+        window.location.href = '/'
+      } else {
+        setScanning(false)
+
+        setError(
+          'ACCESS DENIED - Invalid Operator ID or Security Key'
         )
       }
-
-      if (!response.ok) {
-        throw new Error(
-          data.detail || `Login failed (${response.status})`
-        )
-      }
-
-      console.log('LOGIN SUCCESS:', data)
-
-      if (!data.access_token) {
-        throw new Error(
-          'Login succeeded but no access token was returned'
-        )
-      }
-
-      // Save login information for this browser session
-      sessionStorage.setItem(
-        'access_token',
-        data.access_token
-      )
-
-      sessionStorage.setItem(
-        'role',
-        data.role || 'operator'
-      )
-
-      sessionStorage.setItem(
-        'full_name',
-        data.full_name || 'Border Security Operator'
-      )
-
-      console.log('LOGIN COMPLETE')
-      console.log('Redirecting to dashboard...')
-
-      setScanning(false)
-
-      // Go to Dashboard
-      window.location.href = '/'
-
-    } catch (err) {
-      console.error('LOGIN ERROR:', err)
-
-      setScanning(false)
-
-      setError(
-        `ACCESS DENIED - ${err.message}`
-      )
-    }
+    }, 1200)
   }
 
   return (

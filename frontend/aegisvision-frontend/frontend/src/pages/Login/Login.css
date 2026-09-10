@@ -1,43 +1,88 @@
+/* =========================================================
+   AEGISVISION LOGIN
+   PREMIUM MIDNIGHT NAVY + ELECTRIC BLUE + VIOLET THEME
+   ========================================================= */
+
 * {
   box-sizing: border-box;
 }
 
+/* =========================================================
+   PAGE
+   ========================================================= */
+
 .login-page {
   min-height: 100vh;
   width: 100%;
-  background: #05090d;
-  color: #e8f1f5;
+
+  position: relative;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  position: relative;
   overflow: hidden;
 
-  font-family: Arial, sans-serif;
+  color: #f4f7ff;
+
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(59, 130, 246, 0.12),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(139, 92, 246, 0.13),
+      transparent 32%
+    ),
+    linear-gradient(
+      135deg,
+      #050914,
+      #080e1c 45%,
+      #060a15
+    );
 }
 
-/* ================= BACKGROUND GRID ================= */
+/* =========================================================
+   BACKGROUND GRID
+   ========================================================= */
 
 .grid-background {
   position: absolute;
   inset: 0;
 
+  pointer-events: none;
+
   background-image:
     linear-gradient(
-      rgba(0, 255, 170, 0.035) 1px,
+      rgba(59, 130, 246, 0.045) 1px,
       transparent 1px
     ),
     linear-gradient(
       90deg,
-      rgba(0, 255, 170, 0.035) 1px,
+      rgba(139, 92, 246, 0.045) 1px,
       transparent 1px
     );
 
   background-size: 50px 50px;
 
-  animation: gridMove 15s linear infinite;
+  animation: gridMove 18s linear infinite;
+
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.9),
+    rgba(0, 0, 0, 0.25)
+  );
 }
 
 @keyframes gridMove {
@@ -50,7 +95,74 @@
   }
 }
 
-/* ================= BRAND ================= */
+/* =========================================================
+   AMBIENT GLOW
+   ========================================================= */
+
+.login-page::before {
+  content: "";
+
+  position: absolute;
+
+  width: 600px;
+  height: 600px;
+
+  left: -280px;
+  top: -250px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(59, 130, 246, 0.16),
+      transparent 65%
+    );
+
+  pointer-events: none;
+
+  animation: ambientFloat 8s ease-in-out infinite;
+}
+
+.login-page::after {
+  content: "";
+
+  position: absolute;
+
+  width: 500px;
+  height: 500px;
+
+  right: -220px;
+  top: 20%;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(139, 92, 246, 0.12),
+      transparent 65%
+    );
+
+  pointer-events: none;
+
+  animation: ambientFloat 10s ease-in-out infinite reverse;
+}
+
+@keyframes ambientFloat {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(25px, 20px);
+  }
+}
+
+/* =========================================================
+   BRAND
+   ========================================================= */
 
 .brand {
   position: absolute;
@@ -60,10 +172,13 @@
 
   display: flex;
   align-items: center;
+
   gap: 15px;
 
   z-index: 5;
 }
+
+/* Shield */
 
 .shield {
   width: 52px;
@@ -73,11 +188,23 @@
   align-items: center;
   justify-content: center;
 
-  font-size: 28px;
+  position: relative;
 
-  background: rgba(0, 230, 160, 0.08);
+  font-size: 12px;
+  font-weight: 800;
 
-  border: 1px solid #00e6a0;
+  letter-spacing: 1px;
+
+  color: #dbeafe;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(59, 130, 246, 0.2),
+      rgba(139, 92, 246, 0.1)
+    );
+
+  border: 1px solid #3b82f6;
 
   clip-path: polygon(
     50% 0%,
@@ -89,15 +216,37 @@
   );
 
   box-shadow:
-    0 0 20px rgba(0, 230, 160, 0.25);
+    0 0 25px rgba(59, 130, 246, 0.3),
+    inset 0 0 15px rgba(139, 92, 246, 0.1);
 }
+
+.shield::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 7px;
+
+  border: 1px solid rgba(96, 165, 250, 0.3);
+
+  clip-path: inherit;
+}
+
+/* Brand text */
 
 .brand h1 {
   margin: 0;
 
   font-size: 22px;
 
+  font-weight: 700;
+
   letter-spacing: 4px;
+
+  color: #f4f7ff;
+
+  text-shadow:
+    0 0 20px rgba(59, 130, 246, 0.25);
 }
 
 .brand p {
@@ -107,10 +256,12 @@
 
   letter-spacing: 2px;
 
-  color: #71828c;
+  color: #71809e;
 }
 
-/* ================= RADAR ================= */
+/* =========================================================
+   RADAR
+   ========================================================= */
 
 .radar {
   position: absolute;
@@ -124,12 +275,21 @@
   border-radius: 50%;
 
   opacity: 0.45;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(59, 130, 246, 0.025),
+      transparent 70%
+    );
 }
 
 .radar-circle {
   position: absolute;
 
-  border: 1px solid rgba(0, 230, 160, 0.2);
+  border: 1px solid rgba(59, 130, 246, 0.18);
 
   border-radius: 50%;
 }
@@ -157,11 +317,16 @@
 
   transform-origin: left center;
 
-  background: linear-gradient(
-    90deg,
-    rgba(0, 255, 170, 0.8),
-    transparent
-  );
+  background:
+    linear-gradient(
+      90deg,
+      rgba(34, 211, 238, 0.85),
+      rgba(59, 130, 246, 0.4),
+      transparent
+    );
+
+  box-shadow:
+    0 0 12px rgba(34, 211, 238, 0.45);
 
   animation: radarScan 4s linear infinite;
 }
@@ -176,7 +341,7 @@
   }
 }
 
-/* Radar detection points */
+/* Radar dots */
 
 .radar-dot {
   position: absolute;
@@ -186,9 +351,11 @@
 
   border-radius: 50%;
 
-  background: #ff3d3d;
+  background: #ef4444;
 
-  box-shadow: 0 0 15px #ff3d3d;
+  box-shadow:
+    0 0 15px #ef4444,
+    0 0 30px rgba(239, 68, 68, 0.35);
 
   animation: dotPulse 1.5s infinite;
 }
@@ -221,7 +388,9 @@
   }
 }
 
-/* ================= LOGIN CARD ================= */
+/* =========================================================
+   LOGIN CARD
+   ========================================================= */
 
 .login-container {
   width: 410px;
@@ -232,17 +401,24 @@
 
   z-index: 3;
 
-  background: rgba(8, 16, 21, 0.94);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(15, 23, 42, 0.97),
+      rgba(7, 12, 25, 0.97)
+    );
 
-  border: 1px solid rgba(0, 230, 160, 0.3);
+  border: 1px solid rgba(59, 130, 246, 0.3);
 
   box-shadow:
-    0 0 50px rgba(0, 0, 0, 0.7),
-    inset 0 0 30px rgba(0, 230, 160, 0.025);
+    0 30px 80px rgba(0, 0, 0, 0.55),
+    0 0 40px rgba(59, 130, 246, 0.06),
+    inset 0 0 35px rgba(59, 130, 246, 0.025);
 
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 
-  animation: loginAppear 1s ease-out;
+  animation: loginAppear 0.9s ease-out;
 }
 
 @keyframes loginAppear {
@@ -257,20 +433,25 @@
   }
 }
 
-/* Corner design */
+/* =========================================================
+   CARD CORNERS
+   ========================================================= */
 
 .login-container::before,
 .login-container::after {
-  content: '';
+  content: "";
 
   position: absolute;
 
   width: 45px;
   height: 45px;
 
-  border-color: #00e6a0;
+  border-color: #3b82f6;
 
   border-style: solid;
+
+  filter:
+    drop-shadow(0 0 8px rgba(59, 130, 246, 0.45));
 }
 
 .login-container::before {
@@ -287,7 +468,9 @@
   border-width: 0 2px 2px 0;
 }
 
-/* ================= CCTV CAMERA ================= */
+/* =========================================================
+   CCTV CAMERA
+   ========================================================= */
 
 .camera-icon {
   height: 55px;
@@ -303,11 +486,21 @@
   width: 75px;
   height: 40px;
 
-  border: 2px solid #7d909a;
+  border: 2px solid #71809e;
 
   border-radius: 6px;
 
   position: relative;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(59, 130, 246, 0.06),
+      rgba(139, 92, 246, 0.04)
+    );
+
+  box-shadow:
+    0 0 20px rgba(59, 130, 246, 0.08);
 }
 
 .camera-lens {
@@ -318,13 +511,21 @@
 
   border-radius: 50%;
 
-  border: 2px solid #00e6a0;
+  border: 2px solid #60a5fa;
 
   top: 7px;
   left: 25px;
 
+  background:
+    radial-gradient(
+      circle at 35% 35%,
+      #dbeafe,
+      #3b82f6 35%,
+      #0b1222 65%
+    );
+
   box-shadow:
-    0 0 15px rgba(0, 230, 160, 0.5);
+    0 0 15px rgba(59, 130, 246, 0.5);
 
   animation: lensPulse 2s infinite;
 }
@@ -332,11 +533,13 @@
 @keyframes lensPulse {
   0%,
   100% {
-    box-shadow: 0 0 8px rgba(0, 230, 160, 0.3);
+    box-shadow:
+      0 0 8px rgba(59, 130, 246, 0.3);
   }
 
   50% {
-    box-shadow: 0 0 22px rgba(0, 230, 160, 0.8);
+    box-shadow:
+      0 0 25px rgba(59, 130, 246, 0.8);
   }
 }
 
@@ -346,12 +549,16 @@
   width: 25px;
   height: 8px;
 
-  background: #7d909a;
+  background: #71809e;
 
   bottom: 0;
+
+  border-radius: 2px;
 }
 
-/* ================= STATUS ================= */
+/* =========================================================
+   SECURITY STATUS
+   ========================================================= */
 
 .security-status {
   text-align: center;
@@ -360,7 +567,7 @@
 
   letter-spacing: 2px;
 
-  color: #00e6a0;
+  color: #60a5fa;
 
   margin: 10px 0 25px;
 }
@@ -375,9 +582,11 @@
 
   border-radius: 50%;
 
-  background: #00e6a0;
+  background: #22d3ee;
 
-  box-shadow: 0 0 10px #00e6a0;
+  box-shadow:
+    0 0 10px #22d3ee,
+    0 0 20px rgba(34, 211, 238, 0.3);
 }
 
 .status-dot.active {
@@ -390,7 +599,9 @@
   }
 }
 
-/* ================= TEXT ================= */
+/* =========================================================
+   TEXT
+   ========================================================= */
 
 .login-container h2 {
   text-align: center;
@@ -399,7 +610,11 @@
 
   font-size: 27px;
 
+  font-weight: 700;
+
   letter-spacing: 1px;
+
+  color: #f4f7ff;
 }
 
 .subtitle {
@@ -407,12 +622,14 @@
 
   margin: 8px 0 30px;
 
-  color: #687982;
+  color: #71809e;
 
   font-size: 12px;
 }
 
-/* ================= INPUTS ================= */
+/* =========================================================
+   INPUTS
+   ========================================================= */
 
 .input-group {
   margin-bottom: 20px;
@@ -425,7 +642,7 @@
 
   letter-spacing: 2px;
 
-  color: #80919a;
+  color: #8fa0bd;
 
   margin-bottom: 8px;
 }
@@ -435,9 +652,11 @@
 
   padding: 14px;
 
-  border: 1px solid #25353d;
+  border: 1px solid rgba(91, 123, 255, 0.22);
 
-  background: #071015;
+  border-radius: 9px;
+
+  background: #0b1222;
 
   color: white;
 
@@ -446,35 +665,48 @@
   font-size: 13px;
 
   transition: 0.3s;
+
+  box-shadow:
+    inset 0 0 15px rgba(0, 0, 0, 0.15);
 }
 
 .input-group input:focus {
-  border-color: #00e6a0;
+  border-color: #3b82f6;
 
   box-shadow:
-    0 0 15px rgba(0, 230, 160, 0.1);
+    0 0 0 3px rgba(59, 130, 246, 0.1),
+    0 0 20px rgba(59, 130, 246, 0.08);
 }
 
 .input-group input::placeholder {
-  color: #45545b;
+  color: #53627e;
 }
 
-/* ================= BUTTON ================= */
+/* =========================================================
+   AUTHENTICATE BUTTON
+   ========================================================= */
 
-button {
+.login-container button {
   width: 100%;
 
   padding: 15px;
 
   margin-top: 5px;
 
-  border: 1px solid #00e6a0;
+  border: 1px solid #3b82f6;
 
-  background: rgba(0, 230, 160, 0.08);
+  border-radius: 9px;
 
-  color: #00e6a0;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(59, 130, 246, 0.14),
+      rgba(139, 92, 246, 0.12)
+    );
 
-  font-weight: bold;
+  color: #93c5fd;
+
+  font-weight: 700;
 
   letter-spacing: 2px;
 
@@ -487,53 +719,79 @@ button {
   align-items: center;
 
   transition: 0.3s;
-}
-
-button:hover {
-  background: #00e6a0;
-
-  color: #04100d;
 
   box-shadow:
-    0 0 25px rgba(0, 230, 160, 0.35);
+    0 8px 25px rgba(59, 130, 246, 0.08);
 }
 
-button:disabled {
+.login-container button:hover {
+  background:
+    linear-gradient(
+      135deg,
+      #3b82f6,
+      #8b5cf6
+    );
+
+  color: white;
+
+  border-color: #60a5fa;
+
+  box-shadow:
+    0 0 30px rgba(59, 130, 246, 0.3),
+    0 10px 30px rgba(0, 0, 0, 0.25);
+
+  transform: translateY(-1px);
+}
+
+.login-container button:disabled {
   cursor: not-allowed;
 
   opacity: 0.7;
+
+  transform: none;
 }
 
 .button-arrow {
   font-size: 20px;
+
+  color: inherit;
 }
 
-/* ================= ERROR ================= */
+/* =========================================================
+   ERROR
+   ========================================================= */
 
 .error-message {
   padding: 10px;
 
   margin-bottom: 15px;
 
-  border: 1px solid #ff3d3d;
+  border: 1px solid rgba(239, 68, 68, 0.45);
 
-  color: #ff6b6b;
+  border-radius: 7px;
 
-  background: rgba(255, 61, 61, 0.06);
+  color: #fca5a5;
+
+  background: rgba(239, 68, 68, 0.07);
 
   font-size: 11px;
 
   text-align: center;
+
+  box-shadow:
+    0 0 20px rgba(239, 68, 68, 0.05);
 }
 
-/* ================= FOOTER ================= */
+/* =========================================================
+   SECURITY FOOTER
+   ========================================================= */
 
 .security-footer {
   margin-top: 25px;
 
   padding-top: 15px;
 
-  border-top: 1px solid #1c292f;
+  border-top: 1px solid rgba(91, 123, 255, 0.13);
 
   display: flex;
 
@@ -541,12 +799,22 @@ button:disabled {
 
   font-size: 8px;
 
-  color: #53636b;
+  color: #64708c;
 
   letter-spacing: 1px;
 }
 
-/* ================= SYSTEM INFO ================= */
+.security-footer span:first-child {
+  color: #22c55e;
+}
+
+.security-footer span:last-child {
+  color: #22d3ee;
+}
+
+/* =========================================================
+   SYSTEM INFO
+   ========================================================= */
 
 .system-info {
   position: absolute;
@@ -560,34 +828,43 @@ button:disabled {
 
   justify-content: space-between;
 
-  color: #3d4d54;
+  color: #4f5d78;
 
   font-size: 8px;
 
   letter-spacing: 1px;
+
+  z-index: 2;
 }
 
-/* ================= LOGIN SCAN ================= */
+/* =========================================================
+   LOGIN SCANNING
+   ========================================================= */
 
 .scanning {
+  border-color: rgba(59, 130, 246, 0.8);
+
   box-shadow:
-    0 0 50px rgba(0, 230, 160, 0.25),
-    inset 0 0 50px rgba(0, 230, 160, 0.08);
+    0 0 50px rgba(59, 130, 246, 0.18),
+    0 0 100px rgba(139, 92, 246, 0.08),
+    inset 0 0 50px rgba(59, 130, 246, 0.06);
 
   animation: scanningPulse 0.8s infinite alternate;
 }
 
 @keyframes scanningPulse {
   from {
-    border-color: rgba(0, 230, 160, 0.3);
+    border-color: rgba(59, 130, 246, 0.35);
   }
 
   to {
-    border-color: rgba(0, 230, 160, 0.9);
+    border-color: rgba(96, 165, 250, 0.95);
   }
 }
 
-/* ================= MOBILE ================= */
+/* =========================================================
+   MOBILE
+   ========================================================= */
 
 @media (max-width: 600px) {
   .login-container {
@@ -603,6 +880,12 @@ button:disabled {
 
   .brand h1 {
     font-size: 18px;
+
+    letter-spacing: 3px;
+  }
+
+  .brand p {
+    font-size: 7px;
   }
 
   .system-info {
@@ -611,5 +894,11 @@ button:disabled {
 
   .radar {
     opacity: 0.2;
+
+    width: 500px;
+    height: 500px;
+
+    right: -200px;
+    bottom: -120px;
   }
 }
