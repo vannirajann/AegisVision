@@ -7,7 +7,7 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlmodel import Session, select
 from app.database.db import UserDB, get_session
 
-SECRET_KEY = "aegisvision-super-secret-change-this-later"
+SECRET_KEY = "4a79bb5d8afa1de7ec36f8af1d52eed408694ff79adbc6b18563e3af344a6b1f"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
