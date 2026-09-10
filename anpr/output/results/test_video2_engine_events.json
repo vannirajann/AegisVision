@@ -1,0 +1,114 @@
+[
+  {
+    "event_type": "anpr",
+    "plate_text": "BC725219",
+    "plate_number": "BC725219",
+    "plate_valid_format": false,
+    "plate_status": "low_confidence",
+    "ocr_confidence": 0.61,
+    "raw_ocr": [
+      "1B5735219",
+      "18573529",
+      "1BE715219",
+      "B6725219",
+      "BC725219"
+    ],
+    "vehicle_id": 1,
+    "vehicle_type": "car",
+    "vehicle_confidence": 0.89,
+    "vehicle_bbox": [
+      347,
+      201,
+      621,
+      386
+    ],
+    "plate_bbox": [
+      539,
+      315,
+      588,
+      346
+    ],
+    "plate_confidence": 0.44,
+    "sightings": 5,
+    "confirmation_count": 1,
+    "timestamp": "2026-09-09T15:36:12.786851+00:00",
+    "frame_number": 18,
+    "timestamp_seconds": 0.75,
+    "best_plate_confidence": 0.44,
+    "best_frame": 3,
+    "best_quality": 0.85
+  },
+  {
+    "event_type": "anpr",
+    "plate_text": "DE723218",
+    "plate_number": "DE723218",
+    "plate_valid_format": true,
+    "plate_status": "confirmed",
+    "ocr_confidence": 0.72,
+    "raw_ocr": [
+      "DC735218",
+      "DE723218"
+    ],
+    "vehicle_id": 1,
+    "vehicle_type": "car",
+    "vehicle_confidence": 0.88,
+    "vehicle_bbox": [
+      347,
+      201,
+      621,
+      387
+    ],
+    "plate_bbox": [
+      538,
+      318,
+      587,
+      346
+    ],
+    "plate_confidence": 0.41,
+    "sightings": 2,
+    "confirmation_count": 2,
+    "timestamp": "2026-09-09T15:37:01.922746+00:00",
+    "frame_number": 30,
+    "timestamp_seconds": 1.25,
+    "best_plate_confidence": 0.414,
+    "best_frame": 5,
+    "best_quality": 0.85
+  },
+  {
+    "event_type": "anpr",
+    "plate_text": "BE72ZKA",
+    "plate_number": "BE72ZKA",
+    "plate_valid_format": true,
+    "plate_status": "confirmed",
+    "ocr_confidence": 0.56,
+    "raw_ocr": [
+      "BE72ZKA",
+      "BEZ2ZKA",
+      "OE72ZKA"
+    ],
+    "vehicle_id": 2,
+    "vehicle_type": "car",
+    "vehicle_confidence": 0.85,
+    "vehicle_bbox": [
+      346,
+      201,
+      624,
+      388
+    ],
+    "plate_bbox": [
+      539,
+      318,
+      587,
+      344
+    ],
+    "plate_confidence": 0.45,
+    "sightings": 4,
+    "confirmation_count": 2,
+    "timestamp": "2026-09-09T15:38:49.819625+00:00",
+    "frame_number": 168,
+    "timestamp_seconds": 7.0,
+    "best_plate_confidence": 0.45,
+    "best_frame": 28,
+    "best_quality": 0.84
+  }
+]

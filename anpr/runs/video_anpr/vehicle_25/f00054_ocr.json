@@ -1,0 +1,18 @@
+[
+  {
+    "raw_text": "ETCOVES",
+    "cleaned_text": "ETCOVES",
+    "valid": false,
+    "confidence": 0.774,
+    "variant": "color_upscaled",
+    "quality": 0.94
+  },
+  {
+    "raw_text": "ETCO VUS",
+    "cleaned_text": "ETCOVUS",
+    "valid": false,
+    "confidence": 0.763,
+    "variant": "gentle_clahe",
+    "quality": 0.94
+  }
+]

@@ -21,19 +21,24 @@ def draw_result_on_image(image, det, result):
     return output
 
 
-def save_image_result(image_path, image, results, detections):
+def save_image_result(image_path, image, results, detections, output_base_dir):
     base_name = os.path.splitext(os.path.basename(image_path))[0]
+
+    annotated_dir = os.path.join(output_base_dir, "annotated")
+    results_dir = os.path.join(output_base_dir, "results")
+    os.makedirs(annotated_dir, exist_ok=True)
+    os.makedirs(results_dir, exist_ok=True)
 
     # Draw all detections on one image
     annotated = image.copy()
     for det, result in zip(detections, results):
         annotated = draw_result_on_image(annotated, det, result)
 
-    annotated_path = os.path.join("output", "annotated", f"{base_name}_result.jpg")
+    annotated_path = os.path.join(annotated_dir, f"{base_name}_result.jpg")
     cv2.imwrite(annotated_path, annotated)
     print(f"💾 Saved annotated image: {annotated_path}")
 
-    results_path = os.path.join("output", "results", f"{base_name}_results.json")
+    results_path = os.path.join(results_dir, f"{base_name}_results.json")
     with open(results_path, "w") as f:
         json.dump(results, f, indent=2)
     print(f"💾 Saved results JSON: {results_path}")
@@ -55,6 +60,8 @@ def run_anpr_pipeline(image_path, plate_model, ocr_reader):
 
     for det in detections:
         cropped = crop_plate(image, det["bbox"])
+        if cropped is None:
+            continue
 
         # Try both preprocessing methods, keep whichever gives a better cleaned result
         variant_a = preprocess_plate(cropped)
@@ -94,10 +101,14 @@ if __name__ == "__main__":
     ocr_reader = load_ocr_reader()
     print("✅ Models loaded\n")
 
-    test_files = ["car.jpg", "bike.jpg", "bus.jpg"]
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    test_images_dir = os.path.join(base_dir, "..", "test_images")
+    output_base_dir = os.path.join(base_dir, "..", "output")
+
+    test_files = ["car.jpeg", "car2.jpeg", "car3.jpeg"]
 
     for filename in test_files:
-        path = os.path.join("test_images", filename)
+        path = os.path.join(test_images_dir, filename)
         print(f"--- Processing {filename} ---")
 
         results, detections = run_anpr_pipeline(path, plate_model, ocr_reader)
@@ -107,5 +118,5 @@ if __name__ == "__main__":
 
         if results:
             image = cv2.imread(path)
-            save_image_result(path, image, results, detections)
+            save_image_result(path, image, results, detections, output_base_dir)
         print()

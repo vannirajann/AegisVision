@@ -1,0 +1,10 @@
+[
+  {
+    "raw_text": "LNISZZC",
+    "cleaned_text": "LN15ZZC",
+    "valid": true,
+    "confidence": 0.974,
+    "variant": "color_upscaled",
+    "quality": 0.76
+  }
+]

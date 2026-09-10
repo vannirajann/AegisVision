@@ -1,0 +1,18 @@
+[
+  {
+    "raw_text": "CSSS DO",
+    "cleaned_text": "CSSSDO",
+    "valid": false,
+    "confidence": 0.55,
+    "variant": "color_upscaled",
+    "quality": 0.62
+  },
+  {
+    "raw_text": "GSS6 DO",
+    "cleaned_text": "GSS6DO",
+    "valid": false,
+    "confidence": 0.669,
+    "variant": "gentle_clahe",
+    "quality": 0.62
+  }
+]

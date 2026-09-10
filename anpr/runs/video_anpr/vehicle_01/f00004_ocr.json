@@ -1,0 +1,58 @@
+[
+  {
+    "raw_text": "0672219",
+    "cleaned_text": "0672219",
+    "valid": false,
+    "confidence": 0.577,
+    "variant": "color_upscaled",
+    "quality": 0.85
+  },
+  {
+    "raw_text": "06702M",
+    "cleaned_text": "06702M",
+    "valid": false,
+    "confidence": 0.612,
+    "variant": "night_gamma",
+    "quality": 0.85
+  },
+  {
+    "raw_text": "1067292M",
+    "cleaned_text": "1067292M",
+    "valid": false,
+    "confidence": 0.508,
+    "variant": "night_clahe_strong",
+    "quality": 0.85
+  },
+  {
+    "raw_text": "067221",
+    "cleaned_text": "067221",
+    "valid": false,
+    "confidence": 0.656,
+    "variant": "night_contrast_norm",
+    "quality": 0.85
+  },
+  {
+    "raw_text": "10172A9",
+    "cleaned_text": "10172A9",
+    "valid": false,
+    "confidence": 0.682,
+    "variant": "night_adaptive",
+    "quality": 0.85
+  },
+  {
+    "raw_text": "0672219",
+    "cleaned_text": "0672219",
+    "valid": false,
+    "confidence": 0.469,
+    "variant": "night_denoise",
+    "quality": 0.85
+  },
+  {
+    "raw_text": "106722219",
+    "cleaned_text": "106722219",
+    "valid": false,
+    "confidence": 0.499,
+    "variant": "gentle_clahe",
+    "quality": 0.85
+  }
+]

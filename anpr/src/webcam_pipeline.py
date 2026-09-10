@@ -1,10 +1,9 @@
 import cv2
 import os
-import json
 
 from detect_plate_yolo import load_plate_model, detect_plate_yolo
 from crop_plate import crop_plate
-from preprocess_plate import preprocess_plate, preprocess_plate_gentle
+from preprocess_plate import preprocess_plate, preprocess_plate_gentle, is_blurry
 from run_ocr import load_ocr_reader, run_ocr_on_plate
 from clean_text import clean_ocr_fragments, validate_plate_format
 from build_output import build_anpr_result
@@ -84,7 +83,12 @@ def update_track_consensus(track, ocr_texts, preprocess_variant):
         })
 
 
-def select_consensus_plate(track):
+def select_consensus_plate(track, min_valid_sightings=2):
+    """
+    STRICT MODE: requires at least `min_valid_sightings` corroborating valid
+    reads before trusting a plate. No character-level guessing fallback —
+    returns UNKNOWN if nothing meets the bar.
+    """
     history = track.get("history", [])
     if not history:
         return "UNKNOWN", False, 0.0
@@ -108,56 +112,24 @@ def select_consensus_plate(track):
         valid_count = sum(1 for e in entries if e["valid"])
         avg_conf = sum(e["confidence"] for e in entries) / len(entries)
         is_valid = validate_plate_format(text)
+
+        if is_valid and valid_count < min_valid_sightings:
+            is_valid = False
+
         score = (valid_count * 1000) + (len(entries) * 100) + avg_conf
         if is_valid:
             score += 10000
+
         if score > best_score:
             best_score = score
             best_text = text
             best_valid = is_valid
             best_conf = avg_conf
 
-    if not best_valid and len(groups) > 1:
-        consensus = build_character_consensus(groups)
-        if consensus:
-            is_valid = validate_plate_format(consensus)
-            if is_valid:
-                best_text = consensus
-                best_valid = True
-                best_conf = best_conf
+    if not best_valid:
+        return "UNKNOWN", False, best_conf
 
     return best_text, best_valid, best_conf
-
-
-def build_character_consensus(groups):
-    from collections import Counter
-    all_texts = list(groups.keys())
-    if len(all_texts) < 2:
-        return None
-    length_counts = Counter(len(t) for t in all_texts)
-    target_length = length_counts.most_common(1)[0][0]
-    candidates = [t for t in all_texts if abs(len(t) - target_length) <= 1]
-    if len(candidates) < 2:
-        return None
-    consensus_chars = []
-    max_len = max(len(t) for t in candidates)
-    for pos in range(max_len):
-        chars_at_pos = []
-        for text in candidates:
-            if pos < len(text):
-                chars_at_pos.append(text[pos])
-        if not chars_at_pos:
-            break
-        char_counts = Counter(chars_at_pos)
-        most_common_char, count = char_counts.most_common(1)[0]
-        if count >= len(candidates) * 0.5:
-            consensus_chars.append(most_common_char)
-        else:
-            break
-    consensus = "".join(consensus_chars)
-    if len(consensus) >= 4:
-        return consensus
-    return None
 
 
 def process_frame(frame, plate_model, ocr_reader):
@@ -166,6 +138,10 @@ def process_frame(frame, plate_model, ocr_reader):
 
     for det in detections:
         cropped = crop_plate(frame, det["bbox"])
+        if cropped is None:
+            continue
+        if is_blurry(cropped):
+            continue
 
         variant_a = preprocess_plate(cropped)
         variant_b = preprocess_plate_gentle(cropped)
@@ -214,7 +190,8 @@ def draw_results(frame, results):
 
 def run_webcam_pipeline(plate_model, ocr_reader, camera_index=0,
                          frame_skip=10, dedupe_window=15, min_crop_width=300,
-                         save_frames=True, output_dir="output/webcam"):
+                         save_frames=True, output_dir="output/webcam",
+                         min_valid_sightings=2):
     cap = cv2.VideoCapture(camera_index)
 
     if not cap.isOpened():
@@ -259,7 +236,12 @@ def run_webcam_pipeline(plate_model, ocr_reader, camera_index=0,
                 track["missed"] = 0
 
                 cropped = crop_plate(frame, det["bbox"])
+                if cropped is None:
+                    continue
                 cropped = upscale_crop(cropped, min_width=min_crop_width)
+                if is_blurry(cropped):
+                    continue
+
                 variant_a = preprocess_plate(cropped)
                 variant_b = preprocess_plate_gentle(cropped)
                 variant_c = preprocess_for_video_ocr(cropped, min_width=min_crop_width)
@@ -275,7 +257,12 @@ def run_webcam_pipeline(plate_model, ocr_reader, camera_index=0,
             for det_idx in unmatched_det_idxs:
                 det = detections[det_idx]
                 cropped = crop_plate(frame, det["bbox"])
+                if cropped is None:
+                    continue
                 cropped = upscale_crop(cropped, min_width=min_crop_width)
+                if is_blurry(cropped):
+                    continue
+
                 variant_a = preprocess_plate(cropped)
                 variant_b = preprocess_plate_gentle(cropped)
                 variant_c = preprocess_for_video_ocr(cropped, min_width=min_crop_width)
@@ -301,7 +288,9 @@ def run_webcam_pipeline(plate_model, ocr_reader, camera_index=0,
 
             last_detections = []
             for track in tracks:
-                plate_text, is_valid, avg_conf = select_consensus_plate(track)
+                plate_text, is_valid, avg_conf = select_consensus_plate(
+                    track, min_valid_sightings=min_valid_sightings
+                )
                 status = "VALID" if is_valid else "UNKNOWN"
                 display_text = plate_text if is_valid else ("READING..." if len(track.get("history", [])) > 0 else "UNKNOWN")
 
